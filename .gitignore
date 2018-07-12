@@ -12,6 +12,7 @@
 /.project
 .settings/
 
+*.mvn*
 *.idea*
 *.project
 *.iml
