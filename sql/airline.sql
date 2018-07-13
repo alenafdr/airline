@@ -146,7 +146,7 @@ create table if not exists price
 	class_id bigint
 		constraint price_classes_id_fk
 			references classes,
-	price money
+	price decimal (10,2)
 )
 ;
 
