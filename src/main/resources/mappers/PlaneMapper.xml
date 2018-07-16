@@ -1,0 +1,24 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PlaneMapper">
+    <select id="findPlaneById" resultMap="PlaneResultMap">
+        select
+        plane_id,
+        name,
+        bussiness_row,
+        economy_row,
+        places_in_business_row,
+        places_in_economy_row
+        from planes
+        where plane_id = #{id};
+    </select>
+    <resultMap id="PlaneResultMap" type="Plane">
+        <id property="id" column="plane_id" />
+        <result property="name" column="name"/>
+        <result property="businessRow" column="bussiness_row"/>
+        <result property="economyRow" column="economy_row"/>
+        <result property="placesInBusinessRow" column="places_in_business_row"/>
+        <result property="placesInEconomyRow" column="places_in_economy_row"/>
+    </resultMap>
+</mapper>

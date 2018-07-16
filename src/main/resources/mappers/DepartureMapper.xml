@@ -1,0 +1,19 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DepartureMapper">
+    <resultMap id="DepartureResultMap" type="Departure" autoMapping="false">
+        <id property="id" column="id"/>
+        <result property="date" column="date"/>
+    </resultMap>
+    <insert id="insertDeparture">
+      insert into departures ("date", flight_id)
+      VALUES (#{date}, #{flight.id})
+    </insert>
+    <select id="selectDeparturesByFlightId" resultMap="DepartureResultMap">
+        select *
+        from departures
+        where flight_id = #{id}
+    </select>
+
+</mapper>

@@ -1,0 +1,30 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PeriodMapper">
+    <resultMap id="PeriodResultMap" type="Period">
+        <id property="id" column="id"/>
+        <result property="value" column="value"/>
+    </resultMap>
+    <insert id="insertPeriod">
+
+    </insert>
+    <select id="selectAllPeriods" resultMap="PeriodResultMap">
+        select *
+        from period
+    </select>
+    <select id="selectPeriodsByFlightId" resultMap="PeriodResultMap">
+        select
+        period.id,
+        period.value,
+        flight.flight_id,
+        flight.period_id
+        from period
+        left join period_flight flight on period.id = flight.period_id
+        where flight.flight_id = #{id}
+    </select>
+
+    <insert id="in">
+        insert into period_flight (period_id, flight_id) values ();
+    </insert>
+</mapper>

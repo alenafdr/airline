@@ -1,0 +1,36 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PriceMapper">
+    <resultMap id="PriceResultMap" type="Price">
+        <constructor>
+            <arg column="price" javaType="BigDecimal"/>
+        </constructor>
+        <result property="price" column="price"/>
+        <association property="classType"
+                     resultMap="ClassTypeMapper.ClassTypeResultMap"/>
+    </resultMap>
+    <insert id="insertPrice">
+      insert into prices (flight_id, class_id, price)
+      VALUES (#{flight.id},#{classType.id},#{price})
+    </insert>
+    <select id="selectPricesForFlight" resultMap="PriceResultMap">
+      SELECT
+      prices.flight_id,
+      prices.class_id,
+      prices.price,
+      c2.id,
+      c2.name
+      FROM prices
+      left join classes c2 on prices.class_id = c2.id
+      WHERE prices.flight_id = #{id}
+    </select>
+
+    <update id="updatePrice">
+
+    </update>
+
+    <delete id="deletePrice">
+
+    </delete>
+</mapper>

@@ -8,6 +8,15 @@ public class Plane {
     private int placesInBusinessRow;
     private int placesInEconomyRow;
 
-
-
+    @Override
+    public String toString() {
+        return "Plane{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", businessRow=" + businessRow +
+                ", economyRow=" + economyRow +
+                ", placesInBusinessRow=" + placesInBusinessRow +
+                ", placesInEconomyRow=" + placesInEconomyRow +
+                '}';
+    }
 }

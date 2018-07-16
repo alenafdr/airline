@@ -1,0 +1,69 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="FlightMapper">
+
+    <resultMap id="FlightResultMap" type="Flight" autoMapping="false">
+        <constructor>
+            <idArg column="id" javaType="Long" />
+        </constructor>
+        <id column="id" property="id" />
+        <result property="flightName" column="flight_name" />
+        <result property="fromTown" column="from_town" />
+        <result property="toTown" column="to_town" />
+        <result property="approved" column="approved" />
+        <result property="start" column="start"/>
+        <result property="duration" column="duration"/>
+        <result property="fromDate" column="from_date" />
+        <result property="toDate" column="to_date" />
+        <association property="plane"
+                     resultMap="PlaneMapper.PlaneResultMap" />
+        <collection property="prices"
+                    column="id"
+                    select="PriceMapper.selectPricesForFlight"
+                    ofType="Price"/>
+        <collection property="periods"
+                    column="id"
+                    select="PeriodMapper.selectPeriodsByFlightId"
+                    ofType="Period"/>
+        <collection property="departures"
+                    column="id"
+                    select="DepartureMapper.selectDeparturesByFlightId"
+                    ofType="Departure"/>
+    </resultMap>
+    <insert id="insertFlight" parameterType="Flight">
+      insert into flights (id,flight_name,flight_plane_id,from_town,to_town,start,duration,from_date,to_date)
+      values (DEFAULT,#{flightName},#{plane.id},#{fromTown},#{toTown},#{start},#{duration},#{fromDate},#{toDate})
+
+    </insert>
+    <select id="selectFlightById" parameterType="Long" resultMap="FlightResultMap">
+        select
+        f.id,
+        f.flight_name,
+        f.from_town,
+        f.to_town,
+        f.start,
+        f.duration,
+        f.from_date,
+        f.to_date,
+        f.approved,
+        f.flight_plane_id,
+        p.plane_id,
+        p.name,
+        p.bussiness_row,
+        p.economy_row,
+        p.places_in_business_row,
+        p.places_in_economy_row
+        from flights f
+        left join planes p on f.flight_plane_id = p.plane_id
+        where f.id = #{id};
+    </select>
+    <update id="updateFlight">
+
+    </update>
+    <delete id="deleteFlight">
+      delete from flights where id = #{id}
+    </delete>
+</mapper>
+
+
