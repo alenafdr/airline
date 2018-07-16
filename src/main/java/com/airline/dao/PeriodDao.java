@@ -1,6 +1,7 @@
 package com.airline.dao;
 
 import com.airline.model.Period;
+import com.airline.model.PeriodFlight;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -35,10 +36,21 @@ public class PeriodDao {
 
     }
 
-    public void savePeriodForFlight(Period period) {
+    public List<Period> selectPeriodsByFlightId(Long id){
+        List<Period> entities = null;
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            String query = "PeriodMapper.insertPeriod";
-            session.insert(query, period);
+            String query = "PeriodMapper.selectPeriodsByFlightId";
+            entities = session.selectList(query, id);
+        } catch (PersistenceException pe) {
+            LOG.error(pe.getMessage());
+        }
+        return entities;
+    }
+
+    public void savePeriodForFlight(PeriodFlight periodFlight) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            String query = "PeriodMapper.insertPeriodForFlight";
+            session.insert(query, periodFlight);
         } catch (PersistenceException pe) {
             LOG.error(pe.getMessage());
         }

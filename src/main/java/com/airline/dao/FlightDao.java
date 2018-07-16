@@ -1,9 +1,6 @@
 package com.airline.dao;
 
-import com.airline.model.Departure;
-import com.airline.model.Flight;
-import com.airline.model.Period;
-import com.airline.model.Price;
+import com.airline.model.*;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -36,25 +33,32 @@ public class FlightDao {
     public void save(Flight flight){
         try (SqlSession session = sqlSessionFactory.openSession()){
             String query = "FlightMapper.insertFlight";
-            session.insert(query, flight);
+            Long id = (long)session.insert(query, flight);
+            flight.setId(id);
+
+            LOG.error(flight.getId().toString());
 
             if (!flight.getPrices().isEmpty()){
                 for(Price price : flight.getPrices()){
+                    price.setFlight(flight);
                     priceDao.save(price);
                 }
             }
 
             if (!flight.getPeriods().isEmpty()){
                 for(Period period : flight.getPeriods()){
-                    periodDao.savePeriodForFlight(period);
+                    PeriodFlight periodFlight = new PeriodFlight(period.getId(), flight.getId());
+                    periodDao.savePeriodForFlight(periodFlight);
                 }
             }
 
             if (!flight.getDepartures().isEmpty()){
                 for(Departure departure : flight.getDepartures()){
+                    departure.setFlight(flight);
                     departureDao.save(departure);
                 }
             }
+
         } catch (PersistenceException pe) {
             LOG.error(pe.getMessage());
         }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +31,9 @@ public class TestController {
 
     @Autowired
     private PeriodDao periodDao;
+
+    @Autowired
+    private DepartureDao departureDao;
 
     @GetMapping(value = "/")
     public ResponseEntity<String> test(){
@@ -74,8 +78,12 @@ public class TestController {
         flight.setDuration(Time.valueOf("03:00:00"));
         flight.setFromDate(new Date());
         flight.setToDate(new Date());
-        Plane plane = planeDao.findPlanetById(1L);
-        flight.setPlane(plane);
+        flight.setPlane(planeDao.findPlanetById(1L));
+        flight.setPrices(priceDao.findPricesByFlightId(2L));
+        List<Departure> departures = new ArrayList<>();
+        departures.add(new Departure(new Date()));
+        flight.setDepartures(departures);
+        flight.setPeriods(periodDao.selectPeriodsByFlightId(2L));
         flightDao.save(flight);
         return new ResponseEntity<>(flight.toString(), HttpStatus.OK);
     }

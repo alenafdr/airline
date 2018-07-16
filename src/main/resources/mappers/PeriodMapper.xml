@@ -6,8 +6,9 @@
         <id property="id" column="id"/>
         <result property="value" column="value"/>
     </resultMap>
-    <insert id="insertPeriod">
-
+    <insert id="insertPeriodForFlight">
+      insert into period_flight(period_id, flight_id)
+      VALUES (#{periodId},#{flightId})
     </insert>
     <select id="selectAllPeriods" resultMap="PeriodResultMap">
         select *
