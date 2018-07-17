@@ -3,6 +3,7 @@ package com.airline.model;
 import java.sql.Time;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class Flight {
     private Long id;
@@ -147,5 +148,31 @@ public class Flight {
                 ", departures=" + departures +
                 ", prices=" + prices +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Flight flight = (Flight) o;
+        return approved == flight.approved &&
+                Objects.equals(id, flight.id) &&
+                Objects.equals(flightName, flight.flightName) &&
+                Objects.equals(fromTown, flight.fromTown) &&
+                Objects.equals(toTown, flight.toTown) &&
+                Objects.equals(start, flight.start) &&
+                Objects.equals(duration, flight.duration) &&
+                Objects.equals(fromDate, flight.fromDate) &&
+                Objects.equals(toDate, flight.toDate) &&
+                Objects.equals(plane, flight.plane) &&
+                Objects.equals(periods, flight.periods) &&
+                Objects.equals(departures, flight.departures) &&
+                Objects.equals(prices, flight.prices);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, flightName, fromTown, toTown, start, duration, fromDate, toDate, approved, plane, periods, departures, prices);
     }
 }

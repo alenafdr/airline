@@ -1,6 +1,7 @@
 package com.airline.model;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class Price {
     private Flight flight;
@@ -41,5 +42,21 @@ public class Price {
                 "ClassType=" + classType +
                 ", price=" + price +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Price price1 = (Price) o;
+        return Objects.equals(flight, price1.flight) &&
+                Objects.equals(classType, price1.classType) &&
+                Objects.equals(price, price1.price);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(flight, classType, price);
     }
 }

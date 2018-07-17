@@ -1,5 +1,6 @@
 package com.airline.model;
 
+import java.util.Objects;
 import java.util.Set;
 
 public class Period {
@@ -36,5 +37,21 @@ public class Period {
         return "Period{" +
                 "value='" + value + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Period period = (Period) o;
+        return Objects.equals(id, period.id) &&
+                Objects.equals(value, period.value) &&
+                Objects.equals(flights, period.flights);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, value, flights);
     }
 }

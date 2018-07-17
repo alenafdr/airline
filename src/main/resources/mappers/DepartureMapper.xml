@@ -2,7 +2,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="DepartureMapper">
-    <resultMap id="DepartureResultMap" type="Departure" autoMapping="false">
+    <resultMap id="DepartureResultMap" type="Departure">
         <id property="id" column="id"/>
         <result property="date" column="date"/>
     </resultMap>

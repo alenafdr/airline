@@ -30,13 +30,12 @@ public class FlightDao {
         this.departureDao = departureDao;
     }
 
-    public void save(Flight flight){
+    public Long save(Flight flight){
         try (SqlSession session = sqlSessionFactory.openSession()){
             String query = "FlightMapper.insertFlight";
-            Long id = (long)session.insert(query, flight);
-            flight.setId(id);
+            flight.setId((long)session.insert(query, flight));
 
-            LOG.error(flight.getId().toString());
+            LOG.info(flight.getId().toString());
 
             if (!flight.getPrices().isEmpty()){
                 for(Price price : flight.getPrices()){
@@ -62,6 +61,7 @@ public class FlightDao {
         } catch (PersistenceException pe) {
             LOG.error(pe.getMessage());
         }
+        return flight.getId();
     }
 
     public Flight findOne(Long id){

@@ -1,5 +1,7 @@
 package com.airline.model;
 
+import java.util.Objects;
+
 public class ClassType {
     private Long id;
     private String name;
@@ -25,5 +27,20 @@ public class ClassType {
         return "ClassType{" +
                 "name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ClassType classType = (ClassType) o;
+        return Objects.equals(id, classType.id) &&
+                Objects.equals(name, classType.name);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, name);
     }
 }
