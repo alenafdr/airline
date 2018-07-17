@@ -1,8 +1,7 @@
 package com.airline;
 
 import com.airline.dao.*;
-import com.airline.model.Departure;
-import com.airline.model.Flight;
+import com.airline.model.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
@@ -11,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.math.BigDecimal;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,7 +19,7 @@ import java.util.List;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-@Import({FlightDao.class, PriceDao.class, DepartureDao.class, PeriodDao.class, PlaneDao.class})
+@Import({FlightDao.class, PriceDao.class, DepartureDao.class, PeriodDao.class, PlaneDao.class, ClassType.class})
 @RunWith(SpringRunner.class)
 @MybatisTest
 
@@ -37,6 +37,9 @@ public class FlightDaoTest {
 
     @Autowired
     private PeriodDao periodDao;
+
+    @Autowired
+    private ClassTypeDao classTypeDao;
 
     @Test
     public void selectFlightByIdTest(){
@@ -61,12 +64,22 @@ public class FlightDaoTest {
         flight.setDuration(Time.valueOf("03:00:00"));
         flight.setFromDate(new Date());
         flight.setToDate(new Date());
+
         flight.setPlane(planeDao.findPlanetById(1L));
-        flight.setPrices(priceDao.findPricesByFlightId(2L));
+
+        List<Price> prices = new ArrayList<>();
+        prices.add(new Price(flight, classTypeDao.findClassTypeById(1L), new BigDecimal(3333)));
+        prices.add(new Price(flight, classTypeDao.findClassTypeById(2L), new BigDecimal(3333)));
+        flight.setPrices(prices);
+
         List<Departure> departures = new ArrayList<>();
         departures.add(new Departure(new Date()));
         flight.setDepartures(departures);
-        flight.setPeriods(periodDao.selectPeriodsByFlightId(2L));
+
+        List<Period> periods = new ArrayList<>();
+        periods.add(periodDao.selectPeriodById(1L));
+        flight.setPeriods(periods);
+
         return flight;
     }
 }

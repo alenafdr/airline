@@ -8,6 +8,15 @@ public class Price {
     private ClassType classType;
     private BigDecimal price;
 
+    public Price() {
+    }
+
+    public Price(Flight flight, ClassType classType, BigDecimal price) {
+        this.flight = flight;
+        this.classType = classType;
+        this.price = price;
+    }
+
     public Price(BigDecimal price) {
         this.price = price;
     }
