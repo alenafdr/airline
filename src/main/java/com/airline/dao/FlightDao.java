@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class FlightDao {
@@ -84,37 +85,43 @@ public class FlightDao {
 
             String query = "FlightMapper.updateFlight";
             session.update(query, flightNew);
-            if (!flightNew.getPrices().isEmpty()){
 
-                for (Price price : flightOld.getPrices()){
-                    price.setFlight(flightNew);
-                    if(!flightNew.getPrices().contains(price)){
-                        priceDao.delete(price);
-                    }
-                }
-
-                for (Price price : flightNew.getPrices()){
-                    price.setFlight(flightNew);
-                    priceDao.update(price);
-                }
-
-            } else {
-                priceDao.delete(flightNew.getId());
+            //prices
+            for (Price price : flightOld.getPrices()){
+                price.setFlight(flightNew);
+                if(!flightNew.getPrices().contains(price)){
+                    priceDao.delete(price); }
             }
-//
-//            if (!flightNew.getPeriods().isEmpty()){
-//                for(Period period : flightNew.getPeriods()){
-//                    PeriodFlight periodFlight = new PeriodFlight(period.getId(), flightNew.getId());
-//                    periodDao.updatePeriodForFlight(periodFlight);
-//                }
-//            }
-//
-//            if (!flightNew.getDepartures().isEmpty()){
-//                for(Departure departure : flightNew.getDepartures()){
-//                    departure.setFlight(flightNew);
-//                    departureDao.update(departure);
-//                }
-//            }
+
+            for (Price price : flightNew.getPrices()){
+                price.setFlight(flightNew);
+                priceDao.update(price);
+            }
+
+            //periods
+            for (Period period : flightOld.getPeriods()){
+                PeriodFlight periodFlight = new PeriodFlight(period.getId(), flightNew.getId());
+                if(!flightNew.getPeriods().contains(period)){
+                    periodDao.delete(periodFlight); }
+            }
+
+            for (Period period : flightNew.getPeriods()){
+                PeriodFlight periodFlight = new PeriodFlight(period.getId(), flightNew.getId());
+                periodDao.savePeriodForFlight(periodFlight);
+            }
+
+            //departures
+            for (Departure departure : flightOld.getDepartures()){
+                departure.setFlight(flightNew);
+                if(!flightNew.getDepartures().contains(departure)){
+                    departureDao.delete(departure.getId()); }
+            }
+
+            for (Departure departure : flightNew.getDepartures()){
+                departure.setFlight(flightNew);
+                departureDao.update(departure);
+            }
+
         } catch (PersistenceException pe) {
             LOG.error(pe.getMessage());
         }

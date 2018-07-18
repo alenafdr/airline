@@ -75,4 +75,13 @@ public class PeriodDao {
             LOG.error(pe.getMessage());
         }
     }
+
+    public void delete(PeriodFlight periodFlight) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            String query = "PeriodMapper.deletePeriodForFlight";
+            session.delete(query, periodFlight);
+        } catch (PersistenceException pe) {
+            LOG.error(pe.getMessage());
+        }
+    }
 }

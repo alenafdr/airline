@@ -50,4 +50,13 @@ public class DepartureDao {
             LOG.error(pe.getMessage());
         }
     }
+
+    public void delete(Long id) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            String query = "DepartureMapper.deleteDeparture";
+            session.delete(query, id);
+        } catch (PersistenceException pe) {
+            LOG.error(pe.getMessage());
+        }
+    }
 }

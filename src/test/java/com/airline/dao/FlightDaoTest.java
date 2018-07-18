@@ -63,20 +63,21 @@ public class FlightDaoTest {
         flight.setFlightName("Test");
         flight.setStart(Time.valueOf("11:11:11"));
         flight.setDuration(Time.valueOf("11:11:11"));
-        flight.getDepartures().clear();
+        flight.getDepartures().get(0).setDate(new Date());
         flight.getPrices().get(0).setPrice(new BigDecimal(9999));
         flight.getPrices().remove(1);
-
+        flight.getPeriods().get(0).setId(5L);
 
         flightDao.update(flight);
-        flight = flightDao.findOne(1L);
+        Flight flightNew = flightDao.findOne(1L);
 
-        logger.info(flight.toString());
-        assertTrue(flight.getStart().equals(Time.valueOf("11:11:11")));
-        assertTrue(flight.getDuration().equals(Time.valueOf("11:11:11")));
-        assertTrue(flight.getPrices().get(0).getPrice().compareTo(new BigDecimal(9999)) == 0);
-        assertTrue(flight.getPrices().size() == 1);
-
+        logger.info(flightNew.toString());
+        assertTrue(flightNew.getStart().equals(Time.valueOf("11:11:11")));
+        assertTrue(flightNew.getDuration().equals(Time.valueOf("11:11:11")));
+        assertTrue(flightNew.getPrices().get(0).getPrice().compareTo(new BigDecimal(9999)) == 0);
+        assertTrue(flightNew.getPrices().size() == 1);
+        assertTrue(flightNew.getDepartures().get(0).getDate().equals(flightNew.getDepartures().get(0).getDate()));
+        assertTrue(flightNew.getPeriods().get(0).getId().equals(5L));
     }
 
     public Flight buildFlight(){

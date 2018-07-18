@@ -25,4 +25,7 @@
         do update set (id, "date", flight_id) = (default ,#{date},#{flight.id})
     </insert>
 
+    <delete id="deleteDeparture" parameterType="Long">
+        delete from departures where id = #{id}
+    </delete>
 </mapper>

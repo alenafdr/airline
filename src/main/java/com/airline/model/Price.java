@@ -63,6 +63,7 @@ public class Price {
                 Objects.equals(price, price1.price);
     }
 
+
     @Override
     public int hashCode() {
 

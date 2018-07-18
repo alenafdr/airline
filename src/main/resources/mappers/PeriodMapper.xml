@@ -37,7 +37,8 @@
         where flight.flight_id = #{id}
     </select>
 
-    <insert id="in">
-        insert into period_flight (period_id, flight_id) values ();
-    </insert>
+    <delete id="deletePeriodForFlight">
+        delete from period_flight
+        where period_id = #{periodId} and flight_id = #{flightId}
+    </delete>
 </mapper>
