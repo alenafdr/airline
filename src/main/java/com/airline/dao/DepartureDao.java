@@ -41,4 +41,13 @@ public class DepartureDao {
         }
         return entities;
     }
+
+    public void update(Departure departure) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            String query = "DepartureMapper.updateDeparture";
+            session.insert(query, departure);
+        } catch (PersistenceException pe) {
+            LOG.error(pe.getMessage());
+        }
+    }
 }

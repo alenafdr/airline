@@ -66,4 +66,13 @@ public class PeriodDao {
             LOG.error(pe.getMessage());
         }
     }
+
+    public void updatePeriodForFlight(PeriodFlight periodFlight) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            String query = "PeriodMapper.updatePeriodForFlight";
+            session.insert(query, periodFlight);
+        } catch (PersistenceException pe) {
+            LOG.error(pe.getMessage());
+        }
+    }
 }

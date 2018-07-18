@@ -10,6 +10,12 @@
       insert into period_flight(period_id, flight_id)
       VALUES (#{periodId},#{flightId})
     </insert>
+    <insert id="updatePeriodForFlight">
+      insert into period_flight(period_id, flight_id)
+      VALUES (#{periodId},#{flightId})
+      on conflict (period_id, flight_id)
+      do update set (period_id, flight_id) = (#{periodId},#{flightId})
+    </insert>
     <select id="selectAllPeriods" resultMap="PeriodResultMap">
         select *
         from period

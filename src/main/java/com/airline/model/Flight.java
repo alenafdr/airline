@@ -10,7 +10,7 @@ public class Flight {
     private String flightName;
     private String fromTown;
     private String toTown;
-    private Time start;
+    private Time startTime;
     private Time duration;
     private Date fromDate;
     private Date toDate;
@@ -68,11 +68,11 @@ public class Flight {
     }
 
     public Time getStart() {
-        return start;
+        return startTime;
     }
 
     public void setStart(Time start) {
-        this.start = start;
+        this.startTime = start;
     }
 
     public Time getDuration() {
@@ -133,20 +133,20 @@ public class Flight {
 
     @Override
     public String toString() {
-        return "Flight{" +
-                "id=" + id +
-                ", name='" + flightName + '\'' +
-                ", plane=" + plane +
-                ", fromTown='" + fromTown + '\'' +
-                ", toTown='" + toTown + '\'' +
-                ", start=" + start +
-                ", duration=" + duration +
-                ", fromDate=" + fromDate +
-                ", toDate=" + toDate +
-                ", approved=" + approved +
-                ", periods=" + periods +
-                ", departures=" + departures +
-                ", prices=" + prices +
+        return "\nFlight{" +
+                "\nid=" + id +
+                ", \nname='" + flightName + '\'' +
+                ", \nplane=" + plane +
+                ", \nfromTown='" + fromTown + '\'' +
+                ", \ntoTown='" + toTown + '\'' +
+                ", \nstart=" + startTime +
+                ", \nduration=" + duration +
+                ", \nfromDate=" + fromDate +
+                ", \ntoDate=" + toDate +
+                ", \napproved=" + approved +
+                ", \nperiods=" + periods +
+                ", \ndepartures=" + departures +
+                ", \nprices=" + prices +
                 '}';
     }
 
@@ -160,7 +160,7 @@ public class Flight {
                 Objects.equals(flightName, flight.flightName) &&
                 Objects.equals(fromTown, flight.fromTown) &&
                 Objects.equals(toTown, flight.toTown) &&
-                Objects.equals(start, flight.start) &&
+                Objects.equals(startTime, flight.startTime) &&
                 Objects.equals(duration, flight.duration) &&
                 Objects.equals(fromDate, flight.fromDate) &&
                 Objects.equals(toDate, flight.toDate) &&
@@ -173,6 +173,6 @@ public class Flight {
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, flightName, fromTown, toTown, start, duration, fromDate, toDate, approved, plane, periods, departures, prices);
+        return Objects.hash(id, flightName, fromTown, toTown, startTime, duration, fromDate, toDate, approved, plane, periods, departures, prices);
     }
 }

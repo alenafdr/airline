@@ -8,6 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Component
 public class FlightDao {
@@ -15,11 +18,8 @@ public class FlightDao {
     private static final Logger LOG = LoggerFactory.getLogger(FlightDao.class);
 
     private SqlSessionFactory sqlSessionFactory;
-
     private PriceDao priceDao;
-
     private PeriodDao periodDao;
-
     private DepartureDao departureDao;
 
     @Autowired
@@ -30,6 +30,7 @@ public class FlightDao {
         this.departureDao = departureDao;
     }
 
+    @Transactional
     public Long save(Flight flight){
         try (SqlSession session = sqlSessionFactory.openSession()){
             String query = "FlightMapper.insertFlight";
@@ -75,10 +76,45 @@ public class FlightDao {
         return entity;
     }
 
-    public void update(Flight flight){
+    @Transactional
+    public void update(Flight flightNew){
+        Flight flightOld = findOne(flightNew.getId());
+
         try (SqlSession session = sqlSessionFactory.openSession()){
+
             String query = "FlightMapper.updateFlight";
-            session.update(query, flight);
+            session.update(query, flightNew);
+            if (!flightNew.getPrices().isEmpty()){
+
+                for (Price price : flightOld.getPrices()){
+                    price.setFlight(flightNew);
+                    if(!flightNew.getPrices().contains(price)){
+                        priceDao.delete(price);
+                    }
+                }
+
+                for (Price price : flightNew.getPrices()){
+                    price.setFlight(flightNew);
+                    priceDao.update(price);
+                }
+
+            } else {
+                priceDao.delete(flightNew.getId());
+            }
+//
+//            if (!flightNew.getPeriods().isEmpty()){
+//                for(Period period : flightNew.getPeriods()){
+//                    PeriodFlight periodFlight = new PeriodFlight(period.getId(), flightNew.getId());
+//                    periodDao.updatePeriodForFlight(periodFlight);
+//                }
+//            }
+//
+//            if (!flightNew.getDepartures().isEmpty()){
+//                for(Departure departure : flightNew.getDepartures()){
+//                    departure.setFlight(flightNew);
+//                    departureDao.update(departure);
+//                }
+//            }
         } catch (PersistenceException pe) {
             LOG.error(pe.getMessage());
         }

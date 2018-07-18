@@ -26,11 +26,20 @@
       WHERE prices.flight_id = #{id}
     </select>
 
-    <update id="updatePrice">
+    <insert id="updatePrice">
+      insert  into prices(flight_id, class_id, price)
+      values (#{flight.id},#{classType.id},#{price})
+      on conflict (flight_id, class_id)
+      do update set (flight_id, class_id, price) = (#{flight.id},#{classType.id},#{price})
+    </insert>
 
-    </update>
+    <delete id="deletePrice" parameterType="Price">
+      delete from prices
+      where flight_id = #{flight.id} and class_id = #{classType.id}
+    </delete>
 
-    <delete id="deletePrice">
-
+    <delete id="deletePricesByFlightId" parameterType="Long">
+      delete from prices
+      where flight_id = #{flightId}
     </delete>
 </mapper>

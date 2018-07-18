@@ -34,7 +34,7 @@ public class Period {
 
     @Override
     public String toString() {
-        return "Period{" +
+        return "\nPeriod{" +
                 "value='" + value + '\'' +
                 '}';
     }

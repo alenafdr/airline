@@ -8,7 +8,13 @@ public class Departure {
     private Date date;
     private Flight flight;
 
+    public Departure(Long id) {
+        this.id = id;
+    }
+
     public Departure() {
+
+
     }
 
     public Departure(Date date) {
@@ -41,7 +47,7 @@ public class Departure {
 
     @Override
     public String toString() {
-        return "Departure" +
+        return "\nDeparture" +
                 " date=" + date;
     }
 

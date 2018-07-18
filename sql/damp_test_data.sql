@@ -16,11 +16,11 @@ INSERT INTO planes (id, name, bussiness_row, economy_row, places_in_business_row
 INSERT INTO planes (id, name, bussiness_row, economy_row, places_in_business_row, places_in_economy_row) VALUES (2, 'Airbus A310', 6, 14, 7, 8);
 INSERT INTO planes (id, name, bussiness_row, economy_row, places_in_business_row, places_in_economy_row) VALUES (3, 'Airbus A320', 6, 20, 6, 6);
 
-INSERT INTO flights (id, flight_name, plane_id, from_town, to_town, start, duration, from_date, to_date, approved) VALUES (1, '435', 1, 'Омск', 'Москва', '07:30:00', '03:00:00', '2018-01-01 00:00:00.621000', '2018-12-31 23:59:59.574000', false);
-INSERT INTO flights (id, flight_name, plane_id, from_town, to_town, start, duration, from_date, to_date, approved) VALUES (2, '112', 1, 'Омск', 'Новосибирск', '10:15:00', '01:30:00', '2018-01-01 00:00:00.621000', '2018-12-31 23:59:59.574000', false);
-INSERT INTO flights (id, flight_name, plane_id, from_town, to_town, start, duration, from_date, to_date, approved) VALUES (3, '53', 2, 'Омск', 'Дели', '19:30:00', '05:15:00', '2018-01-01 00:00:00.621000', '2018-12-31 23:59:59.574000', false);
-INSERT INTO flights (id, flight_name, plane_id, from_town, to_town, start, duration, from_date, to_date, approved) VALUES (4, '958', 3, 'Омск', 'Владивосток', '23:15:00', '07:20:00', '2018-01-01 00:00:00.621000', '2018-12-31 23:59:59.574000', false);
-INSERT INTO flights (id, flight_name, plane_id, from_town, to_town, start, duration, from_date, to_date, approved) VALUES (5, '158', 3, 'Омск', 'Париж', '12:00:00', '04:30:00', '2018-01-01 00:00:00.621000', '2018-12-31 23:59:59.574000', false);
+INSERT INTO flights (id, flight_name, plane_id, from_town, to_town, start_time, duration, from_date, to_date, approved) VALUES (1, '435', 1, 'Омск', 'Москва', '07:30:00', '03:00:00', '2018-01-01 00:00:00.621000', '2018-12-31 23:59:59.574000', false);
+INSERT INTO flights (id, flight_name, plane_id, from_town, to_town, start_time, duration, from_date, to_date, approved) VALUES (2, '112', 1, 'Омск', 'Новосибирск', '10:15:00', '01:30:00', '2018-01-01 00:00:00.621000', '2018-12-31 23:59:59.574000', false);
+INSERT INTO flights (id, flight_name, plane_id, from_town, to_town, start_time, duration, from_date, to_date, approved) VALUES (3, '53', 2, 'Омск', 'Дели', '19:30:00', '05:15:00', '2018-01-01 00:00:00.621000', '2018-12-31 23:59:59.574000', false);
+INSERT INTO flights (id, flight_name, plane_id, from_town, to_town, start_time, duration, from_date, to_date, approved) VALUES (4, '958', 3, 'Омск', 'Владивосток', '23:15:00', '07:20:00', '2018-01-01 00:00:00.621000', '2018-12-31 23:59:59.574000', false);
+INSERT INTO flights (id, flight_name, plane_id, from_town, to_town, start_time, duration, from_date, to_date, approved) VALUES (5, '158', 3, 'Омск', 'Париж', '12:00:00', '04:30:00', '2018-01-01 00:00:00.621000', '2018-12-31 23:59:59.574000', false);
 
 INSERT INTO period (id, value) VALUES (1, '1');
 INSERT INTO period (id, value) VALUES (2, '2');

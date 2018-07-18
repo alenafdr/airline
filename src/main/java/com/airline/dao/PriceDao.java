@@ -34,7 +34,7 @@ public class PriceDao {
 
     public List<Price> findPricesByFlightId(Long id) {
         List<Price> entities = null;
-        try (SqlSession session = sqlSessionFactory.openSession();){
+        try (SqlSession session = sqlSessionFactory.openSession()){
             String query = "PriceMapper.selectPricesForFlight";
             entities = session.selectList(query, id);
         } catch (PersistenceException pe) {
@@ -42,5 +42,32 @@ public class PriceDao {
         }
         return entities;
 
+    }
+
+    public void update(Price price) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            String query = "PriceMapper.updatePrice";
+            session.insert(query, price);
+        } catch (PersistenceException pe) {
+            LOG.error(pe.getMessage());
+        }
+    }
+
+    public void delete(Price price){
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            String query = "PriceMapper.deletePrice";
+            session.delete(query, price);
+        } catch (PersistenceException pe) {
+            LOG.error(pe.getMessage());
+        }
+    }
+
+    public void delete(Long flightId){
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            String query = "PriceMapper.deletePricesByFlightId";
+            session.delete(query, flightId);
+        } catch (PersistenceException pe) {
+            LOG.error(pe.getMessage());
+        }
     }
 }
