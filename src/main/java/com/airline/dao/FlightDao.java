@@ -37,8 +37,6 @@ public class FlightDao {
             String query = "FlightMapper.insertFlight";
             flight.setId((long)session.insert(query, flight));
 
-            LOG.info(flight.getId().toString());
-
             if (!flight.getPrices().isEmpty()){
                 for(Price price : flight.getPrices()){
                     price.setFlight(flight);

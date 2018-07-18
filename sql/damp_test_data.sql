@@ -12,15 +12,15 @@ INSERT INTO countries (iso3166, name) VALUES ('RU', 'Россия');
 INSERT INTO countries (iso3166, name) VALUES ('CH', 'China');
 INSERT INTO countries (iso3166, name) VALUES ('IN', 'India');
 
-INSERT INTO planes (id, name, bussiness_row, economy_row, places_in_business_row, places_in_economy_row) VALUES (1, 'ТУ-134', 2, 16, 4, 4);
-INSERT INTO planes (id, name, bussiness_row, economy_row, places_in_business_row, places_in_economy_row) VALUES (2, 'Airbus A310', 6, 14, 7, 8);
-INSERT INTO planes (id, name, bussiness_row, economy_row, places_in_business_row, places_in_economy_row) VALUES (3, 'Airbus A320', 6, 20, 6, 6);
+INSERT INTO planes (plane_id, name, bussiness_row, economy_row, places_in_business_row, places_in_economy_row) VALUES (1, 'ТУ-134', 2, 16, 4, 4);
+INSERT INTO planes (plane_id, name, bussiness_row, economy_row, places_in_business_row, places_in_economy_row) VALUES (2, 'Airbus A310', 6, 14, 7, 8);
+INSERT INTO planes (plane_id, name, bussiness_row, economy_row, places_in_business_row, places_in_economy_row) VALUES (3, 'Airbus A320', 6, 20, 6, 6);
 
-INSERT INTO flights (id, flight_name, plane_id, from_town, to_town, start_time, duration, from_date, to_date, approved) VALUES (1, '435', 1, 'Омск', 'Москва', '07:30:00', '03:00:00', '2018-01-01 00:00:00.621000', '2018-12-31 23:59:59.574000', false);
-INSERT INTO flights (id, flight_name, plane_id, from_town, to_town, start_time, duration, from_date, to_date, approved) VALUES (2, '112', 1, 'Омск', 'Новосибирск', '10:15:00', '01:30:00', '2018-01-01 00:00:00.621000', '2018-12-31 23:59:59.574000', false);
-INSERT INTO flights (id, flight_name, plane_id, from_town, to_town, start_time, duration, from_date, to_date, approved) VALUES (3, '53', 2, 'Омск', 'Дели', '19:30:00', '05:15:00', '2018-01-01 00:00:00.621000', '2018-12-31 23:59:59.574000', false);
-INSERT INTO flights (id, flight_name, plane_id, from_town, to_town, start_time, duration, from_date, to_date, approved) VALUES (4, '958', 3, 'Омск', 'Владивосток', '23:15:00', '07:20:00', '2018-01-01 00:00:00.621000', '2018-12-31 23:59:59.574000', false);
-INSERT INTO flights (id, flight_name, plane_id, from_town, to_town, start_time, duration, from_date, to_date, approved) VALUES (5, '158', 3, 'Омск', 'Париж', '12:00:00', '04:30:00', '2018-01-01 00:00:00.621000', '2018-12-31 23:59:59.574000', false);
+INSERT INTO flights (id, flight_name, flight_plane_id, from_town, to_town, start_time, duration, from_date, to_date, approved) VALUES (1, '435', 1, 'Омск', 'Москва', '07:30:00', '03:00:00', '2018-01-01 00:00:00.621000', '2018-12-31 23:59:59.574000', false);
+INSERT INTO flights (id, flight_name, flight_plane_id, from_town, to_town, start_time, duration, from_date, to_date, approved) VALUES (2, '112', 1, 'Омск', 'Новосибирск', '10:15:00', '01:30:00', '2018-01-01 00:00:00.621000', '2018-12-31 23:59:59.574000', false);
+INSERT INTO flights (id, flight_name, flight_plane_id, from_town, to_town, start_time, duration, from_date, to_date, approved) VALUES (3, '53', 2, 'Омск', 'Дели', '19:30:00', '05:15:00', '2018-01-01 00:00:00.621000', '2018-12-31 23:59:59.574000', false);
+INSERT INTO flights (id, flight_name, flight_plane_id, from_town, to_town, start_time, duration, from_date, to_date, approved) VALUES (4, '958', 3, 'Омск', 'Владивосток', '23:15:00', '07:20:00', '2018-01-01 00:00:00.621000', '2018-12-31 23:59:59.574000', false);
+INSERT INTO flights (id, flight_name, flight_plane_id, from_town, to_town, start_time, duration, from_date, to_date, approved) VALUES (5, '158', 3, 'Омск', 'Париж', '12:00:00', '04:30:00', '2018-01-01 00:00:00.621000', '2018-12-31 23:59:59.574000', false);
 
 INSERT INTO period (id, value) VALUES (1, '1');
 INSERT INTO period (id, value) VALUES (2, '2');
@@ -76,16 +76,16 @@ INSERT INTO period_flight (period_id, flight_id) VALUES (37, 4);
 INSERT INTO period_flight (period_id, flight_id) VALUES (40, 5);
 INSERT INTO period_flight (period_id, flight_id) VALUES (15, 5);
 
-INSERT INTO price (flight_id, class_id, price) VALUES (1, 1, 10000);
-INSERT INTO price (flight_id, class_id, price) VALUES (1, 2, 15000);
-INSERT INTO price (flight_id, class_id, price) VALUES (2, 1, 10000);
-INSERT INTO price (flight_id, class_id, price) VALUES (2, 2, 15000);
-INSERT INTO price (flight_id, class_id, price) VALUES (3, 1, 10000);
-INSERT INTO price (flight_id, class_id, price) VALUES (3, 2, 15000);
-INSERT INTO price (flight_id, class_id, price) VALUES (4, 1, 10000);
-INSERT INTO price (flight_id, class_id, price) VALUES (4, 2, 15000);
-INSERT INTO price (flight_id, class_id, price) VALUES (5, 1, 10000);
-INSERT INTO price (flight_id, class_id, price) VALUES (5, 2, 15000);
+INSERT INTO prices (flight_id, class_id, price) VALUES (1, 1, 10000);
+INSERT INTO prices (flight_id, class_id, price) VALUES (1, 2, 15000);
+INSERT INTO prices (flight_id, class_id, price) VALUES (2, 1, 10000);
+INSERT INTO prices (flight_id, class_id, price) VALUES (2, 2, 15000);
+INSERT INTO prices (flight_id, class_id, price) VALUES (3, 1, 10000);
+INSERT INTO prices (flight_id, class_id, price) VALUES (3, 2, 15000);
+INSERT INTO prices (flight_id, class_id, price) VALUES (4, 1, 10000);
+INSERT INTO prices (flight_id, class_id, price) VALUES (4, 2, 15000);
+INSERT INTO prices (flight_id, class_id, price) VALUES (5, 1, 10000);
+INSERT INTO prices (flight_id, class_id, price) VALUES (5, 2, 15000);
 
 INSERT INTO departures (id, date, flight_id) VALUES (1, '2018-07-12', 1);
 INSERT INTO departures (id, date, flight_id) VALUES (2, '2018-07-13', 1);

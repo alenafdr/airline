@@ -56,12 +56,11 @@
                     ofType="Period"/>
     </resultMap>
     <insert id="insertFlight" parameterType="Flight">
+        <selectKey resultType="Long" keyProperty="id" order="AFTER" >
+            SELECT currval('flights_id_seq')
+        </selectKey>
       insert into flights (flight_name,flight_plane_id,from_town,to_town,start_time,duration,from_date,to_date)
       values (#{flightName},#{plane.id},#{fromTown},#{toTown},#{startTime},#{duration},#{fromDate},#{toDate})
-
-        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
-            SELECT currval('flights_id_seq1');
-        </selectKey>
     </insert>
 
     <select id="selectFlightById" parameterType="Long" resultMap="FlightResultMap" >

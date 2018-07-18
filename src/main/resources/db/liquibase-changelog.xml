@@ -1,39 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-<databaseChangeLog
-        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
-
-    <changeSet author="alena (generated)" id="1531459378625-1">
-        <createSequence sequenceName="admins_id_seq"/>
-    </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-2">
-        <createSequence sequenceName="classes_id_seq"/>
-    </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-3">
-        <createSequence sequenceName="clients_id_seq"/>
-    </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-4">
-        <createSequence sequenceName="departures_id_seq"/>
-    </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-5">
-        <createSequence sequenceName="flights_id_seq"/>
-    </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-6">
-        <createSequence sequenceName="orders_id_seq"/>
-    </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-7">
-        <createSequence sequenceName="period_id_seq"/>
-    </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-8">
-        <createSequence sequenceName="planes_id_seq"/>
-    </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-9">
-        <createSequence sequenceName="tickets_id_seq"/>
-    </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-10">
+    <changeSet author="alena (generated)" id="1531906875382-19">
         <createTable tableName="admins">
             <column autoIncrement="true" name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" primaryKeyName="admins_pkey"/>
@@ -56,7 +24,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-11">
+    <changeSet author="alena (generated)" id="1531906875382-20">
         <createTable tableName="classes">
             <column autoIncrement="true" name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" primaryKeyName="classes_pkey"/>
@@ -64,7 +32,7 @@
             <column name="name" type="VARCHAR(15)"/>
         </createTable>
     </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-12">
+    <changeSet author="alena (generated)" id="1531906875382-21">
         <createTable tableName="clients">
             <column autoIncrement="true" name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" primaryKeyName="clients_pkey"/>
@@ -90,7 +58,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-13">
+    <changeSet author="alena (generated)" id="1531906875382-22">
         <createTable tableName="countries">
             <column name="iso3166" type="VARCHAR(2)">
                 <constraints nullable="false"/>
@@ -98,32 +66,32 @@
             <column name="name" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-14">
+    <changeSet author="alena (generated)" id="1531906875382-23">
         <createTable tableName="departures">
-            <column autoIncrement="true" name="id" type="BIGSERIAL">
-                <constraints primaryKey="true" primaryKeyName="departures_pkey"/>
-            </column>
             <column name="date" type="date"/>
             <column name="flight_id" type="BIGINT"/>
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="departures_id_pk"/>
+            </column>
         </createTable>
     </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-15">
+    <changeSet author="alena (generated)" id="1531906875382-24">
         <createTable tableName="flights">
             <column autoIncrement="true" name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" primaryKeyName="flights_pkey"/>
             </column>
             <column name="flight_name" type="VARCHAR(15)"/>
-            <column name="plane_id" type="BIGINT"/>
+            <column name="flight_plane_id" type="BIGINT"/>
             <column name="from_town" type="VARCHAR(255)"/>
             <column name="to_town" type="VARCHAR(255)"/>
-            <column name="start" type="TIME WITHOUT TIME ZONE"/>
+            <column name="start_time" type="TIME WITHOUT TIME ZONE"/>
             <column name="duration" type="TIME WITHOUT TIME ZONE"/>
             <column name="from_date" type="TIMESTAMP(29) WITHOUT TIME ZONE"/>
             <column name="to_date" type="TIMESTAMP(29) WITHOUT TIME ZONE"/>
             <column defaultValueBoolean="false" name="approved" type="BOOL"/>
         </createTable>
     </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-16">
+    <changeSet author="alena (generated)" id="1531906875382-25">
         <createTable tableName="orders">
             <column autoIncrement="true" name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" primaryKeyName="orders_pkey"/>
@@ -132,7 +100,7 @@
             <column name="client_id" type="BIGINT"/>
         </createTable>
     </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-17">
+    <changeSet author="alena (generated)" id="1531906875382-26">
         <createTable tableName="period">
             <column autoIncrement="true" name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" primaryKeyName="period_pkey"/>
@@ -140,15 +108,15 @@
             <column name="value" type="VARCHAR(5)"/>
         </createTable>
     </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-18">
+    <changeSet author="alena (generated)" id="1531906875382-27">
         <createTable tableName="period_flight">
             <column name="period_id" type="BIGINT"/>
             <column name="flight_id" type="BIGINT"/>
         </createTable>
     </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-19">
+    <changeSet author="alena (generated)" id="1531906875382-28">
         <createTable tableName="planes">
-            <column autoIncrement="true" name="id" type="BIGSERIAL">
+            <column autoIncrement="true" name="plane_id" type="BIGSERIAL">
                 <constraints primaryKey="true" primaryKeyName="planes_pkey"/>
             </column>
             <column name="name" type="VARCHAR(255)"/>
@@ -158,14 +126,14 @@
             <column name="places_in_economy_row" type="INT"/>
         </createTable>
     </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-20">
-        <createTable tableName="price">
+    <changeSet author="alena (generated)" id="1531906875382-29">
+        <createTable tableName="prices">
             <column name="flight_id" type="BIGINT"/>
             <column name="class_id" type="BIGINT"/>
-            <column name="price" type="DECIMAL(10,2)"/>
+            <column name="price" type="numeric(10, 2)"/>
         </createTable>
     </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-21">
+    <changeSet author="alena (generated)" id="1531906875382-30">
         <createTable tableName="tickets">
             <column autoIncrement="true" name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" primaryKeyName="tickets_pkey"/>
@@ -185,54 +153,56 @@
             <column name="place" type="VARCHAR(5)"/>
         </createTable>
     </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-22">
+    <changeSet author="alena (generated)" id="1531906875382-31">
         <addPrimaryKey columnNames="iso3166" constraintName="countries_pkey" tableName="countries"/>
     </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-23">
+    <changeSet author="alena (generated)" id="1531906875382-32">
         <addUniqueConstraint columnNames="period_id, flight_id" constraintName="period_flight_period_id_flight_id_pk" tableName="period_flight"/>
     </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-24">
+    <changeSet author="alena (generated)" id="1531906875382-33">
+        <addUniqueConstraint columnNames="flight_id, class_id" constraintName="prices_flight_id_class_id_unique" tableName="prices"/>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1531906875382-34">
         <createIndex indexName="flights_flight_name_uindex" tableName="flights" unique="true">
             <column name="flight_name"/>
         </createIndex>
     </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-25">
+    <changeSet author="alena (generated)" id="1531906875382-35">
         <createIndex indexName="planes_name_uindex" tableName="planes" unique="true">
             <column name="name"/>
         </createIndex>
     </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-26">
-        <addForeignKeyConstraint baseColumnNames="flight_id" baseTableName="departures" constraintName="departures_flights_id_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="flights"/>
+    <changeSet author="alena (generated)" id="1531906875382-36">
+        <addForeignKeyConstraint baseColumnNames="flight_id" baseTableName="departures" constraintName="departures_flights_id_fk" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="flights"/>
     </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-27">
-        <addForeignKeyConstraint baseColumnNames="plane_id" baseTableName="flights" constraintName="flights_planes_id_fk" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="planes"/>
+    <changeSet author="alena (generated)" id="1531906875382-37">
+        <addForeignKeyConstraint baseColumnNames="flight_plane_id" baseTableName="flights" constraintName="flights_planes_plane_id_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="plane_id" referencedTableName="planes"/>
     </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-28">
+    <changeSet author="alena (generated)" id="1531906875382-38">
         <addForeignKeyConstraint baseColumnNames="client_id" baseTableName="orders" constraintName="orders_clients_id_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="clients"/>
     </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-29">
-        <addForeignKeyConstraint baseColumnNames="departure_id" baseTableName="orders" constraintName="orders_departures_id_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="departures"/>
+    <changeSet author="alena (generated)" id="1531906875382-39">
+        <addForeignKeyConstraint baseColumnNames="departure_id" baseTableName="orders" constraintName="orders_departures_id_fk" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="departures"/>
     </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-30">
-        <addForeignKeyConstraint baseColumnNames="flight_id" baseTableName="period_flight" constraintName="period_flight_flights_id_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="flights"/>
+    <changeSet author="alena (generated)" id="1531906875382-40">
+        <addForeignKeyConstraint baseColumnNames="flight_id" baseTableName="period_flight" constraintName="period_flight_flights_id_fk" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="flights"/>
     </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-31">
+    <changeSet author="alena (generated)" id="1531906875382-41">
         <addForeignKeyConstraint baseColumnNames="period_id" baseTableName="period_flight" constraintName="period_flight_period_id_fk" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="period"/>
     </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-32">
-        <addForeignKeyConstraint baseColumnNames="class_id" baseTableName="price" constraintName="price_classes_id_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="classes"/>
+    <changeSet author="alena (generated)" id="1531906875382-42">
+        <addForeignKeyConstraint baseColumnNames="class_id" baseTableName="prices" constraintName="price_classes_id_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="classes"/>
     </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-33">
-        <addForeignKeyConstraint baseColumnNames="flight_id" baseTableName="price" constraintName="price_flights_id_fk" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="flights"/>
+    <changeSet author="alena (generated)" id="1531906875382-43">
+        <addForeignKeyConstraint baseColumnNames="flight_id" baseTableName="prices" constraintName="price_flights_id_fk" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="flights"/>
     </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-34">
+    <changeSet author="alena (generated)" id="1531906875382-44">
         <addForeignKeyConstraint baseColumnNames="class_id" baseTableName="tickets" constraintName="tickets_classes_id_fk" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="classes"/>
     </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-35">
+    <changeSet author="alena (generated)" id="1531906875382-45">
         <addForeignKeyConstraint baseColumnNames="nationality" baseTableName="tickets" constraintName="tickets_countries_iso3166_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="CASCADE" referencedColumnNames="iso3166" referencedTableName="countries"/>
     </changeSet>
-    <changeSet author="alena (generated)" id="1531459378625-36">
-        <addForeignKeyConstraint baseColumnNames="order_id" baseTableName="tickets" constraintName="tickets_orders_id_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="orders"/>
+    <changeSet author="alena (generated)" id="1531906875382-46">
+        <addForeignKeyConstraint baseColumnNames="order_id" baseTableName="tickets" constraintName="tickets_orders_id_fk" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="orders"/>
     </changeSet>
-
 </databaseChangeLog>
