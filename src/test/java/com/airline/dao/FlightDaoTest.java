@@ -53,10 +53,15 @@ public class FlightDaoTest {
         Flight newFlight = buildFlight();
         Long id = flightDao.save(newFlight);
         Flight selectFlight = flightDao.findOne(id);
-        logger.info(selectFlight.toString());
-        logger.info(newFlight.toString());
         newFlight.setId(selectFlight.getId());
-        //assertTrue(newFlight.equals(selectFlight));
+        assertTrue(newFlight.getFlightName().equals(selectFlight.getFlightName()));
+        assertTrue(newFlight.getStart().equals(selectFlight.getStart()));
+        assertTrue(newFlight.getDuration().equals(selectFlight.getDuration()));
+        assertTrue(newFlight.getPeriods().equals(selectFlight.getPeriods()));
+        //assertTrue(newFlight.getPrices().equals(selectFlight.getPrices()));
+        //assertTrue(newFlight.getDepartures().equals(selectFlight.getDepartures()));
+
+
     }
 
     @Test
@@ -94,8 +99,8 @@ public class FlightDaoTest {
         flight.setPlane(planeDao.findPlanetById(1L));
 
         List<Price> prices = new ArrayList<>();
-        prices.add(new Price(flight, classTypeDao.findClassTypeById(1L), new BigDecimal(3333)));
-        prices.add(new Price(flight, classTypeDao.findClassTypeById(2L), new BigDecimal(3333)));
+        prices.add(new Price(classTypeDao.findClassTypeById(1L), new BigDecimal(3333)));
+        prices.add(new Price(classTypeDao.findClassTypeById(2L), new BigDecimal(4444)));
         flight.setPrices(prices);
 
         List<Departure> departures = new ArrayList<>();

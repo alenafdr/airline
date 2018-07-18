@@ -11,8 +11,7 @@ public class Price {
     public Price() {
     }
 
-    public Price(Flight flight, ClassType classType, BigDecimal price) {
-        this.flight = flight;
+    public Price(ClassType classType, BigDecimal price) {
         this.classType = classType;
         this.price = price;
     }
