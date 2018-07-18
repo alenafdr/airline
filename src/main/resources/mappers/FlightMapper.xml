@@ -55,10 +55,7 @@
                     select="PeriodMapper.selectPeriodsByFlightId"
                     ofType="Period"/>
     </resultMap>
-    <insert id="insertFlight" parameterType="Flight">
-        <selectKey resultType="Long" keyProperty="id" order="AFTER" >
-            SELECT currval('flights_id_seq')
-        </selectKey>
+    <insert id="insertFlight" parameterType="Flight" useGeneratedKeys="true" keyProperty="id">
       insert into flights (flight_name,flight_plane_id,from_town,to_town,start_time,duration,from_date,to_date)
       values (#{flightName},#{plane.id},#{fromTown},#{toTown},#{startTime},#{duration},#{fromDate},#{toDate})
     </insert>

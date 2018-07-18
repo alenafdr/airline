@@ -35,7 +35,7 @@ public class FlightDao {
     public Long save(Flight flight){
         try (SqlSession session = sqlSessionFactory.openSession()){
             String query = "FlightMapper.insertFlight";
-            flight.setId((long)session.insert(query, flight));
+            session.insert(query, flight);
 
             if (!flight.getPrices().isEmpty()){
                 for(Price price : flight.getPrices()){
