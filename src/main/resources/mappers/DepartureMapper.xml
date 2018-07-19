@@ -5,9 +5,12 @@
     <resultMap id="DepartureForFlightResultMap" type="Departure">
         <id property="id" column="id"/>
         <result property="date" column="date"/>
+        <association property="flight"
+                     column="flight_id"
+                     select="FlightMapper.selectFlightById"/>
     </resultMap>
 
-    <insert id="insertDeparture">
+    <insert id="insertDeparture" parameterType="Departure" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
       insert into departures ("date", flight_id)
       VALUES (#{date}, #{flight.id})
     </insert>

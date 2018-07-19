@@ -4,17 +4,21 @@ import java.util.Date;
 import java.util.Objects;
 
 public class Departure {
-    private Long id;
-    private Date date;
-    private Flight flight;
+    protected Long id;
+    protected Date date;
+    protected Flight flight;
 
     public Departure(Long id) {
         this.id = id;
     }
 
     public Departure() {
+    }
 
-
+    public Departure(Long id, Date date, Flight flight) {
+        this.id = id;
+        this.date = date;
+        this.flight = flight;
     }
 
     public Departure(Date date) {
@@ -47,8 +51,11 @@ public class Departure {
 
     @Override
     public String toString() {
-        return "\nDeparture" +
-                " date=" + date;
+        return "Departure{" +
+                "id=" + id +
+                ", date=" + date +
+                ", flight=" + flight.getId() +
+                '}';
     }
 
     @Override
@@ -58,12 +65,11 @@ public class Departure {
         Departure departure = (Departure) o;
         return Objects.equals(id, departure.id) &&
                 Objects.equals(date, departure.date) &&
-                Objects.equals(flight, departure.flight);
+                Objects.equals(flight.getId(), departure.flight.getId());
     }
 
     @Override
     public int hashCode() {
-
         return Objects.hash(id, date, flight);
     }
 }

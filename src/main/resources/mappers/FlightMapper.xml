@@ -31,30 +31,7 @@
                     select="DepartureMapper.selectDeparturesByFlightId"
                     ofType="Departure"/>
     </resultMap>
-    <resultMap id="FlightResultMapForDeparture" type="Flight" autoMapping="false">
-        <constructor>
-            <idArg column="id" javaType="Long" />
-        </constructor>
-        <id column="id" property="id" />
-        <result property="flightName" column="flight_name" />
-        <result property="fromTown" column="from_town" />
-        <result property="toTown" column="to_town" />
-        <result property="approved" column="approved" />
-        <result property="startTime" column="start_time"/>
-        <result property="duration" column="duration"/>
-        <result property="fromDate" column="from_date" />
-        <result property="toDate" column="to_date" />
-        <association property="plane"
-                     resultMap="PlaneMapper.PlaneResultMap" />
-        <collection property="prices"
-                    column="id"
-                    select="PriceMapper.selectPricesForFlight"
-                    ofType="Price"/>
-        <collection property="periods"
-                    column="id"
-                    select="PeriodMapper.selectPeriodsByFlightId"
-                    ofType="Period"/>
-    </resultMap>
+
     <insert id="insertFlight" parameterType="Flight" useGeneratedKeys="true" keyProperty="id">
       insert into flights (flight_name,flight_plane_id,from_town,to_town,start_time,duration,from_date,to_date)
       values (#{flightName},#{plane.id},#{fromTown},#{toTown},#{startTime},#{duration},#{fromDate},#{toDate})
@@ -83,28 +60,6 @@
         where f.id = #{id};
     </select>
 
-    <select id="selectFlightForDeparture" parameterType="Long" resultMap="FlightResultMapForDeparture" >
-        select
-        f.id,
-        f.flight_name,
-        f.from_town,
-        f.to_town,
-        f.start_time,
-        f.duration,
-        f.from_date,
-        f.to_date,
-        f.approved,
-        f.flight_plane_id,
-        p.plane_id,
-        p.name,
-        p.bussiness_row,
-        p.economy_row,
-        p.places_in_business_row,
-        p.places_in_economy_row
-        from flights f
-        left join planes p on f.flight_plane_id = p.plane_id
-        where f.id = #{id};
-    </select>
     <update id="updateFlight">
       update flights
       set

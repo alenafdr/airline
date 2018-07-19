@@ -4,14 +4,20 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Price {
-    private Flight flight;
-    private ClassType classType;
-    private BigDecimal price;
+    protected Flight flight;
+    protected ClassType classType;
+    protected BigDecimal price;
 
     public Price() {
     }
 
     public Price(ClassType classType, BigDecimal price) {
+        this.classType = classType;
+        this.price = price;
+    }
+
+    public Price(Flight flight, ClassType classType, BigDecimal price) {
+        this.flight = flight;
         this.classType = classType;
         this.price = price;
     }
@@ -49,6 +55,7 @@ public class Price {
         return "\nPrice{" +
                 "ClassType=" + classType +
                 ", price=" + price +
+                ", flight=" + flight.getId() +
                 '}';
     }
 
@@ -57,7 +64,7 @@ public class Price {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Price price1 = (Price) o;
-        return Objects.equals(flight, price1.flight) &&
+        return Objects.equals(flight.getId(), price1.flight.getId()) &&
                 Objects.equals(classType, price1.classType) &&
                 Objects.equals(price, price1.price);
     }

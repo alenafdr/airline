@@ -1,6 +1,10 @@
 package com.airline.model;
 
+import com.airline.model.db.DepartureDB;
+import com.airline.model.db.PriceDB;
+
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -21,6 +25,18 @@ public class Flight {
     private List<Price> prices;
 
     public Flight() {
+    }
+
+    public List<PriceDB> getPricesDB(){
+        List<PriceDB> priceDBS = new ArrayList<>();
+        prices.forEach(price -> priceDBS.add((new PriceDB(price))));
+        return priceDBS;
+    }
+
+    public List<DepartureDB> getDeparturesDB(){
+        List<DepartureDB> departureDBS = new ArrayList<>();
+        departures.forEach(departure -> departureDBS.add(new DepartureDB(departure)));
+        return departureDBS;
     }
 
     public Flight(Long id) {
@@ -173,6 +189,18 @@ public class Flight {
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, flightName, fromTown, toTown, startTime, duration, fromDate, toDate, approved, plane, periods, departures, prices);
+        return Objects.hash(id,
+                flightName,
+                fromTown,
+                toTown,
+                startTime,
+                duration,
+                fromDate,
+                toDate,
+                approved,
+                plane,
+                periods,
+                departures,
+                prices);
     }
 }

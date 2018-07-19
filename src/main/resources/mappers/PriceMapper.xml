@@ -9,6 +9,9 @@
         <result property="price" column="price"/>
         <association property="classType"
                      resultMap="ClassTypeMapper.ClassTypeResultMap"/>
+        <association property="flight"
+                     select="FlightMapper.selectFlightById"
+                     column="flight_id"/>
     </resultMap>
     <insert id="insertPrice">
       insert into prices (flight_id, class_id, price)

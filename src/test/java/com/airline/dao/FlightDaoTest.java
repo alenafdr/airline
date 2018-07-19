@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -45,6 +46,7 @@ public class FlightDaoTest {
     @Test
     public void selectFlightByIdTest(){
         Flight flight = flightDao.findOne(1L);
+        logger.info(flight.toString());
         assertNotNull("flight is null", flight);
     }
 
@@ -53,15 +55,12 @@ public class FlightDaoTest {
         Flight newFlight = buildFlight();
         Long id = flightDao.save(newFlight);
         Flight selectFlight = flightDao.findOne(id);
-        newFlight.setId(selectFlight.getId());
         assertTrue(newFlight.getFlightName().equals(selectFlight.getFlightName()));
         assertTrue(newFlight.getStart().equals(selectFlight.getStart()));
         assertTrue(newFlight.getDuration().equals(selectFlight.getDuration()));
         assertTrue(newFlight.getPeriods().equals(selectFlight.getPeriods()));
-        //assertTrue(newFlight.getPrices().equals(selectFlight.getPrices()));
-        //assertTrue(newFlight.getDepartures().equals(selectFlight.getDepartures()));
-
-
+        assertTrue(newFlight.getPrices().equals(selectFlight.getPrices()));
+        assertTrue(newFlight.getDepartures().equals(selectFlight.getDepartures()));
     }
 
     @Test
@@ -71,6 +70,7 @@ public class FlightDaoTest {
         flight.setStart(Time.valueOf("11:11:11"));
         flight.setDuration(Time.valueOf("11:11:11"));
         flight.getDepartures().get(0).setDate(new Date());
+        flight.getDepartures().remove(2);
         flight.getPrices().get(0).setPrice(new BigDecimal(9999));
         flight.getPrices().remove(1);
         flight.getPeriods().get(0).setId(5L);
@@ -83,6 +83,7 @@ public class FlightDaoTest {
         assertTrue(flightNew.getPrices().get(0).getPrice().compareTo(new BigDecimal(9999)) == 0);
         assertTrue(flightNew.getPrices().size() == 1);
         assertTrue(flightNew.getDepartures().get(0).getDate().equals(flightNew.getDepartures().get(0).getDate()));
+        assertTrue(flightNew.getDepartures().size() == 2);
         assertTrue(flightNew.getPeriods().get(0).getId().equals(5L));
     }
 
@@ -99,12 +100,12 @@ public class FlightDaoTest {
         flight.setPlane(planeDao.findPlanetById(1L));
 
         List<Price> prices = new ArrayList<>();
-        prices.add(new Price(classTypeDao.findClassTypeById(1L), new BigDecimal(3333)));
-        prices.add(new Price(classTypeDao.findClassTypeById(2L), new BigDecimal(4444)));
+        prices.add(new Price(classTypeDao.findClassTypeById(1L), new BigDecimal("3333.00")));
+        prices.add(new Price(classTypeDao.findClassTypeById(2L), new BigDecimal("4444.00")));
         flight.setPrices(prices);
 
         List<Departure> departures = new ArrayList<>();
-        departures.add(new Departure(new Date()));
+        departures.add(new Departure(removeTime(new Date())));
         flight.setDepartures(departures);
 
         List<Period> periods = new ArrayList<>();
@@ -112,5 +113,15 @@ public class FlightDaoTest {
         flight.setPeriods(periods);
 
         return flight;
+    }
+
+    public Date removeTime(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTime();
     }
 }

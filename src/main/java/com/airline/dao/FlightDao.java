@@ -1,6 +1,8 @@
 package com.airline.dao;
 
 import com.airline.model.*;
+import com.airline.model.db.DepartureDB;
+import com.airline.model.db.PriceDB;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -10,13 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Component
 public class FlightDao {
 
-    private static final Logger LOG = LoggerFactory.getLogger(FlightDao.class);
+    private static final Logger logger = LoggerFactory.getLogger(FlightDao.class);
 
     private SqlSessionFactory sqlSessionFactory;
     private PriceDao priceDao;
@@ -24,7 +23,10 @@ public class FlightDao {
     private DepartureDao departureDao;
 
     @Autowired
-    public FlightDao(SqlSessionFactory sqlSessionFactory, PriceDao priceDao, PeriodDao periodDao, DepartureDao departureDao) {
+    public FlightDao(SqlSessionFactory sqlSessionFactory,
+                     PriceDao priceDao,
+                     PeriodDao periodDao,
+                     DepartureDao departureDao) {
         this.sqlSessionFactory = sqlSessionFactory;
         this.priceDao = priceDao;
         this.periodDao = periodDao;
@@ -32,105 +34,112 @@ public class FlightDao {
     }
 
     @Transactional
-    public Long save(Flight flight){
-        try (SqlSession session = sqlSessionFactory.openSession()){
+    public Long save(Flight flight) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "FlightMapper.insertFlight";
             session.insert(query, flight);
 
-            if (!flight.getPrices().isEmpty()){
-                for(Price price : flight.getPrices()){
+            if (!flight.getPrices().isEmpty()) {
+                for (Price price : flight.getPrices()) {
                     price.setFlight(flight);
                     priceDao.save(price);
                 }
             }
 
-            if (!flight.getPeriods().isEmpty()){
-                for(Period period : flight.getPeriods()){
+            if (!flight.getPeriods().isEmpty()) {
+                for (Period period : flight.getPeriods()) {
                     PeriodFlight periodFlight = new PeriodFlight(period.getId(), flight.getId());
                     periodDao.savePeriodForFlight(periodFlight);
                 }
             }
 
-            if (!flight.getDepartures().isEmpty()){
-                for(Departure departure : flight.getDepartures()){
+            if (!flight.getDepartures().isEmpty()) {
+                for (Departure departure : flight.getDepartures()) {
                     departure.setFlight(flight);
                     departureDao.save(departure);
                 }
             }
 
         } catch (PersistenceException pe) {
-            LOG.error(pe.getMessage());
+            logger.error(pe.getMessage());
         }
         return flight.getId();
     }
 
-    public Flight findOne(Long id){
+    public Flight findOne(Long id) {
         Flight entity = null;
-        try (SqlSession session = sqlSessionFactory.openSession()){
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "FlightMapper.selectFlightById";
             entity = (Flight) session.selectOne(query, id);
         } catch (PersistenceException pe) {
-            LOG.error(pe.getMessage());
+            logger.error(pe.getMessage());
         }
         return entity;
     }
 
     @Transactional
-    public void update(Flight flightNew){
+    public void update(Flight flightNew) {
         Flight flightOld = findOne(flightNew.getId());
 
-        try (SqlSession session = sqlSessionFactory.openSession()){
+        try (SqlSession session = sqlSessionFactory.openSession()) {
 
             String query = "FlightMapper.updateFlight";
             session.update(query, flightNew);
 
             //prices
-            for (Price price : flightOld.getPrices()){
-                price.setFlight(flightNew);
-                if(!flightNew.getPrices().contains(price)){
-                    priceDao.delete(price); }
+            for (PriceDB priceDB : flightOld.getPricesDB()) {
+                priceDB.setFlight(flightNew);
+                if (!flightNew.getPricesDB().contains(priceDB)) {
+                    logger.info("delete " + priceDB);
+                    priceDao.delete(priceDB);
+                }
             }
 
-            for (Price price : flightNew.getPrices()){
+            for (Price price : flightNew.getPrices()) {
                 price.setFlight(flightNew);
+                logger.info("update " + price);
                 priceDao.update(price);
             }
 
             //periods
-            for (Period period : flightOld.getPeriods()){
+            for (Period period : flightOld.getPeriods()) {
                 PeriodFlight periodFlight = new PeriodFlight(period.getId(), flightNew.getId());
-                if(!flightNew.getPeriods().contains(period)){
-                    periodDao.delete(periodFlight); }
+                if (!flightNew.getPeriods().contains(period)) {
+                    periodDao.delete(periodFlight);
+                }
             }
 
-            for (Period period : flightNew.getPeriods()){
+            for (Period period : flightNew.getPeriods()) {
                 PeriodFlight periodFlight = new PeriodFlight(period.getId(), flightNew.getId());
-                periodDao.savePeriodForFlight(periodFlight);
+                periodDao.updatePeriodForFlight(periodFlight);
             }
 
             //departures
-            for (Departure departure : flightOld.getDepartures()){
-                departure.setFlight(flightNew);
-                if(!flightNew.getDepartures().contains(departure)){
-                    departureDao.delete(departure.getId()); }
+            for (DepartureDB departureDB : flightOld.getDeparturesDB()) {
+                departureDB.setFlight(flightNew);
+                if (!flightNew.getDeparturesDB().contains(departureDB)) {
+                    logger.info("delete " + departureDB);
+                    departureDao.delete(departureDB.getId());
+                }
             }
 
-            for (Departure departure : flightNew.getDepartures()){
+            for (Departure departure : flightNew.getDepartures()) {
+                logger.info("update " + departure);
                 departure.setFlight(flightNew);
                 departureDao.update(departure);
             }
 
         } catch (PersistenceException pe) {
-            LOG.error(pe.getMessage());
+            logger.error(pe.getMessage());
         }
     }
 
-    public void delete(Long id){
-        try (SqlSession session = sqlSessionFactory.openSession()){
+    public void delete(Long id) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "FlightMapper.deleteFlight";
             session.delete(query, id);
         } catch (PersistenceException pe) {
-            LOG.error(pe.getMessage());
+            logger.error(pe.getMessage());
         }
     }
 

@@ -13,7 +13,7 @@ import java.util.List;
 
 @Component
 public class DepartureDao {
-    private static final Logger LOG = LoggerFactory.getLogger(DepartureDao.class);
+    private static final Logger logger = LoggerFactory.getLogger(DepartureDao.class);
 
     private SqlSessionFactory sqlSessionFactory;
 
@@ -26,8 +26,9 @@ public class DepartureDao {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "DepartureMapper.insertDeparture";
             session.insert(query, departure);
+            logger.info("!!!!!!!" + departure.getId().toString());
         } catch (PersistenceException pe) {
-            LOG.error(pe.getMessage());
+            logger.error(pe.getMessage());
         }
     }
 
@@ -37,7 +38,7 @@ public class DepartureDao {
             String query = "DepartureMapper.selectDeparturesByFlightId";
             entities = session.selectList(query, id);
         } catch (PersistenceException pe) {
-            LOG.error(pe.getMessage());
+            logger.error(pe.getMessage());
         }
         return entities;
     }
@@ -47,7 +48,7 @@ public class DepartureDao {
             String query = "DepartureMapper.updateDeparture";
             session.insert(query, departure);
         } catch (PersistenceException pe) {
-            LOG.error(pe.getMessage());
+            logger.error(pe.getMessage());
         }
     }
 
@@ -56,7 +57,7 @@ public class DepartureDao {
             String query = "DepartureMapper.deleteDeparture";
             session.delete(query, id);
         } catch (PersistenceException pe) {
-            LOG.error(pe.getMessage());
+            logger.error(pe.getMessage());
         }
     }
 }
