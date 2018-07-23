@@ -22,19 +22,24 @@ public class ClassTypeDao {
     }
 
     public ClassType findClassTypeById(Long id) {
-
-        SqlSession session = sqlSessionFactory.openSession();
-
         ClassType entity = null;
-        try {
+        try (SqlSession session = sqlSessionFactory.openSession()){
             String query = "ClassTypeMapper.findClassTypeById";
             entity = (ClassType) session.selectOne(query, id);
         } catch (PersistenceException pe) {
             LOG.error(pe.getMessage());
-        } finally {
-            session.close();
         }
         return entity;
+    }
 
+    public ClassType findClassTypeByName(String name){
+        ClassType entity = null;
+        try (SqlSession session = sqlSessionFactory.openSession()){
+            String query = "ClassTypeMapper.findClassTypeByName";
+            entity = (ClassType) session.selectOne(query, name);
+        } catch (PersistenceException pe) {
+            LOG.error(pe.getMessage());
+        }
+        return entity;
     }
 }
