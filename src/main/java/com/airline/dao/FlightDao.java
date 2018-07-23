@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Component
 public class FlightDao {
 
@@ -143,4 +145,15 @@ public class FlightDao {
         }
     }
 
+    public List<Flight> listByParameters(Flight flight) {
+        List<Flight> entities = null;
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            String query = "FlightMapper.selectListByParameters";
+            entities = session.selectList(query, flight);
+        } catch (PersistenceException pe) {
+            logger.error(pe.getMessage());
+        }
+        return entities;
+
+    }
 }

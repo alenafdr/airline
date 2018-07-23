@@ -1,6 +1,5 @@
 package com.airline.dao;
 
-import com.airline.dao.*;
 import com.airline.model.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,6 +47,16 @@ public class FlightDaoTest {
         Flight flight = flightDao.findOne(1L);
         logger.info(flight.toString());
         assertNotNull("flight is null", flight);
+    }
+
+    @Test
+    public void selectListByParameters(){
+        Flight flight = new Flight();
+        Plane plane = new Plane();
+        plane.setName("ТУ-134");
+        flight.setPlane(plane);
+        List<Flight> flights = flightDao.listByParameters(flight);
+        flights.forEach(item -> logger.info(item.getId().toString()));
     }
 
     @Test
