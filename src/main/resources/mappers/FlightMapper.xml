@@ -79,7 +79,7 @@
         p.places_in_business_row,
         p.places_in_economy_row
         from flights f
-        left join planes p on f.flight_plane_id = p.plane_id
+        join planes p on f.flight_plane_id = p.plane_id
         <where>
             <if test="fromTown != null">
                 f.from_town like #{fromTown}
