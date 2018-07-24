@@ -1,6 +1,7 @@
 package com.airline.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
@@ -14,8 +15,16 @@ public class FlightDTO {
     private String planeName;
     private String fromTown;
     private String toTown;
+
+    @JsonFormat(pattern = "HH:mm:ss", shape = JsonFormat.Shape.STRING)
+    @ApiModelProperty(dataType = "java.lang.String", example = "hh:mm:ss")
     private Time start;
+
+    @JsonFormat(pattern = "HH:mm:ss", shape = JsonFormat.Shape.STRING)
+    @ApiModelProperty(dataType = "java.lang.String", example = "hh:mm:ss")
     private Time duration;
+
+
     private BigDecimal priceBusiness;
     private BigDecimal priceEconomy;
     private Schedule schedule;

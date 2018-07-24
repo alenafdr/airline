@@ -1,21 +1,21 @@
 package com.airline.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 public class Schedule {
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @ApiModelProperty(dataType = "java.lang.String", example = "YYYY-MM-DD")
     private Date fromDate;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @ApiModelProperty(dataType = "java.lang.String", example = "YYYY-MM-DD")
     private Date toDate;
 
     private String period;
