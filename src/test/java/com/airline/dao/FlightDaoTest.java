@@ -21,10 +21,14 @@ import java.util.List;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-@Import({FlightDao.class, PriceDao.class, DepartureDao.class, PeriodDao.class, PlaneDao.class, ClassTypeDao.class})
 @RunWith(SpringRunner.class)
+@Import({FlightDao.class,
+        PriceDao.class,
+        DepartureDao.class,
+        PeriodDao.class,
+        PlaneDao.class,
+        ClassTypeDao.class})
 @MybatisTest
-
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class FlightDaoTest {
 

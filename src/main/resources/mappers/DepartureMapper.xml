@@ -19,6 +19,7 @@
         select *
         from departures
         where flight_id = #{id}
+        order by departures.date
     </select>
 
     <insert id="updateDeparture">

@@ -21,15 +21,23 @@ public class PlaneDao {
     }
 
     public Plane findPlanetById(Long id){
-        SqlSession session = sqlSessionFactory.openSession();
         Plane entity = null;
-        try {
+        try (SqlSession session = sqlSessionFactory.openSession()){
             String query = "PlaneMapper.findPlaneById";
             entity = (Plane) session.selectOne(query, id);
         } catch (PersistenceException pe) {
             LOG.error(pe.getMessage());
-        } finally {
-            session.close();
+        }
+        return entity;
+    }
+
+    public Plane findPlaneByName(String name){
+        Plane entity = null;
+        try (SqlSession session = sqlSessionFactory.openSession()){
+            String query = "PlaneMapper.findPlaneByName";
+            entity = (Plane) session.selectOne(query, name);
+        } catch (PersistenceException pe) {
+            LOG.error(pe.getMessage());
         }
         return entity;
     }

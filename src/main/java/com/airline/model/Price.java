@@ -55,7 +55,6 @@ public class Price {
         return "\nPrice{" +
                 "ClassType=" + classType +
                 ", price=" + price +
-                ", flight=" + flight.getId() +
                 '}';
     }
 

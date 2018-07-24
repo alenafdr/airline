@@ -39,6 +39,10 @@ public class Flight {
         return departureDBS;
     }
 
+    public Price getPriceByClassTypeName (String name){
+        return prices.stream().filter(price -> price.getClassType().getName().equals(name)).findFirst().get();
+    }
+
     public Flight(Long id) {
         this.id = id;
     }

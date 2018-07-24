@@ -8,6 +8,14 @@ public class Period {
     private String value;
     private Set<Flight> flights;
 
+    public Period() {
+    }
+
+    public Period(Long id, String value) {
+        this.id = id;
+        this.value = value;
+    }
+
     public Set<Flight> getFlights() {
         return flights;
     }

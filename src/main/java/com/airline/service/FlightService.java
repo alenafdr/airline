@@ -1,13 +1,13 @@
 package com.airline.service;
 
-import com.airline.model.Flight;
+import com.airline.model.dto.FlightDTO;
 
 import java.util.List;
 
 public interface FlightService {
-    List<Flight> listByParameters(Flight flight);
-    void save(Flight flight);
-    void update(Flight flight);
+    List<FlightDTO> listByParameters(FlightDTO flightDTO);
+    FlightDTO save(FlightDTO flightDTO);
+    FlightDTO update(FlightDTO flightDTO);
     void delete(Long id);
-    Flight getById(Long id);
+    FlightDTO getById(Long id);
 }

@@ -8,11 +8,20 @@ public class Departure {
     protected Date date;
     protected Flight flight;
 
+    public Departure() {
+    }
+
     public Departure(Long id) {
         this.id = id;
     }
 
-    public Departure() {
+    public Departure(Date date) {
+        this.date = date;
+    }
+
+    public Departure(Date date, Flight flight) {
+        this.date = date;
+        this.flight = flight;
     }
 
     public Departure(Long id, Date date, Flight flight) {
@@ -21,9 +30,7 @@ public class Departure {
         this.flight = flight;
     }
 
-    public Departure(Date date) {
-        this.date = date;
-    }
+
 
     public Long getId() {
         return id;
@@ -51,7 +58,7 @@ public class Departure {
 
     @Override
     public String toString() {
-        return "Departure{" +
+        return "\nDeparture{" +
                 "id=" + id +
                 ", date=" + date +
                 ", flight=" + flight.getId() +
