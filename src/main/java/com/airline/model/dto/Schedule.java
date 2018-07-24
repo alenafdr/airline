@@ -46,4 +46,13 @@ public class Schedule {
     public void setPeriod(String period) {
         this.period = period;
     }
+
+    @Override
+    public String toString() {
+        return "Schedule{" +
+                "fromDate=" + fromDate +
+                ", toDate=" + toDate +
+                ", period='" + period + '\'' +
+                '}';
+    }
 }

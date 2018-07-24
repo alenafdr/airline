@@ -124,4 +124,22 @@ public class FlightDTO {
     public void setDates(List<Date> dates) {
         this.dates = dates;
     }
+
+    @Override
+    public String toString() {
+        return "FlightDTO{" +
+                "\nid=" + id +
+                ", \nflightName='" + flightName + '\'' +
+                ", \nplaneName='" + planeName + '\'' +
+                ", \nfromTown='" + fromTown + '\'' +
+                ", \ntoTown='" + toTown + '\'' +
+                ", \nstart=" + start +
+                ", \nduration=" + duration +
+                ", \npriceBusiness=" + priceBusiness +
+                ", \npriceEconomy=" + priceEconomy +
+                ", \nschedule=" + schedule +
+                ", \ndates=" + dates +
+                ", \napproved=" + approved +
+                '}';
+    }
 }

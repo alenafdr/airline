@@ -143,7 +143,7 @@ public class FlightServiceImpl implements FlightService {
     }
 
     private List<LocalDate> getDatesBetween(LocalDate startDate, LocalDate endDate) {
-        long numOfDaysBetween = ChronoUnit.DAYS.between(startDate, endDate);
+        long numOfDaysBetween = ChronoUnit.DAYS.between(startDate, endDate) + 1;
         return IntStream.iterate(0, i -> i + 1)
                 .limit(numOfDaysBetween)
                 .mapToObj(i -> startDate.plusDays(i))
