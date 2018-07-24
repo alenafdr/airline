@@ -80,7 +80,9 @@ public class FlightServiceImpl implements FlightService {
         prices.add(new Price(classTypeDao.findClassTypeByName("ECONOMY"), flightDTO.getPriceEconomy()));
 
         List<Period> periods = new ArrayList<>();
-        Arrays.asList(flightDTO.getSchedule().getPeriod().split(","))
+        Arrays.asList(flightDTO.getSchedule().getPeriod()
+                .replace(" ","")
+                .split(","))
                 .forEach(s -> periods.add(periodDao.selectPeriodByValue(s)));
 
         List<Departure> departures;
