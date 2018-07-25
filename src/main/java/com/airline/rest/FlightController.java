@@ -34,12 +34,12 @@ public class FlightController {
 
     @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<FlightDTO>> list(@RequestParam("fromTown") String fromTown,
-                                                @RequestParam("toTown") String toTown,
-                                                @RequestParam("flightName") String flightName,
-                                                @RequestParam("planeName") String planeName,
-                                                @RequestParam("fromDate") String fromDate,
-                                                @RequestParam("toDate") String toDate) {
+    public ResponseEntity<List<FlightDTO>> list(@RequestParam(name = "fromTown", required = false) String fromTown,
+                                                @RequestParam(name = "toTown", required = false) String toTown,
+                                                @RequestParam(name = "flightName", required = false) String flightName,
+                                                @RequestParam(name = "planeName", required = false) String planeName,
+                                                @RequestParam(name = "fromDate", required = false) String fromDate,
+                                                @RequestParam(name = "toDate", required = false) String toDate) {
         FlightDTO flightDTO = new FlightDTO();
         flightDTO.setFromTown(fromTown);
         flightDTO.setToTown(toTown);
