@@ -1,6 +1,7 @@
 package com.airline.dao;
 
 import com.airline.model.*;
+import com.airline.model.dto.FlightDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;

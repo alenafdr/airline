@@ -6,6 +6,7 @@ import com.airline.dao.PeriodDao;
 import com.airline.dao.PlaneDao;
 import com.airline.dtomapper.FlightDTOMapper;
 import com.airline.model.ClassType;
+import com.airline.model.ClassTypeEnum;
 import com.airline.model.Period;
 import com.airline.model.Plane;
 import com.airline.model.dto.FlightDTO;
@@ -25,6 +26,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 import static org.mockito.Mockito.when;
@@ -59,8 +61,8 @@ public class FlightServiceTest {
         when(planeDao.findPlaneByName("testPlane")).thenReturn(new Plane(1L, "testPlane", 2,2,2,4));
         when(periodDao.selectPeriodByValue("Thu")).thenReturn(new Period(30L, "Thu"));
         when(periodDao.selectPeriodByValue("Fri")).thenReturn(new Period(32L, "Fri"));
-        when(classTypeDao.findClassTypeByName("BUSINESS")).thenReturn(new ClassType(1L, "BUSINESS"));
-        when(classTypeDao.findClassTypeByName("ECONOMY")).thenReturn(new ClassType(2L, "ECONOMY"));
+        when(classTypeDao.findClassTypeByName(ClassTypeEnum.BUSINESS.name())).thenReturn(new ClassType(1L, ClassTypeEnum.BUSINESS.name()));
+        when(classTypeDao.findClassTypeByName(ClassTypeEnum.ECONOMY.name())).thenReturn(new ClassType(2L, ClassTypeEnum.ECONOMY.name()));
 
         logger.info(flightService.save(flightDTO).toString());
 
@@ -79,7 +81,8 @@ public class FlightServiceTest {
         Schedule schedule = new Schedule();
         schedule.setFromDate(new Date());
         schedule.setToDate(new Date(schedule.getFromDate().getTime() + 10*24*60*60*1000));
-        schedule.setPeriod("Thu,Fri");
+
+        schedule.setPeriods(Arrays.asList("Thu","Fri"));
         flightDTO.setSchedule(schedule);
         flightDTO.setPlaneName("testPlane");
         flightDTO.setPriceBusiness(new BigDecimal("6666.00"));

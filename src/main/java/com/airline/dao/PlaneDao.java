@@ -1,5 +1,6 @@
 package com.airline.dao;
 
+import com.airline.exceptions.PlaneNotFoundException;
 import com.airline.model.Plane;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.session.SqlSession;
@@ -27,7 +28,9 @@ public class PlaneDao {
             entity = (Plane) session.selectOne(query, id);
         } catch (PersistenceException pe) {
             LOG.error(pe.getMessage());
+            throw pe;
         }
+        if (entity == null) throw new PlaneNotFoundException("Not found plane with id " + id);
         return entity;
     }
 
@@ -38,7 +41,9 @@ public class PlaneDao {
             entity = (Plane) session.selectOne(query, name);
         } catch (PersistenceException pe) {
             LOG.error(pe.getMessage());
+            throw pe;
         }
+        if (entity == null) throw new PlaneNotFoundException("Not found plane with name " + name);
         return entity;
     }
 }

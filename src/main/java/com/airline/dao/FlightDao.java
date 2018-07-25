@@ -1,5 +1,6 @@
 package com.airline.dao;
 
+import com.airline.exceptions.FlightNotFoundException;
 import com.airline.model.*;
 import com.airline.model.db.DepartureDB;
 import com.airline.model.db.PriceDB;
@@ -64,6 +65,7 @@ public class FlightDao {
 
         } catch (PersistenceException pe) {
             logger.error(pe.getMessage());
+            throw pe;
         }
         return flight.getId();
     }
@@ -75,7 +77,10 @@ public class FlightDao {
             entity = (Flight) session.selectOne(query, id);
         } catch (PersistenceException pe) {
             logger.error(pe.getMessage());
+            logger.info(pe.getCause().getLocalizedMessage());
+            throw pe;
         }
+        if (entity == null) throw new FlightNotFoundException("Not found flight with id " + id);
         return entity;
     }
 
@@ -133,6 +138,7 @@ public class FlightDao {
 
         } catch (PersistenceException pe) {
             logger.error(pe.getMessage());
+            throw pe;
         }
     }
 
@@ -142,6 +148,7 @@ public class FlightDao {
             session.delete(query, id);
         } catch (PersistenceException pe) {
             logger.error(pe.getMessage());
+            throw pe;
         }
     }
 
@@ -152,6 +159,7 @@ public class FlightDao {
             entities = session.selectList(query, flight);
         } catch (PersistenceException pe) {
             logger.error(pe.getMessage());
+            throw pe;
         }
         return entities;
 

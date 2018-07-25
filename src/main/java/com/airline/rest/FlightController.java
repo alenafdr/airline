@@ -1,8 +1,10 @@
 package com.airline.rest;
 
+import com.airline.exceptions.PlaneNotFoundException;
 import com.airline.model.dto.FlightDTO;
 import com.airline.model.dto.Schedule;
 import com.airline.service.FlightService;
+import org.apache.ibatis.exceptions.PersistenceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +26,6 @@ public class FlightController {
 
     private FlightService flightService;
 
-    public FlightController() {
-    }
-
     @Autowired
     public FlightController(FlightService flightService) {
         this.flightService = flightService;
@@ -46,12 +45,13 @@ public class FlightController {
         flightDTO.setToTown(toTown);
         flightDTO.setFlightName(flightName);
         flightDTO.setPlaneName(planeName);
+
         try {
             Schedule schedule = new Schedule();
             flightDTO.setSchedule(schedule);
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            flightDTO.getSchedule().setFromDate(format.parse(fromDate));
-            flightDTO.getSchedule().setFromDate(format.parse(toDate));
+            if (fromDate != null) flightDTO.getSchedule().setFromDate(format.parse(fromDate));
+            if (toDate != null) flightDTO.getSchedule().setFromDate(format.parse(toDate));
         } catch (ParseException pe){
             logger.error(pe.toString());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -71,6 +71,7 @@ public class FlightController {
 
         return new ResponseEntity<>(flightService.save(flightDTO), HttpStatus.OK);
     }
+
 
     @GetMapping(value = "{id}")
     public ResponseEntity<FlightDTO> read(@PathVariable("id") Long id) {

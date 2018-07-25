@@ -24,9 +24,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.math.BigDecimal;
 import java.sql.Time;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -66,7 +64,7 @@ public class FlightControllerTest {
         Schedule schedule = new Schedule();
         schedule.setFromDate(new Date());
         schedule.setToDate(new Date());
-        schedule.setPeriod("daily");
+        schedule.setPeriods(Collections.singletonList("daily"));
         flightDTO.setSchedule(schedule);
         flightDTO.setPlaneName("testPlane");
         flightDTO.setPriceBusiness(new BigDecimal("6666.00"));
