@@ -1,5 +1,7 @@
 package com.airline.dao;
 
+import com.airline.exceptions.ConnectDataBaseException;
+import com.airline.exceptions.DataBaseException;
 import com.airline.exceptions.PlaneNotFoundException;
 import com.airline.model.Plane;
 import org.apache.ibatis.exceptions.PersistenceException;
@@ -8,7 +10,10 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 @Component
 public class PlaneDao {
@@ -21,29 +26,35 @@ public class PlaneDao {
         this.sqlSessionFactory = sqlSessionFactory;
     }
 
-    public Plane findPlanetById(Long id){
+    public Optional<Plane> findPlanetById(Long id){
         Plane entity = null;
         try (SqlSession session = sqlSessionFactory.openSession()){
             String query = "PlaneMapper.findPlaneById";
             entity = (Plane) session.selectOne(query, id);
         } catch (PersistenceException pe) {
             LOG.error(pe.getMessage());
-            throw pe;
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+                throw new ConnectDataBaseException("No connection to database");
+            } else {
+                throw new DataBaseException("Database error");
+            }
         }
-        if (entity == null) throw new PlaneNotFoundException("Not found plane with id " + id);
-        return entity;
+        return Optional.ofNullable(entity);
     }
 
-    public Plane findPlaneByName(String name){
+    public Optional<Plane> findPlaneByName(String name){
         Plane entity = null;
         try (SqlSession session = sqlSessionFactory.openSession()){
             String query = "PlaneMapper.findPlaneByName";
             entity = (Plane) session.selectOne(query, name);
         } catch (PersistenceException pe) {
             LOG.error(pe.getMessage());
-            throw pe;
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+                throw new ConnectDataBaseException("No connection to database");
+            } else {
+                throw new DataBaseException("Database error");
+            }
         }
-        if (entity == null) throw new PlaneNotFoundException("Not found plane with name " + name);
-        return entity;
+        return Optional.ofNullable(entity);
     }
 }

@@ -105,6 +105,12 @@
 
     </select>
 
+    <select id="selectCountByName" resultType="int" parameterType="java.lang.String">
+        select count(flight_name)
+        from flights
+        where flight_name = #{s}
+    </select>
+
     <update id="updateFlight">
       update flights
       set

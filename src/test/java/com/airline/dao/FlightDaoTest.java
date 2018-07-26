@@ -49,7 +49,7 @@ public class FlightDaoTest {
 
     @Test
     public void selectFlightByIdTest(){
-        Flight flight = flightDao.findOne(1L);
+        Flight flight = flightDao.findOne(1L).get();
         logger.info(flight.toString());
         assertNotNull("flight is null", flight);
     }
@@ -60,6 +60,7 @@ public class FlightDaoTest {
         Plane plane = new Plane();
         plane.setName("ТУ-134");
         flight.setPlane(plane);
+        flight.setFlightName("53");
         List<Flight> flights = flightDao.listByParameters(flight);
         flights.forEach(item -> logger.info(item.getId().toString()));
     }
@@ -68,7 +69,7 @@ public class FlightDaoTest {
     public void insertFlightTest(){
         Flight newFlight = buildFlight();
         Long id = flightDao.save(newFlight);
-        Flight selectFlight = flightDao.findOne(id);
+        Flight selectFlight = flightDao.findOne(id).get();
         assertTrue(newFlight.getFlightName().equals(selectFlight.getFlightName()));
         assertTrue(newFlight.getStart().equals(selectFlight.getStart()));
         assertTrue(newFlight.getDuration().equals(selectFlight.getDuration()));
@@ -79,7 +80,7 @@ public class FlightDaoTest {
 
     @Test
     public void updateFlightTest(){
-        Flight flight = flightDao.findOne(1L);
+        Flight flight = flightDao.findOne(1L).get();
         flight.setFlightName("Test");
         flight.setStart(Time.valueOf("11:11:11"));
         flight.setDuration(Time.valueOf("11:11:11"));
@@ -90,7 +91,7 @@ public class FlightDaoTest {
         flight.getPeriods().get(0).setId(5L);
 
         flightDao.update(flight);
-        Flight flightNew = flightDao.findOne(1L);
+        Flight flightNew = flightDao.findOne(1L).get();
 
         assertTrue(flightNew.getStart().equals(Time.valueOf("11:11:11")));
         assertTrue(flightNew.getDuration().equals(Time.valueOf("11:11:11")));
@@ -101,9 +102,14 @@ public class FlightDaoTest {
         assertTrue(flightNew.getPeriods().get(0).getId().equals(5L));
     }
 
+    @Test
+    public void test() {
+
+    }
+
     public Flight buildFlight(){
         Flight flight = new Flight();
-        flight.setFlightName("test");
+        flight.setFlightName("158");
         flight.setFromTown("test");
         flight.setToTown("test");
         flight.setStart(Time.valueOf("07:30:00"));
@@ -111,7 +117,7 @@ public class FlightDaoTest {
         flight.setFromDate(new Date());
         flight.setToDate(new Date());
 
-        flight.setPlane(planeDao.findPlanetById(1L));
+        flight.setPlane(planeDao.findPlanetById(1L).get());
 
         List<Price> prices = new ArrayList<>();
         prices.add(new Price(classTypeDao.findClassTypeById(1L), new BigDecimal("3333.00")));

@@ -28,6 +28,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 
@@ -58,7 +59,7 @@ public class FlightServiceTest {
         FlightServiceImpl flightService = new FlightServiceImpl(flightDao, flightDTOMapper, planeDao, periodDao, classTypeDao);
         FlightDTO flightDTO = buildFlight();
 
-        when(planeDao.findPlaneByName("testPlane")).thenReturn(new Plane(1L, "testPlane", 2,2,2,4));
+        when(planeDao.findPlaneByName("testPlane")).thenReturn(Optional.ofNullable(new Plane(1L, "testPlane", 2,2,2,4)));
         when(periodDao.selectPeriodByValue("Thu")).thenReturn(new Period(30L, "Thu"));
         when(periodDao.selectPeriodByValue("Fri")).thenReturn(new Period(32L, "Fri"));
         when(classTypeDao.findClassTypeByName(ClassTypeEnum.BUSINESS.name())).thenReturn(new ClassType(1L, ClassTypeEnum.BUSINESS.name()));

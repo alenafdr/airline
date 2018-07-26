@@ -5,6 +5,9 @@ import com.airline.dao.FlightDao;
 import com.airline.dao.PeriodDao;
 import com.airline.dao.PlaneDao;
 import com.airline.dtomapper.FlightDTOMapper;
+import com.airline.exceptions.AlreadyExistsException;
+import com.airline.exceptions.FlightNotFoundException;
+import com.airline.exceptions.PlaneNotFoundException;
 import com.airline.model.*;
 import com.airline.model.dto.FlightDTO;
 import com.airline.utils.Utils;
@@ -17,9 +20,13 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-
+/**
+ * Used for communication between controllers and a database,
+ * for building object {@link Flight} from {@link FlightDTO}
+ */
 @Service
 public class FlightServiceImpl implements FlightService {
 
@@ -44,9 +51,10 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public List<FlightDTO> listByParameters(FlightDTO flightDTO) {
-
+        Plane plane = planeDao.findPlaneByName(flightDTO.getPlaneName())
+                .orElseThrow(() -> new PlaneNotFoundException("Not found plane with name " + flightDTO.getPlaneName()));
         Flight flight = flightDTOMapper.convertToEntity(flightDTO,
-                planeDao.findPlaneByName(flightDTO.getPlaneName()),
+                plane,
                 null,
                 null,
                 null);
@@ -58,6 +66,9 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public FlightDTO save(FlightDTO flightDTO) {
+        if (flightDao.selectCountByName(flightDTO.getFlightName()) != 0) {
+            throw new AlreadyExistsException("Flight with name " + flightDTO.getFlightName() + " already exists");
+        }
         Flight flight = buildDependencies(flightDTO);
         flightDao.save(flight);
         return flightDTOMapper.convertToDTO(flight);
@@ -78,11 +89,13 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public FlightDTO getById(Long id) {
-        return flightDTOMapper.convertToDTO(flightDao.findOne(id));
+        return flightDTOMapper.convertToDTO(flightDao.findOne(id)
+                .orElseThrow(() -> new FlightNotFoundException("Not found flight with id " + id)));
     }
 
     private Flight buildDependencies(FlightDTO flightDTO) {
-        Plane plane = planeDao.findPlaneByName(flightDTO.getPlaneName());
+        Plane plane = planeDao.findPlaneByName(flightDTO.getPlaneName())
+                .orElseThrow(() -> new PlaneNotFoundException("Not found plane with name " + flightDTO.getPlaneName()));
 
         List<Price> prices = new ArrayList<>();
         prices.add(new Price(classTypeDao.findClassTypeByName(ClassTypeEnum.BUSINESS.name()),
@@ -112,7 +125,9 @@ public class FlightServiceImpl implements FlightService {
         LocalDate localDateStart = dateStart.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate localDateEnd = dateEnd.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         List<LocalDate> localDates = Utils.getDatesBetween(localDateStart, localDateEnd);
-        List<String> values = periods.stream().map(period -> period.getValue()).collect(Collectors.toList());
+        List<String> values = periods.stream()
+                .map(Period::getValue)
+                .collect(Collectors.toList());
         String value = values.get(0);
         List<Date> dates = null;
         if (value.equalsIgnoreCase("daily")) {
@@ -130,7 +145,9 @@ public class FlightServiceImpl implements FlightService {
             dates = getDatesByDaysOfWeek(Utils.getDaysOfWeekByString(values), localDates);
         }
 
-        return dates.stream().map(date -> new Departure(date)).collect(Collectors.toList());
+        return dates.stream()
+                .map(Departure::new)
+                .collect(Collectors.toList());
     }
 
 
