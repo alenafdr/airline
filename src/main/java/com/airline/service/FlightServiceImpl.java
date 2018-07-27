@@ -121,7 +121,7 @@ public class FlightServiceImpl implements FlightService {
         return flightDTOMapper.convertToEntity(flightDTO, plane, prices, periods, departures);
     }
 
-    private List<Departure> createDepartureByPeriods(List<Period> periods, Date dateStart, Date dateEnd) {
+    public List<Departure> createDepartureByPeriods(List<Period> periods, Date dateStart, Date dateEnd) {
         LocalDate localDateStart = dateStart.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate localDateEnd = dateEnd.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         List<LocalDate> localDates = Utils.getDatesBetween(localDateStart, localDateEnd);

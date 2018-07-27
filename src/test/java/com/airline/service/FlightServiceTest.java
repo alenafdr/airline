@@ -5,16 +5,12 @@ import com.airline.dao.FlightDao;
 import com.airline.dao.PeriodDao;
 import com.airline.dao.PlaneDao;
 import com.airline.dtomapper.FlightDTOMapper;
-import com.airline.model.ClassType;
-import com.airline.model.ClassTypeEnum;
-import com.airline.model.Period;
-import com.airline.model.Plane;
+import com.airline.model.*;
 import com.airline.model.dto.FlightDTO;
 import com.airline.model.dto.Schedule;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,11 +21,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.math.BigDecimal;
 import java.sql.Time;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
 
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -53,10 +49,17 @@ public class FlightServiceTest {
     @MockBean
     private ClassTypeDao classTypeDao;
 
+    private FlightServiceImpl flightService;
+
+    @Before
+    public void init(){
+        FlightDTOMapper flightDTOMapper = new FlightDTOMapper(modelMapper);
+        flightService = new FlightServiceImpl(flightDao, flightDTOMapper, planeDao, periodDao, classTypeDao);
+    }
+
     @Test
     public void saveFlightTest(){
-        FlightDTOMapper flightDTOMapper = new FlightDTOMapper(modelMapper);
-        FlightServiceImpl flightService = new FlightServiceImpl(flightDao, flightDTOMapper, planeDao, periodDao, classTypeDao);
+
         FlightDTO flightDTO = buildFlight();
 
         when(planeDao.findPlaneByName("testPlane")).thenReturn(Optional.ofNullable(new Plane(1L, "testPlane", 2,2,2,4)));
@@ -67,6 +70,41 @@ public class FlightServiceTest {
 
         logger.info(flightService.save(flightDTO).toString());
 
+    }
+
+    @Test
+    public void createDepartureByDayOfWeekTest(){
+        List<Period> periodList = new ArrayList<>();
+        periodList.add(new Period(30L, "Thu"));
+        periodList.add(new Period(32L, "Fri"));
+
+        Date dateStart = new Date();
+        Date dateEnd = new Date(dateStart.getTime() + 14*24*60*60*1000);
+
+        List<Departure> departures = flightService.createDepartureByPeriods(periodList, dateStart, dateEnd);
+        for (Departure departure : departures){
+            LocalDate localDate = departure.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            String dayOfWeek = localDate.getDayOfWeek().name();
+            assertTrue(dayOfWeek.equalsIgnoreCase("THURSDAY") || dayOfWeek.equalsIgnoreCase("FRIDAY"));
+        }
+
+    }
+
+    @Test
+    public void createDepartureByNumbersDayTest(){
+        List<Period> periodList = new ArrayList<>();
+        periodList.add(new Period(1L, "1"));
+        periodList.add(new Period(15L, "15"));
+
+        Date dateStart = new Date();
+        Date dateEnd = new Date(dateStart.getTime() + 30*24*60*60*1000L);
+
+        List<Departure> departures = flightService.createDepartureByPeriods(periodList, dateStart, dateEnd);
+        for (Departure departure : departures){
+            LocalDate localDate = departure.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            int dayOfMount = localDate.getDayOfMonth();
+            assertTrue(dayOfMount == 1 || dayOfMount == 15);
+        }
     }
 
     private FlightDTO buildFlight(){
