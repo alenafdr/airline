@@ -35,6 +35,8 @@
         <mapper resource="mappers/PriceMapper.xml"/>
 		<mapper resource="mappers/PeriodMapper.xml"/>
 		<mapper resource="mappers/DepartureMapper.xml"/>
+		<mapper resource="mappers/AdminMapper.xml"/>
+		<mapper resource="mappers/ClientMapper.xml"/>
 	</mappers>
 
 </configuration>
