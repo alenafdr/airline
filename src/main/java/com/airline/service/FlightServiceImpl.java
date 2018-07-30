@@ -11,6 +11,9 @@ import com.airline.exceptions.PlaneNotFoundException;
 import com.airline.model.*;
 import com.airline.model.dto.FlightDTO;
 import com.airline.utils.Utils;
+import liquibase.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +32,8 @@ import java.util.stream.Collectors;
  */
 @Service
 public class FlightServiceImpl implements FlightService {
+
+    private static final Logger logger = LoggerFactory.getLogger(FlightServiceImpl.class);
 
     private FlightDao flightDao;
     private FlightDTOMapper flightDTOMapper;

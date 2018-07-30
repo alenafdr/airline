@@ -87,7 +87,11 @@ public class FlightDao {
 
         }  catch (PersistenceException pe) {
             logger.error(pe.getMessage());
-
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+                throw new ConnectDataBaseException("No connection to database");
+            } else {
+                throw new DataBaseException("Database error");
+            }
         }
         return flight.getId();
     }
