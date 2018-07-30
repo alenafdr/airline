@@ -32,9 +32,9 @@ public class DepartureDao {
         }
     }
 
-    public List<Departure> selectDepartureByFlightId(Long id){
+    public List<Departure> selectDepartureByFlightId(Long id) {
         List<Departure> entities = null;
-        try (SqlSession session = sqlSessionFactory.openSession();){
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "DepartureMapper.selectDeparturesByFlightId";
             entities = session.selectList(query, id);
         } catch (PersistenceException pe) {

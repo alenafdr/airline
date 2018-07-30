@@ -8,6 +8,9 @@ public class BasedUserDTO {
     protected String lastName;
     protected String patronymic;
     protected String userType;
+
+    @JsonIgnore
+    protected String login;
     @JsonIgnore
     protected String password;
 
@@ -49,6 +52,14 @@ public class BasedUserDTO {
 
     public void setUserType(String userType) {
         this.userType = userType;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getPassword() {

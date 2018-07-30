@@ -52,7 +52,7 @@ public class FlightController {
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             flightDTO.getSchedule().setFromDate(format.parse(fromDate));
             flightDTO.getSchedule().setFromDate(format.parse(toDate));
-        } catch (ParseException pe){
+        } catch (ParseException pe) {
             logger.error(pe.toString());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -65,7 +65,7 @@ public class FlightController {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<FlightDTO> create(@RequestBody FlightDTO flightDTO) {
 
-        if(flightDTO == null){
+        if (flightDTO == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -75,7 +75,7 @@ public class FlightController {
     @GetMapping(value = "{id}")
     public ResponseEntity<FlightDTO> read(@PathVariable("id") Long id) {
         FlightDTO flightDTO = flightService.getById(id);
-        if(flightDTO == null){
+        if (flightDTO == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(flightDTO, HttpStatus.OK);
@@ -85,8 +85,8 @@ public class FlightController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<FlightDTO> update(@PathVariable("id") Long id,
-                                         @RequestBody FlightDTO flightDTO) {
-        if(flightDTO == null){
+                                            @RequestBody FlightDTO flightDTO) {
+        if (flightDTO == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         flightDTO.setId(id);
@@ -100,7 +100,7 @@ public class FlightController {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<FlightDTO> delete(@PathVariable("id") Long id) {
         FlightDTO flightDTO = flightService.getById(id);
-        if(flightDTO == null){
+        if (flightDTO == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         flightService.delete(id);

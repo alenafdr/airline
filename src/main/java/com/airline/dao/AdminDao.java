@@ -23,8 +23,8 @@ public class AdminDao {
         this.sqlSessionFactory = sqlSessionFactory;
     }
 
-    public Long save(UserAdmin userAdmin){
-        try (SqlSession session = sqlSessionFactory.openSession()){
+    public Long save(UserAdmin userAdmin) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "AdminMapper.insertAdmin";
             session.insert(query, userAdmin);
         } catch (PersistenceException pe) {
@@ -38,8 +38,8 @@ public class AdminDao {
         return userAdmin.getId();
     }
 
-    public void update(UserAdmin userAdmin){
-        try (SqlSession session = sqlSessionFactory.openSession()){
+    public void update(UserAdmin userAdmin) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "AdminMapper.updateAdmin";
             session.update(query, userAdmin);
         } catch (PersistenceException pe) {
@@ -52,9 +52,9 @@ public class AdminDao {
         }
     }
 
-    public Optional<UserAdmin> findByLogin(String login){
+    public Optional<UserAdmin> findByLogin(String login) {
         UserAdmin userAdmin = null;
-        try (SqlSession session = sqlSessionFactory.openSession()){
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "AdminMapper.findAdminByLogin";
             userAdmin = (UserAdmin) session.selectOne(query, login);
         } catch (PersistenceException pe) {

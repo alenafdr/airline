@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
         if (userClient.isPresent()) {
             entity = userClientMapper.convertToDTO(userClient.get());
         } else {
-            Optional<UserAdmin>userAdmin = adminDao.findByLogin(login);
+            Optional<UserAdmin> userAdmin = adminDao.findByLogin(login);
             entity = userAdminMapper.convertToDTO(adminDao.findByLogin(login)
                     .orElseThrow(() -> new LoginNotFoundException("Not found user with login " + login)));
         }

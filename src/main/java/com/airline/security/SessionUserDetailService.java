@@ -35,10 +35,10 @@ public class SessionUserDetailService implements UserDetailsService {
         Optional<UserClient> userClient = clientDao.findByLogin(s);
         Optional<UserAdmin> userAdmin = adminDao.findByLogin(s);
         Set<GrantedAuthority> authorities = new HashSet<>();
-        if (userClient.isPresent()){
+        if (userClient.isPresent()) {
             authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
             user = userClient.get();
-        } else if (userAdmin.isPresent()){
+        } else if (userAdmin.isPresent()) {
             authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
             user = userAdmin.get();
         } else {

@@ -72,7 +72,7 @@ public class FlightServiceImpl implements FlightService {
         return flightDTOMapper.convertToDTO(flightDao.findOne(id));
     }
 
-    private Flight buildDependencies(FlightDTO flightDTO){
+    private Flight buildDependencies(FlightDTO flightDTO) {
         Plane plane = planeDao.findPlaneByName(flightDTO.getPlaneName());
 
         List<Price> prices = new ArrayList<>();
@@ -81,7 +81,7 @@ public class FlightServiceImpl implements FlightService {
 
         List<Period> periods = new ArrayList<>();
         Arrays.asList(flightDTO.getSchedule().getPeriod()
-                .replace(" ","")
+                .replace(" ", "")
                 .split(","))
                 .forEach(s -> periods.add(periodDao.selectPeriodByValue(s)));
 

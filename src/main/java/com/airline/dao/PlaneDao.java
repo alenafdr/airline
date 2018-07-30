@@ -20,9 +20,9 @@ public class PlaneDao {
         this.sqlSessionFactory = sqlSessionFactory;
     }
 
-    public Plane findPlanetById(Long id){
+    public Plane findPlanetById(Long id) {
         Plane entity = null;
-        try (SqlSession session = sqlSessionFactory.openSession()){
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "PlaneMapper.findPlaneById";
             entity = (Plane) session.selectOne(query, id);
         } catch (PersistenceException pe) {
@@ -31,9 +31,9 @@ public class PlaneDao {
         return entity;
     }
 
-    public Plane findPlaneByName(String name){
+    public Plane findPlaneByName(String name) {
         Plane entity = null;
-        try (SqlSession session = sqlSessionFactory.openSession()){
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "PlaneMapper.findPlaneByName";
             entity = (Plane) session.selectOne(query, name);
         } catch (PersistenceException pe) {

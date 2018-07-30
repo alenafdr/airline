@@ -23,8 +23,8 @@ public class ClientDao {
         this.sqlSessionFactory = sqlSessionFactory;
     }
 
-    public Long save(UserClient userClient){
-        try (SqlSession session = sqlSessionFactory.openSession()){
+    public Long save(UserClient userClient) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "ClientMapper.insertClient";
             session.insert(query, userClient);
         } catch (PersistenceException pe) {
@@ -38,8 +38,8 @@ public class ClientDao {
         return userClient.getId();
     }
 
-    public void update(UserClient userClient){
-        try (SqlSession session = sqlSessionFactory.openSession()){
+    public void update(UserClient userClient) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "ClientMapper.updateClient";
             session.update(query, userClient);
         } catch (PersistenceException pe) {
@@ -52,9 +52,9 @@ public class ClientDao {
         }
     }
 
-    public Optional<UserClient> findByLogin(String login){
+    public Optional<UserClient> findByLogin(String login) {
         UserClient userClient = null;
-        try (SqlSession session = sqlSessionFactory.openSession()){
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "ClientMapper.findClientByLogin";
             userClient = (UserClient) session.selectOne(query, login);
         } catch (PersistenceException pe) {

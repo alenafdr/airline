@@ -36,6 +36,7 @@ public class UserClientDTO extends BasedUserDTO {
                 ", lastName='" + lastName + '\'' +
                 ", patronymic='" + patronymic + '\'' +
                 ", userType='" + userType + '\'' +
+                ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }

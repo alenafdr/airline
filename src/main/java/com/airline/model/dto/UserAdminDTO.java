@@ -1,6 +1,6 @@
 package com.airline.model.dto;
 
-public class UserAdminDTO extends BasedUserDTO{
+public class UserAdminDTO extends BasedUserDTO {
     private String position;
 
     public UserAdminDTO() {
@@ -19,12 +19,13 @@ public class UserAdminDTO extends BasedUserDTO{
     @Override
     public String toString() {
         return "UserAdminDTO{" +
-                "id=" + id +
+                "position='" + position + '\'' +
+                ", id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", patronymic='" + patronymic + '\'' +
-                ", position='" + position + '\'' +
                 ", userType='" + userType + '\'' +
+                ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }

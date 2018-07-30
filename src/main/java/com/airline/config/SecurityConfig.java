@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public AuthenticationProvider cookieAuthenticationProvider(UserDetailsService userDetailsService){
+    public AuthenticationProvider cookieAuthenticationProvider(UserDetailsService userDetailsService) {
         return new SessionAuthenticationProvider(userDetailsService);
     }
 

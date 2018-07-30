@@ -16,11 +16,11 @@ public class UserAdminMapper {
         this.modelMapper = modelMapper;
     }
 
-    public UserAdminDTO convertToDTO(UserAdmin userAdmin){
+    public UserAdminDTO convertToDTO(UserAdmin userAdmin) {
         return modelMapper.map(userAdmin, UserAdminDTO.class);
     }
 
-    public UserAdmin converToEntity(UserAdminDTO userAdminDTO){
+    public UserAdmin converToEntity(UserAdminDTO userAdminDTO) {
         return modelMapper.map(userAdminDTO, UserAdmin.class);
     }
 }
