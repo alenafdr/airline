@@ -26,6 +26,11 @@
         from period
         where period.id = #{id}
     </select>
+    <select id="selectPeriodByValue" resultMap="PeriodResultMap">
+        select *
+        from period
+        where period.value like #{value}
+    </select>
     <select id="selectPeriodsByFlightId" resultMap="PeriodResultMap">
         select
         period.id,

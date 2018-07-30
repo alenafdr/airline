@@ -13,6 +13,20 @@ public class Plane {
     public Plane() {
     }
 
+    public Plane(Long id,
+                 String name,
+                 int businessRow,
+                 int economyRow,
+                 int placesInBusinessRow,
+                 int placesInEconomyRow) {
+        this.id = id;
+        this.name = name;
+        this.businessRow = businessRow;
+        this.economyRow = economyRow;
+        this.placesInBusinessRow = placesInBusinessRow;
+        this.placesInEconomyRow = placesInEconomyRow;
+    }
+
     public Long getId() {
         return id;
     }

@@ -11,6 +11,7 @@ public class DepartureDB extends Departure {
         super(d.getId(), d.getDate(), d.getFlight());
     }
 
+    //most be compared by flight.id and date??
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

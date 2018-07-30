@@ -1,18 +1,25 @@
 package com.airline.dao;
 
+import com.airline.exceptions.ConnectDataBaseException;
+import com.airline.exceptions.DataBaseException;
+import com.airline.exceptions.FlightNotFoundException;
 import com.airline.model.*;
 import com.airline.model.db.DepartureDB;
 import com.airline.model.db.PriceDB;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.postgresql.util.PSQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class FlightDao {
@@ -33,6 +40,22 @@ public class FlightDao {
         this.priceDao = priceDao;
         this.periodDao = periodDao;
         this.departureDao = departureDao;
+    }
+
+    public int selectCountByName(String s){
+        int count;
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            String query = "FlightMapper.selectCountByName";
+            count = (int) session.selectOne(query, s);
+        } catch (PersistenceException pe) {
+            logger.error(pe.getMessage());
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+                throw new ConnectDataBaseException("No connection to database");
+            } else {
+                throw new DataBaseException("Database error");
+            }
+        }
+        return count;
     }
 
     @Transactional
@@ -62,26 +85,38 @@ public class FlightDao {
                 }
             }
 
-        } catch (PersistenceException pe) {
+        }  catch (PersistenceException pe) {
             logger.error(pe.getMessage());
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+                throw new ConnectDataBaseException("No connection to database");
+            } else {
+                throw new DataBaseException("Database error");
+            }
         }
         return flight.getId();
     }
 
-    public Flight findOne(Long id) {
+    public Optional<Flight> findOne(Long id) {
         Flight entity = null;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "FlightMapper.selectFlightById";
             entity = (Flight) session.selectOne(query, id);
         } catch (PersistenceException pe) {
             logger.error(pe.getMessage());
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+                throw new ConnectDataBaseException("No connection to database");
+            } else {
+                throw new DataBaseException("Database error");
+            }
         }
-        return entity;
+
+        return Optional.ofNullable(entity);
     }
 
     @Transactional
     public void update(Flight flightNew) {
-        Flight flightOld = findOne(flightNew.getId());
+        Flight flightOld = findOne(flightNew.getId())
+                .orElseThrow(() -> new FlightNotFoundException("Not found flight with id " + flightNew.getId()));
 
         try (SqlSession session = sqlSessionFactory.openSession()) {
 
@@ -92,14 +127,12 @@ public class FlightDao {
             for (PriceDB priceDB : flightOld.getPricesDB()) {
                 priceDB.setFlight(flightNew);
                 if (!flightNew.getPricesDB().contains(priceDB)) {
-                    logger.info("delete " + priceDB);
                     priceDao.delete(priceDB);
                 }
             }
 
             for (Price price : flightNew.getPrices()) {
                 price.setFlight(flightNew);
-                logger.info("update " + price);
                 priceDao.update(price);
             }
 
@@ -120,19 +153,23 @@ public class FlightDao {
             for (DepartureDB departureDB : flightOld.getDeparturesDB()) {
                 departureDB.setFlight(flightNew);
                 if (!flightNew.getDeparturesDB().contains(departureDB)) {
-                    logger.info("delete " + departureDB);
+
                     departureDao.delete(departureDB.getId());
                 }
             }
 
             for (Departure departure : flightNew.getDepartures()) {
-                logger.info("update " + departure);
                 departure.setFlight(flightNew);
                 departureDao.update(departure);
             }
 
         } catch (PersistenceException pe) {
             logger.error(pe.getMessage());
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+                throw new ConnectDataBaseException("No connection to database");
+            } else {
+                throw new DataBaseException("Database error");
+            }
         }
     }
 
@@ -142,6 +179,11 @@ public class FlightDao {
             session.delete(query, id);
         } catch (PersistenceException pe) {
             logger.error(pe.getMessage());
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+                throw new ConnectDataBaseException("No connection to database");
+            } else {
+                throw new DataBaseException("Database error");
+            }
         }
     }
 
@@ -152,6 +194,11 @@ public class FlightDao {
             entities = session.selectList(query, flight);
         } catch (PersistenceException pe) {
             logger.error(pe.getMessage());
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+                throw new ConnectDataBaseException("No connection to database");
+            } else {
+                throw new DataBaseException("Database error");
+            }
         }
         return entities;
 

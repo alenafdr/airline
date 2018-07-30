@@ -13,6 +13,17 @@
         from planes
         where plane_id = #{id};
     </select>
+    <select id="findPlaneByName" resultMap="PlaneResultMap">
+        select
+        plane_id,
+        name,
+        bussiness_row,
+        economy_row,
+        places_in_business_row,
+        places_in_economy_row
+        from planes
+        where name like #{name};
+    </select>
     <resultMap id="PlaneResultMap" type="Plane">
         <id property="id" column="plane_id" />
         <result property="name" column="name"/>

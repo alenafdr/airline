@@ -58,6 +58,17 @@ public class PeriodDao {
         return entity;
     }
 
+    public Period selectPeriodByValue(String value){
+        Period entity = null;
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            String query = "PeriodMapper.selectPeriodByValue";
+            entity = session.selectOne(query, value);
+        } catch (PersistenceException pe) {
+            LOG.error(pe.getMessage());
+        }
+        return entity;
+    }
+
     public void savePeriodForFlight(PeriodFlight periodFlight) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "PeriodMapper.insertPeriodForFlight";
