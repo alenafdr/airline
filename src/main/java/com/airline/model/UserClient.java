@@ -1,6 +1,6 @@
 package com.airline.model;
 
-public class UserClient extends BasedUserEntity {
+public class UserClient extends UserEntity {
     private String email;
     private String phone;
 

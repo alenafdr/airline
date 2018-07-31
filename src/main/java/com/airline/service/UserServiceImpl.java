@@ -5,8 +5,8 @@ import com.airline.dao.ClientDao;
 import com.airline.dtomapper.UserAdminMapper;
 import com.airline.dtomapper.UserClientMapper;
 import com.airline.exceptions.LoginNotFoundException;
-import com.airline.model.UserAdmin;
 import com.airline.model.UserClient;
+import com.airline.model.dto.UserEntityDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,15 +32,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Object getUserByLogin(String login) {
-        Object entity;
-        Optional<UserClient> userClient = clientDao.findByLogin(login);
+    public UserEntityDTO getUserByLogin(String login) {
+        String loginLC = login.toLowerCase();
+        UserEntityDTO entity;
+        Optional<UserClient> userClient = clientDao.findByLogin(loginLC);
         if (userClient.isPresent()) {
             entity = userClientMapper.convertToDTO(userClient.get());
         } else {
-            Optional<UserAdmin> userAdmin = adminDao.findByLogin(login);
-            entity = userAdminMapper.convertToDTO(adminDao.findByLogin(login)
-                    .orElseThrow(() -> new LoginNotFoundException("Not found user with login " + login)));
+            entity = userAdminMapper.convertToDTO(adminDao.findByLogin(loginLC)
+                    .orElseThrow(() -> new LoginNotFoundException("Not found user with login " + loginLC)));
         }
         return entity;
     }

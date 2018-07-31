@@ -4,17 +4,14 @@ import com.airline.config.SecurityConfig;
 import com.airline.dao.AdminDao;
 import com.airline.dao.ClientDao;
 import com.airline.exceptions.SessionIsNotAuthorizedException;
-import com.airline.model.UserAdmin;
 import com.airline.model.UserClient;
 import com.airline.model.dto.FlightDTO;
-import com.airline.model.dto.Schedule;
 import com.airline.model.dto.UserClientDTO;
+import com.airline.model.dto.UserEntityDTO;
 import com.airline.rest.FlightController;
 import com.airline.rest.SessionController;
 import com.airline.security.SessionUserDetailService;
 import com.airline.service.UserService;
-import org.json.JSONObject;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,27 +23,24 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-import java.math.BigDecimal;
-import java.sql.Time;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {SecurityConfig.class, SessionUserDetailService.class})
 @WebMvcTest(value = SessionController.class)
+@ContextConfiguration(classes = {SecurityConfig.class, SessionUserDetailService.class, SessionController.class})
 public class SessionControllerTest {
 
     private static final Logger logger = LoggerFactory.getLogger(SessionControllerTest.class);
@@ -84,21 +78,29 @@ public class SessionControllerTest {
 
     @Test
     public void sessionIsAuthorized() throws Exception{
+        MockHttpSession mockSession = new MockHttpSession();
+
         when(clientDao.findByLogin(USER_LOGIN)).thenReturn(buildOptionalUserClient());
         when(userService.getUserByLogin(USER_LOGIN)).thenReturn(buildDTOUser());
         when(flightController.read(1L)).thenReturn(buildFlight());
 
         RequestBuilder requestBuilder = post(
                 "/api/session/")
+                .session(mockSession)
                 .contentType(MediaType.APPLICATION_JSON)
-                .param("login", USER_LOGIN)
-                .param("password", USER_PASSWORD)
+                .content(createUserJson())
                 .accept(MediaType.APPLICATION_JSON);
 
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
         logger.info(result.getResponse().getContentAsString());
 
+        requestBuilder = MockMvcRequestBuilders.get("/api/flights/1")
+                .session(mockSession)
+                .accept(MediaType.APPLICATION_JSON);
+        result = mockMvc.perform(requestBuilder).andReturn();
+
+        logger.info(result.getResponse().getContentAsString());
     }
 
     private Optional<UserClient> buildOptionalUserClient(){
@@ -108,7 +110,7 @@ public class SessionControllerTest {
         return Optional.of(userClient);
     }
 
-    private Object buildDTOUser(){
+    private UserEntityDTO buildDTOUser(){
         UserClientDTO userClientDTO = new UserClientDTO();
         userClientDTO.setLogin(USER_LOGIN);
         userClientDTO.setPassword(USER_PASSWORD);

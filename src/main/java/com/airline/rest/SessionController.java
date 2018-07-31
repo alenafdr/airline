@@ -1,6 +1,6 @@
 package com.airline.rest;
 
-import com.airline.model.dto.BasedUserDTO;
+import com.airline.model.dto.UserEntityDTO;
 import com.airline.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +30,7 @@ public class SessionController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<String> test() {
+        logger.info("!!!!!!!!!!!!!!");
         return new ResponseEntity<>("test", HttpStatus.OK);
     }
 
@@ -37,18 +38,16 @@ public class SessionController {
     @PostMapping(value = "",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Object> login(HttpServletRequest request,
+    public ResponseEntity<UserEntityDTO> login(HttpServletRequest request,
                                         @RequestBody Map<String, String> json) {
         String login = json.get("login");
-        Object user = userService.getUserByLogin(login);
-        BasedUserDTO basedUserDTO = (BasedUserDTO) user;
-        if (basedUserDTO.getPassword().equals(json.get("password"))) {
-            request.getSession().setAttribute("login", login);
+        UserEntityDTO userEntityDTO = userService.getUserByLogin(login);
+        if (userEntityDTO.getPassword().equals(json.get("password"))) {
+            request.getSession().setAttribute("login", userEntityDTO.getLogin());
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return new ResponseEntity<>(userEntityDTO, HttpStatus.OK);
     }
 
 

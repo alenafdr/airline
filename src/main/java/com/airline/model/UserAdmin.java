@@ -1,6 +1,6 @@
 package com.airline.model;
 
-public class UserAdmin extends BasedUserEntity {
+public class UserAdmin extends UserEntity {
     private String position;
 
     public UserAdmin() {

@@ -1,6 +1,6 @@
 package com.airline.model.dto;
 
-public class UserClientDTO extends BasedUserDTO {
+public class UserClientDTO extends UserEntityDTO {
 
     private String email;
     private String phone;

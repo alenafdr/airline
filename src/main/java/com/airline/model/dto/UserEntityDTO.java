@@ -2,7 +2,7 @@ package com.airline.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class BasedUserDTO {
+public class UserEntityDTO {
     protected Long id;
     protected String firstName;
     protected String lastName;
@@ -68,5 +68,18 @@ public class BasedUserDTO {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "UserEntityDTO{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", patronymic='" + patronymic + '\'' +
+                ", userType='" + userType + '\'' +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

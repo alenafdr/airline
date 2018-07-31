@@ -1,6 +1,6 @@
 package com.airline.model.dto;
 
-public class UserAdminDTO extends BasedUserDTO {
+public class UserAdminDTO extends UserEntityDTO {
     private String position;
 
     public UserAdminDTO() {

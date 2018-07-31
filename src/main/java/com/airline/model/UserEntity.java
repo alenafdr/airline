@@ -1,6 +1,6 @@
 package com.airline.model;
 
-public class BasedUserEntity {
+public class UserEntity {
     protected Long id;
     protected String firstName;
     protected String lastName;
@@ -8,7 +8,7 @@ public class BasedUserEntity {
     protected String login;
     protected String password;
 
-    public BasedUserEntity() {
+    public UserEntity() {
     }
 
     public Long getId() {

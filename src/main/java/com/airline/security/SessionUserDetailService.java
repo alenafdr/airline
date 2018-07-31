@@ -2,7 +2,7 @@ package com.airline.security;
 
 import com.airline.dao.AdminDao;
 import com.airline.dao.ClientDao;
-import com.airline.model.BasedUserEntity;
+import com.airline.model.UserEntity;
 import com.airline.model.UserAdmin;
 import com.airline.model.UserClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class SessionUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        BasedUserEntity user;
+        UserEntity user;
         Optional<UserClient> userClient = clientDao.findByLogin(s);
         Optional<UserAdmin> userAdmin = adminDao.findByLogin(s);
         Set<GrantedAuthority> authorities = new HashSet<>();
