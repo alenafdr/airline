@@ -26,15 +26,6 @@ public class SessionController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/test",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<String> test() {
-        logger.info("!!!!!!!!!!!!!!");
-        return new ResponseEntity<>("test", HttpStatus.OK);
-    }
-
-
     @PostMapping(value = "",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -42,7 +33,6 @@ public class SessionController {
                                         @RequestBody Map<String, String> json) {
         String login = json.get("login");
         UserEntityDTO userEntityDTO = userService.getUserByLogin(login);
-        logger.info("!!!!!" + userEntityDTO.toString());
         if (userEntityDTO.getPassword().equals(json.get("password"))) {
             request.getSession().setAttribute("login", userEntityDTO.getLogin());
         } else {
