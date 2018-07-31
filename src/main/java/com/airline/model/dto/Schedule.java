@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.List;
 
 public class Schedule {
 
@@ -18,7 +19,7 @@ public class Schedule {
     @ApiModelProperty(dataType = "java.lang.String", example = "YYYY-MM-DD")
     private Date toDate;
 
-    private String period;
+    private List<String> periods;
 
     public Schedule() {
     }
@@ -39,12 +40,12 @@ public class Schedule {
         this.toDate = toDate;
     }
 
-    public String getPeriod() {
-        return period;
+    public List<String> getPeriods() {
+        return periods;
     }
 
-    public void setPeriod(String period) {
-        this.period = period;
+    public void setPeriods(List<String> periods) {
+        this.periods = periods;
     }
 
     @Override
@@ -52,7 +53,7 @@ public class Schedule {
         return "Schedule{" +
                 "fromDate=" + fromDate +
                 ", toDate=" + toDate +
-                ", period='" + period + '\'' +
+                ", periods=" + periods +
                 '}';
     }
 }

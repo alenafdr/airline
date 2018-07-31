@@ -3,6 +3,8 @@ package com.airline.rest;
 import com.airline.model.dto.FlightDTO;
 import com.airline.model.dto.Schedule;
 import com.airline.service.FlightService;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+
 @RestController()
 @RequestMapping(value = "/api/flights/")
 public class FlightController {
@@ -24,15 +27,17 @@ public class FlightController {
 
     private FlightService flightService;
 
-    public FlightController() {
-    }
-
     @Autowired
     public FlightController(FlightService flightService) {
         this.flightService = flightService;
     }
 
 
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully retrieved list"),
+            @ApiResponse(code = 400, message = "Error in the request"),
+            @ApiResponse(code = 404, message = "Resource is not found")
+    })
     @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<FlightDTO>> list(@RequestParam(name = "fromTown", required = false) String fromTown,
@@ -46,12 +51,13 @@ public class FlightController {
         flightDTO.setToTown(toTown);
         flightDTO.setFlightName(flightName);
         flightDTO.setPlaneName(planeName);
+
         try {
             Schedule schedule = new Schedule();
             flightDTO.setSchedule(schedule);
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            flightDTO.getSchedule().setFromDate(format.parse(fromDate));
-            flightDTO.getSchedule().setFromDate(format.parse(toDate));
+            if (fromDate != null) flightDTO.getSchedule().setFromDate(format.parse(fromDate));
+            if (toDate != null) flightDTO.getSchedule().setFromDate(format.parse(toDate));
         } catch (ParseException pe) {
             logger.error(pe.toString());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -71,6 +77,7 @@ public class FlightController {
 
         return new ResponseEntity<>(flightService.save(flightDTO), HttpStatus.OK);
     }
+
 
     @GetMapping(value = "{id}")
     public ResponseEntity<FlightDTO> read(@PathVariable("id") Long id) {

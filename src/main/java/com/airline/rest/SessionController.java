@@ -42,6 +42,7 @@ public class SessionController {
                                         @RequestBody Map<String, String> json) {
         String login = json.get("login");
         UserEntityDTO userEntityDTO = userService.getUserByLogin(login);
+        logger.info("!!!!!" + userEntityDTO.toString());
         if (userEntityDTO.getPassword().equals(json.get("password"))) {
             request.getSession().setAttribute("login", userEntityDTO.getLogin());
         } else {
