@@ -164,3 +164,5 @@ INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport,
 INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (30, 13, 'Иван', 'Иванов', 'RU', '5555 55555', 1, null);
 INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (34, 15, 'Иван', 'Иванов', 'CH', '5555 55555', 1, null);
 
+INSERT INTO admins (id, first_name, last_name, patronymic, position, login, password) VALUES (1, 'Иван', 'Иванов', null, 'инженер', 'ivanovadmin', '123456');
+INSERT INTO admins (id, first_name, last_name, patronymic, position, login, password) VALUES (2, 'Петр', 'Петров', null, 'инженер', 'petrovadmin', '123456');

@@ -25,19 +25,16 @@ public class FlightDTOMapper {
         flightDTO.setSchedule(new Schedule());
         flightDTO.getSchedule().setFromDate(flight.getFromDate());
         flightDTO.getSchedule().setToDate(flight.getToDate());
-        flightDTO.getSchedule().setPeriod(flight.getPeriods()
+        flightDTO.getSchedule().setPeriods(flight.getPeriods()
                 .stream()
-                .map(period -> period.getValue())
-                .collect(Collectors.toList())
-                .toString()
-                .replace("[", "")  //remove the right bracket
-                .replace("]", ""));
+                .map(Period::getValue)
+                .collect(Collectors.toList()));
 
-        flightDTO.setPriceBusiness(flight.getPriceByClassTypeName("BUSINESS").getPrice());
-        flightDTO.setPriceEconomy(flight.getPriceByClassTypeName("ECONOMY").getPrice());
+        flightDTO.setPriceBusiness(flight.getPriceByClassTypeName(ClassTypeEnum.BUSINESS.name()).getPrice());
+        flightDTO.setPriceEconomy(flight.getPriceByClassTypeName(ClassTypeEnum.ECONOMY.name()).getPrice());
         flightDTO.setDates(flight.getDepartures()
                 .stream()
-                .map(departure -> departure.getDate())
+                .map(Departure::getDate)
                 .collect(Collectors.toList()));
 
         return flightDTO;
