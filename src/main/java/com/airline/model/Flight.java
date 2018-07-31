@@ -27,19 +27,19 @@ public class Flight {
     public Flight() {
     }
 
-    public List<PriceDB> getPricesDB(){
+    public List<PriceDB> getPricesDB() {
         List<PriceDB> priceDBS = new ArrayList<>();
         prices.forEach(price -> priceDBS.add((new PriceDB(price))));
         return priceDBS;
     }
 
-    public List<DepartureDB> getDeparturesDB(){
+    public List<DepartureDB> getDeparturesDB() {
         List<DepartureDB> departureDBS = new ArrayList<>();
         departures.forEach(departure -> departureDBS.add(new DepartureDB(departure)));
         return departureDBS;
     }
 
-    public Price getPriceByClassTypeName (String name){
+    public Price getPriceByClassTypeName(String name) {
         return prices.stream().filter(price -> price.getClassType().getName().equals(name)).findFirst().get();
     }
 

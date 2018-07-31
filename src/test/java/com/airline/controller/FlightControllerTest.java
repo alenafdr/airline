@@ -1,6 +1,5 @@
 package com.airline.controller;
 
-import com.airline.dtomapper.FlightDTOMapper;
 import com.airline.model.dto.FlightDTO;
 import com.airline.model.dto.Schedule;
 import com.airline.rest.FlightController;
@@ -8,7 +7,6 @@ import com.airline.service.FlightService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +27,7 @@ import java.util.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(value = FlightController.class, secure = false)
-@ContextConfiguration(classes = {FlightController.class, FlightDTOMapper.class, ModelMapper.class})
+@ContextConfiguration(classes = {FlightController.class})
 public class FlightControllerTest {
     private static final Logger logger = LoggerFactory.getLogger(FlightControllerTest.class);
 

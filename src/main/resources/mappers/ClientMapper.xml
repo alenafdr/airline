@@ -1,0 +1,36 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ClientMapper">
+    <resultMap id="ClientResultMap" type="UserClient">
+        <id property="id" column="id"/>
+        <result property="firstName" column="first_name"/>
+        <result property="lastName" column="last_name"/>
+        <result property="patronymic" column="patronymic"/>
+        <result property="login" column="login"/>
+        <result property="password" column="password"/>
+        <result property="email" column="email"/>
+        <result property="phone" column="phone"/>
+    </resultMap>
+
+    <insert id="insertClient" parameterType="UserClient" useGeneratedKeys="true" keyProperty="id">
+        insert into clients (first_name, last_name, patronymic, email, phone, login, password)
+        values (#{firstName},#{lastName},#{patronymic},#{email},#{phone},#{login},#{password})
+    </insert>
+
+    <select id="findClientByLogin" resultMap="ClientResultMap" parameterType="java.lang.String">
+        select * from clients where login = #{login}
+    </select>
+
+    <update id="updateClient">
+        update clients
+        set
+        first_name = #{firstName},
+        last_name = #{lastName},
+        patronymic = #{patronymic},
+        email = #{email},
+        phone = #{phone},
+        password = #{password}
+        where id = #{id}
+    </update>
+</mapper>
