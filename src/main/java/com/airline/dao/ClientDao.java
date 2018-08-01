@@ -29,11 +29,11 @@ public class ClientDao {
             session.insert(query, userClient);
         } catch (PersistenceException pe) {
             logger.error(pe.getMessage());
-            /*if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {
                 throw new DataBaseException("Database error");
-            }*/
+            }
         }
         return userClient.getId();
     }
@@ -44,11 +44,11 @@ public class ClientDao {
             session.update(query, userClient);
         } catch (PersistenceException pe) {
             logger.error(pe.getMessage());
-            /*if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {
                 throw new DataBaseException("Database error");
-            }*/
+            }
         }
     }
 
@@ -59,11 +59,11 @@ public class ClientDao {
             userClient = (UserClient) session.selectOne(query, login);
         } catch (PersistenceException pe) {
             logger.error(pe.getMessage());
-            /*if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+           if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {
                 throw new DataBaseException("Database error");
-            }*/
+            }
         }
         return Optional.ofNullable(userClient);
     }
