@@ -41,6 +41,7 @@ public class SessionAuthenticationFilter extends GenericFilterBean {
 
         String login = (String) httpServletRequest.getSession().getAttribute("login");
         if (login == null) {
+            logger.error(httpServletRequest.getSession().getId());
             throw new SessionIsNotAuthorizedException("Session is not authorized");
         }
 

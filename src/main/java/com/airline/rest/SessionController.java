@@ -31,6 +31,7 @@ public class SessionController {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<UserEntityDTO> login(HttpServletRequest request,
                                         @RequestBody Map<String, String> json) {
+        logger.info(request.getSession().getId());
         String login = json.get("login");
         UserEntityDTO userEntityDTO = userService.getUserByLogin(login);
         if (userEntityDTO.getPassword().equals(json.get("password"))) {

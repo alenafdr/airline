@@ -1,10 +1,12 @@
 package com.airline.model.dto;
 
+import com.airline.dto.validation.New;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.AssertFalse;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.math.BigDecimal;
@@ -51,8 +53,14 @@ public class FlightDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private List<Date> dates;
 
-    @AssertFalse
+    @AssertFalse(groups = New.class)
     private boolean approved;
+
+    @AssertTrue
+    private boolean isOk() {
+        return schedule == null && !dates.isEmpty() ||
+                schedule != null && dates.isEmpty();
+    }
 
     public FlightDTO() {
     }
