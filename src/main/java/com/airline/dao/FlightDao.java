@@ -153,7 +153,6 @@ public class FlightDao {
             for (DepartureDB departureDB : flightOld.getDeparturesDB()) {
                 departureDB.setFlight(flightNew);
                 if (!flightNew.getDeparturesDB().contains(departureDB)) {
-
                     departureDao.delete(departureDB.getId());
                 }
             }

@@ -1,5 +1,7 @@
 package com.airline.dao;
 
+import com.airline.exceptions.ConnectDataBaseException;
+import com.airline.exceptions.DataBaseException;
 import com.airline.model.UserAdmin;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.session.SqlSession;
@@ -7,6 +9,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -29,11 +32,11 @@ public class AdminDao {
             session.insert(query, userAdmin);
         } catch (PersistenceException pe) {
             logger.error(pe.getMessage());
-            /*if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {
                 throw new DataBaseException("Database error");
-            }*/
+            }
         }
         return userAdmin.getId();
     }
@@ -44,11 +47,11 @@ public class AdminDao {
             session.update(query, userAdmin);
         } catch (PersistenceException pe) {
             logger.error(pe.getMessage());
-            /*if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {
                 throw new DataBaseException("Database error");
-            }*/
+            }
         }
     }
 
@@ -59,11 +62,11 @@ public class AdminDao {
             userAdmin = (UserAdmin) session.selectOne(query, login);
         } catch (PersistenceException pe) {
             logger.error(pe.getMessage());
-            /*if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {
                 throw new DataBaseException("Database error");
-            }*/
+            }
         }
         return Optional.ofNullable(userAdmin);
     }

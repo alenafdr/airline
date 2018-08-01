@@ -1,5 +1,7 @@
 package com.airline.dao;
 
+import com.airline.exceptions.ConnectDataBaseException;
+import com.airline.exceptions.DataBaseException;
 import com.airline.model.Price;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.session.SqlSession;
@@ -7,6 +9,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -29,6 +32,11 @@ public class PriceDao {
             session.insert(query, price);
         } catch (PersistenceException pe) {
             LOG.error(pe.getMessage());
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+                throw new ConnectDataBaseException("No connection to database");
+            } else {
+                throw new DataBaseException("Database error");
+            }
         }
     }
 
@@ -39,6 +47,11 @@ public class PriceDao {
             entities = session.selectList(query, id);
         } catch (PersistenceException pe) {
             LOG.error(pe.getMessage());
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+                throw new ConnectDataBaseException("No connection to database");
+            } else {
+                throw new DataBaseException("Database error");
+            }
         }
         return entities;
 
@@ -50,6 +63,11 @@ public class PriceDao {
             session.insert(query, price);
         } catch (PersistenceException pe) {
             LOG.error(pe.getMessage());
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+                throw new ConnectDataBaseException("No connection to database");
+            } else {
+                throw new DataBaseException("Database error");
+            }
         }
     }
 
@@ -59,6 +77,11 @@ public class PriceDao {
             session.delete(query, price);
         } catch (PersistenceException pe) {
             LOG.error(pe.getMessage());
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+                throw new ConnectDataBaseException("No connection to database");
+            } else {
+                throw new DataBaseException("Database error");
+            }
         }
     }
 
@@ -68,6 +91,11 @@ public class PriceDao {
             session.delete(query, flightId);
         } catch (PersistenceException pe) {
             LOG.error(pe.getMessage());
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+                throw new ConnectDataBaseException("No connection to database");
+            } else {
+                throw new DataBaseException("Database error");
+            }
         }
     }
 }
