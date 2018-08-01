@@ -32,6 +32,13 @@ public class FlightIntegrationTest {
 
     @Test
     public void flightIntegrationTest() throws Exception{
+        restTemplate.getRestTemplate().setInterceptors(
+                Collections.singletonList((request, body, execution) -> {
+                    request.getHeaders()
+                            .add("test", "test");
+                    return execution.execute(request, body);
+                }));
+
         //добавить в базу пользователя админа
 
         //залогинится этим пользователем
