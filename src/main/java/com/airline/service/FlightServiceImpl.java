@@ -4,14 +4,13 @@ import com.airline.dao.ClassTypeDao;
 import com.airline.dao.FlightDao;
 import com.airline.dao.PeriodDao;
 import com.airline.dao.PlaneDao;
-import com.airline.dtomapper.FlightDTOMapper;
+import com.airline.dto.mapper.FlightDTOMapper;
 import com.airline.exceptions.AlreadyExistsException;
 import com.airline.exceptions.FlightNotFoundException;
 import com.airline.exceptions.PlaneNotFoundException;
 import com.airline.model.*;
 import com.airline.model.dto.FlightDTO;
 import com.airline.utils.Utils;
-import liquibase.logging.LogFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,6 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**

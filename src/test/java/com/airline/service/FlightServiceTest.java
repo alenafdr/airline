@@ -4,7 +4,7 @@ import com.airline.dao.ClassTypeDao;
 import com.airline.dao.FlightDao;
 import com.airline.dao.PeriodDao;
 import com.airline.dao.PlaneDao;
-import com.airline.dtomapper.FlightDTOMapper;
+import com.airline.dto.mapper.FlightDTOMapper;
 import com.airline.exceptions.AlreadyExistsException;
 import com.airline.exceptions.PlaneNotFoundException;
 import com.airline.model.*;

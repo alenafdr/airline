@@ -4,35 +4,54 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.AssertFalse;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 
 public class FlightDTO {
+
+    @Null
     private Long id;
+
+    @NotNull
     private String flightName;
+
+    @NotNull
     private String planeName;
+
+    @NotNull
     private String fromTown;
+
+    @NotNull
     private String toTown;
 
+    @NotNull
     @JsonFormat(pattern = "HH:mm:ss", shape = JsonFormat.Shape.STRING)
     @ApiModelProperty(dataType = "java.lang.String", example = "hh:mm:ss")
     private Time start;
 
+    @NotNull
     @JsonFormat(pattern = "HH:mm:ss", shape = JsonFormat.Shape.STRING)
     @ApiModelProperty(dataType = "java.lang.String", example = "hh:mm:ss")
     private Time duration;
 
-
+    @NotNull
     private BigDecimal priceBusiness;
+
+    @NotNull
     private BigDecimal priceEconomy;
+
     private Schedule schedule;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private List<Date> dates;
 
+    @AssertFalse
     private boolean approved;
 
     public FlightDTO() {

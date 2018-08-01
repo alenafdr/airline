@@ -2,8 +2,8 @@ package com.airline.service;
 
 import com.airline.dao.AdminDao;
 import com.airline.dao.ClientDao;
-import com.airline.dtomapper.UserAdminMapper;
-import com.airline.dtomapper.UserClientMapper;
+import com.airline.dto.mapper.UserAdminMapper;
+import com.airline.dto.mapper.UserClientMapper;
 import com.airline.exceptions.LoginNotFoundException;
 import com.airline.model.UserClient;
 import com.airline.model.dto.UserEntityDTO;
