@@ -38,8 +38,7 @@ public class FlightController {
             @ApiResponse(code = 400, message = "Error in the request"),
             @ApiResponse(code = 404, message = "Resource is not found")
     })
-    @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<FlightDTO>> list(@RequestParam(name = "fromTown", required = false) String fromTown,
                                                 @RequestParam(name = "toTown", required = false) String toTown,
                                                 @RequestParam(name = "flightName", required = false) String flightName,
@@ -59,9 +58,10 @@ public class FlightController {
             if (fromDate != null) flightDTO.getSchedule().setFromDate(format.parse(fromDate));
             if (toDate != null) flightDTO.getSchedule().setFromDate(format.parse(toDate));
         } catch (ParseException pe) {
-            logger.error(pe.toString());
+            logger.info(flightDTO.toString());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        logger.info(flightDTO.toString());
 
         return new ResponseEntity<>(flightService.listByParameters(flightDTO), HttpStatus.OK);
     }

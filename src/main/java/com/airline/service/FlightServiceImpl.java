@@ -54,8 +54,12 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public List<FlightDTO> listByParameters(FlightDTO flightDTO) {
-        Plane plane = planeDao.findPlaneByName(flightDTO.getPlaneName())
-                .orElseThrow(() -> new PlaneNotFoundException("Not found plane with name " + flightDTO.getPlaneName()));
+        Plane plane = null;
+        if (flightDTO.getPlaneName() != null){
+            plane = planeDao.findPlaneByName(flightDTO.getPlaneName())
+                    .orElseThrow(() -> new PlaneNotFoundException("Not found plane with name " + flightDTO.getPlaneName()));
+        }
+
         Flight flight = flightDTOMapper.convertToEntity(flightDTO,
                 plane,
                 null,
@@ -63,7 +67,7 @@ public class FlightServiceImpl implements FlightService {
                 null);
         return flightDao.listByParameters(flight)
                 .stream()
-                .map(flight1 -> flightDTOMapper.convertToDTO(flight))
+                .map(flight1 -> flightDTOMapper.convertToDTO(flight1))
                 .collect(Collectors.toList());
     }
 

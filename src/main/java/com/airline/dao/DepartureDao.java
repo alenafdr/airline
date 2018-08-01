@@ -26,7 +26,6 @@ public class DepartureDao {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "DepartureMapper.insertDeparture";
             session.insert(query, departure);
-            logger.info("!!!!!!!" + departure.getId().toString());
         } catch (PersistenceException pe) {
             logger.error(pe.getMessage());
         }
