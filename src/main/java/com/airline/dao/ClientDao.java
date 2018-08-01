@@ -62,7 +62,8 @@ public class ClientDao {
             userClient = (UserClient) session.selectOne(query, login);
         } catch (PersistenceException pe) {
             logger.error(pe.getMessage());
-            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+
+           if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {
                 throw new DataBaseException("Database error");

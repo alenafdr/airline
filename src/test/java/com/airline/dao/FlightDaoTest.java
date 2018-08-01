@@ -93,8 +93,6 @@ public class FlightDaoTest {
         flightDao.update(flight);
         Flight flightNew = flightDao.findOne(1L).get();
 
-        logger.info(flightNew.toString());
-
         assertTrue(flightNew.getStart().equals(Time.valueOf("11:11:11")));
         assertTrue(flightNew.getDuration().equals(Time.valueOf("11:11:11")));
         assertTrue(flightNew.getPrices().get(0).getPrice().compareTo(new BigDecimal(9999)) == 0);
@@ -104,7 +102,8 @@ public class FlightDaoTest {
         assertTrue(flightNew.getPeriods().get(0).getId().equals(5L));
     }
 
-    private Flight buildFlight(){
+    public Flight buildFlight(){
+
         Flight flight = new Flight();
         flight.setFlightName("158");
         flight.setFromTown("test");

@@ -58,7 +58,7 @@ public class FlightController {
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             if (fromDate != null) flightDTO.getSchedule().setFromDate(format.parse(fromDate));
             if (toDate != null) flightDTO.getSchedule().setFromDate(format.parse(toDate));
-        } catch (ParseException pe) {
+        } catch (ParseException pe){
             logger.error(pe.toString());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

@@ -98,6 +98,7 @@ public class FlightServiceImpl implements FlightService {
     }
 
     private Flight buildDependencies(FlightDTO flightDTO) {
+
         Plane plane = planeDao.findPlaneByName(flightDTO.getPlaneName())
                 .orElseThrow(() -> new PlaneNotFoundException("Not found plane with name " + flightDTO.getPlaneName()));
 
