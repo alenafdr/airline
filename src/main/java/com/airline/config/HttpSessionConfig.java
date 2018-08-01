@@ -10,7 +10,7 @@ import org.springframework.session.web.http.DefaultCookieSerializer;
 import org.springframework.session.web.http.HttpSessionStrategy;
 
 @Configuration
-@EnableJdbcHttpSession(maxInactiveIntervalInSeconds = 60)
+@EnableJdbcHttpSession(maxInactiveIntervalInSeconds = 600)
 public class HttpSessionConfig extends AbstractHttpSessionApplicationInitializer {
 
     @Bean
