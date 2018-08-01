@@ -25,7 +25,7 @@ public class HttpSessionConfig extends AbstractHttpSessionApplicationInitializer
         DefaultCookieSerializer serializer = new DefaultCookieSerializer();
         serializer.setCookieName("JAVASESSIONID");
         serializer.setCookiePath("/");
-        serializer.setDomainNamePattern("^.+?\\.(\\w+\\.[a-z]+)$");
+        //serializer.setDomainNamePattern("^.+?\\.(\\w+\\.[a-z]+)$");
         return serializer;
     }
 }
