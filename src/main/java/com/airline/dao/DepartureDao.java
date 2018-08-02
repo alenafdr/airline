@@ -16,7 +16,7 @@ import java.util.List;
 
 @Component
 public class DepartureDao {
-    private static final Logger logger = LoggerFactory.getLogger(DepartureDao.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DepartureDao.class);
 
     private SqlSessionFactory sqlSessionFactory;
 
@@ -30,7 +30,7 @@ public class DepartureDao {
             String query = "DepartureMapper.insertDeparture";
             session.insert(query, departure);
         } catch (PersistenceException pe) {
-            logger.error(pe.getMessage());
+            LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {
@@ -45,7 +45,7 @@ public class DepartureDao {
             String query = "DepartureMapper.selectDeparturesByFlightId";
             entities = session.selectList(query, id);
         } catch (PersistenceException pe) {
-            logger.error(pe.getMessage());
+            LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {
@@ -60,7 +60,7 @@ public class DepartureDao {
             String query = "DepartureMapper.updateDeparture";
             session.insert(query, departure);
         } catch (PersistenceException pe) {
-            logger.error(pe.getMessage());
+            LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {
@@ -74,7 +74,7 @@ public class DepartureDao {
             String query = "DepartureMapper.deleteDeparture";
             session.delete(query, id);
         } catch (PersistenceException pe) {
-            logger.error(pe.getMessage());
+            LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {

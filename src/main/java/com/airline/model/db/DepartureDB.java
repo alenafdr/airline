@@ -18,7 +18,7 @@ public class DepartureDB extends Departure {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Departure departure = (Departure) o;
-        return  Objects.equals(date, departure.getDate()) &&
+        return Objects.equals(date, departure.getDate()) &&
                 Objects.equals(flight.getId(), departure.getFlight().getId());
     }
 }

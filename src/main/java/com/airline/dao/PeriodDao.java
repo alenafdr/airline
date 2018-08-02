@@ -18,7 +18,7 @@ import java.util.List;
 @Component
 public class PeriodDao {
 
-    private static final Logger LOG = LoggerFactory.getLogger(PeriodDao.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PeriodDao.class);
 
     private SqlSessionFactory sqlSessionFactory;
 
@@ -33,7 +33,7 @@ public class PeriodDao {
             String query = "PeriodMapper.findAllPeriods";
             entities = session.selectList(query);
         } catch (PersistenceException pe) {
-            LOG.error(pe.getMessage());
+            LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {
@@ -50,7 +50,7 @@ public class PeriodDao {
             String query = "PeriodMapper.selectPeriodsByFlightId";
             entities = session.selectList(query, id);
         } catch (PersistenceException pe) {
-            LOG.error(pe.getMessage());
+            LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {
@@ -66,7 +66,7 @@ public class PeriodDao {
             String query = "PeriodMapper.selectPeriodById";
             entity = session.selectOne(query, id);
         } catch (PersistenceException pe) {
-            LOG.error(pe.getMessage());
+            LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {
@@ -82,7 +82,7 @@ public class PeriodDao {
             String query = "PeriodMapper.selectPeriodByValue";
             entity = session.selectOne(query, value);
         } catch (PersistenceException pe) {
-            LOG.error(pe.getMessage());
+            LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {
@@ -97,7 +97,7 @@ public class PeriodDao {
             String query = "PeriodMapper.insertPeriodForFlight";
             session.insert(query, periodFlight);
         } catch (PersistenceException pe) {
-            LOG.error(pe.getMessage());
+            LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {
@@ -111,7 +111,7 @@ public class PeriodDao {
             String query = "PeriodMapper.updatePeriodForFlight";
             session.insert(query, periodFlight);
         } catch (PersistenceException pe) {
-            LOG.error(pe.getMessage());
+            LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {
@@ -125,7 +125,7 @@ public class PeriodDao {
             String query = "PeriodMapper.deletePeriodForFlight";
             session.delete(query, periodFlight);
         } catch (PersistenceException pe) {
-            LOG.error(pe.getMessage());
+            LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {

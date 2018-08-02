@@ -17,7 +17,7 @@ import java.util.Optional;
 @Component
 public class AdminDao {
 
-    private static final Logger logger = LoggerFactory.getLogger(AdminDao.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AdminDao.class);
 
     private SqlSessionFactory sqlSessionFactory;
 
@@ -31,7 +31,7 @@ public class AdminDao {
             String query = "AdminMapper.insertAdmin";
             session.insert(query, userAdmin);
         } catch (PersistenceException pe) {
-            logger.error(pe.getMessage());
+            LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {
@@ -46,7 +46,7 @@ public class AdminDao {
             String query = "AdminMapper.updateAdmin";
             session.update(query, userAdmin);
         } catch (PersistenceException pe) {
-            logger.error(pe.getMessage());
+            LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {
@@ -61,7 +61,7 @@ public class AdminDao {
             String query = "AdminMapper.findAdminByLogin";
             userAdmin = (UserAdmin) session.selectOne(query, login);
         } catch (PersistenceException pe) {
-            logger.error(pe.getMessage());
+            LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {

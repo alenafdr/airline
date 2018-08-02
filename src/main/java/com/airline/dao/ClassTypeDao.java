@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ClassTypeDao {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ClassTypeDao.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClassTypeDao.class);
 
     private SqlSessionFactory sqlSessionFactory;
 
@@ -30,7 +30,7 @@ public class ClassTypeDao {
             String query = "ClassTypeMapper.findClassTypeById";
             entity = (ClassType) session.selectOne(query, id);
         } catch (PersistenceException pe) {
-            LOG.error(pe.getMessage());
+            LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {
@@ -46,7 +46,7 @@ public class ClassTypeDao {
             String query = "ClassTypeMapper.findClassTypeByName";
             entity = (ClassType) session.selectOne(query, name);
         } catch (PersistenceException pe) {
-            LOG.error(pe.getMessage());
+            LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {

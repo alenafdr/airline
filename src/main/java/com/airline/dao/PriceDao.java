@@ -17,7 +17,7 @@ import java.util.List;
 @Component
 public class PriceDao {
 
-    private static final Logger LOG = LoggerFactory.getLogger(PriceDao.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PriceDao.class);
 
     private SqlSessionFactory sqlSessionFactory;
 
@@ -31,7 +31,7 @@ public class PriceDao {
             String query = "PriceMapper.insertPrice";
             session.insert(query, price);
         } catch (PersistenceException pe) {
-            LOG.error(pe.getMessage());
+            LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {
@@ -46,7 +46,7 @@ public class PriceDao {
             String query = "PriceMapper.selectPricesForFlight";
             entities = session.selectList(query, id);
         } catch (PersistenceException pe) {
-            LOG.error(pe.getMessage());
+            LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {
@@ -62,7 +62,7 @@ public class PriceDao {
             String query = "PriceMapper.updatePrice";
             session.insert(query, price);
         } catch (PersistenceException pe) {
-            LOG.error(pe.getMessage());
+            LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {
@@ -76,7 +76,7 @@ public class PriceDao {
             String query = "PriceMapper.deletePrice";
             session.delete(query, price);
         } catch (PersistenceException pe) {
-            LOG.error(pe.getMessage());
+            LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {
@@ -90,7 +90,7 @@ public class PriceDao {
             String query = "PriceMapper.deletePricesByFlightId";
             session.delete(query, flightId);
         } catch (PersistenceException pe) {
-            LOG.error(pe.getMessage());
+            LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {
