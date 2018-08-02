@@ -24,6 +24,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.time.ZoneId;
+import java.util.Arrays;
 import java.time.ZoneId;
 import java.util.*;
 
@@ -146,7 +149,6 @@ public class FlightServiceTest {
         Schedule schedule = new Schedule();
         schedule.setFromDate(new Date());
         schedule.setToDate(new Date(schedule.getFromDate().getTime() + 10 * 24 * 60 * 60 * 1000));
-
         schedule.setPeriods(Arrays.asList("Thu", "Fri"));
         flightDTO.setSchedule(schedule);
         flightDTO.setPlaneName("testPlane");

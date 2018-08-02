@@ -10,7 +10,7 @@ import org.springframework.session.web.http.DefaultCookieSerializer;
 import org.springframework.session.web.http.HttpSessionStrategy;
 
 @Configuration
-@EnableJdbcHttpSession(maxInactiveIntervalInSeconds = 600)
+@EnableJdbcHttpSession(maxInactiveIntervalInSeconds = 60)
 public class HttpSessionConfig extends AbstractHttpSessionApplicationInitializer {
 
     @Bean
@@ -25,7 +25,6 @@ public class HttpSessionConfig extends AbstractHttpSessionApplicationInitializer
         DefaultCookieSerializer serializer = new DefaultCookieSerializer();
         serializer.setCookieName("JAVASESSIONID");
         serializer.setCookiePath("/");
-        serializer.setDomainNamePattern("^.+?\\.(\\w+\\.[a-z]+)$");
         return serializer;
     }
 }

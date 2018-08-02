@@ -1,6 +1,5 @@
-package com.airline.rest;
+package com.airline.exceptions;
 
-import com.airline.exceptions.*;
 import liquibase.exception.DatabaseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,9 +10,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
@@ -37,21 +34,21 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(AlreadyExistsException.class)
-    protected ResponseEntity<ApiError> handleAlreadyExistsException(AlreadyExistsException ex){
+    protected ResponseEntity<ApiError> handleAlreadyExistsException(AlreadyExistsException ex) {
         ApiError apiError = new ApiError();
         apiError.addSubError(ErrorCode.ALREADY_EXISTS.name(), "name", ex.getMessage());
         return new ResponseEntity<>(apiError, BAD_REQUEST);
     }
 
     @ExceptionHandler(ConnectDataBaseException.class)
-    protected ResponseEntity<ApiError> handleConnectDataBaseException(ConnectDataBaseException ex){
+    protected ResponseEntity<ApiError> handleConnectDataBaseException(ConnectDataBaseException ex) {
         ApiError apiError = new ApiError();
         apiError.addSubError(ErrorCode.CONNECT_TO_DATABASE.name(), "", ex.getMessage());
         return new ResponseEntity<>(apiError, INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(DatabaseException.class)
-    protected ResponseEntity<ApiError> handleDataBaseException(DatabaseException ex){
+    protected ResponseEntity<ApiError> handleDataBaseException(DatabaseException ex) {
         ApiError apiError = new ApiError();
         apiError.addSubError(ErrorCode.DATABASE_ERROR.name(), "", ex.getMessage());
         return new ResponseEntity<>(apiError, INTERNAL_SERVER_ERROR);

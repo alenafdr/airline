@@ -11,7 +11,6 @@ import com.airline.exceptions.PlaneNotFoundException;
 import com.airline.model.*;
 import com.airline.model.dto.FlightDTO;
 import com.airline.utils.Utils;
-import liquibase.logging.LogFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,6 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -108,7 +106,6 @@ public class FlightServiceImpl implements FlightService {
                 flightDTO.getPriceBusiness()));
         prices.add(new Price(classTypeDao.findClassTypeByName(ClassTypeEnum.ECONOMY.name()),
                 flightDTO.getPriceEconomy()));
-
 
         List<Period> periods = flightDTO.getSchedule().getPeriods()
                 .stream()

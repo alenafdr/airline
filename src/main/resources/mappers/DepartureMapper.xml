@@ -23,10 +23,10 @@
     </select>
 
     <insert id="updateDeparture">
-        insert into departures (id, "date", flight_id)
-        values (#{id},#{date},#{flight.id})
-        on conflict (id)
-        do update set (id, "date", flight_id) = (default ,#{date},#{flight.id})
+        insert into departures ("date", flight_id)
+        values (#{date},#{flight.id})
+        on conflict ON CONSTRAINT departures_date_flight_id_pk
+        do nothing
     </insert>
 
     <delete id="deleteDeparture" parameterType="Long">

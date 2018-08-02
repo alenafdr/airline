@@ -102,12 +102,8 @@ public class FlightDaoTest {
         assertTrue(flightNew.getPeriods().get(0).getId().equals(5L));
     }
 
-    @Test
-    public void test() {
-
-    }
-
     public Flight buildFlight(){
+
         Flight flight = new Flight();
         flight.setFlightName("158");
         flight.setFromTown("test");
@@ -135,7 +131,7 @@ public class FlightDaoTest {
         return flight;
     }
 
-    public Date removeTime(Date date) {
+    private Date removeTime(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.set(Calendar.HOUR_OF_DAY, 0);

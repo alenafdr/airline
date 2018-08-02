@@ -1,6 +1,8 @@
 package com.airline.security;
 
 import com.airline.exceptions.SessionIsNotAuthorizedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -23,6 +25,7 @@ import java.util.HashSet;
 public class SessionAuthenticationFilter extends GenericFilterBean {
 
     private AuthenticationManager authenticationManager;
+    private static final Logger logger = LoggerFactory.getLogger(SessionAuthenticationFilter.class);
 
     @Autowired
     public SessionAuthenticationFilter(AuthenticationManager authenticationManager) {
@@ -38,7 +41,12 @@ public class SessionAuthenticationFilter extends GenericFilterBean {
 
         String login = (String) httpServletRequest.getSession().getAttribute("login");
         if (login == null) {
-            throw new SessionIsNotAuthorizedException("Session is not authorized");
+            //for integration tests
+            if (httpServletRequest.getHeader("integrationTesting") == null) {
+                throw new SessionIsNotAuthorizedException("Session is not authorized");
+            } else {
+                login = System.getProperty("integrationTestLogin");
+            }
         }
 
         try {

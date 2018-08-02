@@ -2,9 +2,9 @@ package com.airline.security;
 
 import com.airline.dao.AdminDao;
 import com.airline.dao.ClientDao;
-import com.airline.model.UserEntity;
 import com.airline.model.UserAdmin;
 import com.airline.model.UserClient;
+import com.airline.model.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

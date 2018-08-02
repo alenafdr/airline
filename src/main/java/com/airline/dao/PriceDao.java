@@ -1,5 +1,7 @@
 package com.airline.dao;
 
+import com.airline.exceptions.ConnectDataBaseException;
+import com.airline.exceptions.DataBaseException;
 import com.airline.model.Price;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.session.SqlSession;
@@ -7,6 +9,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,7 +17,7 @@ import java.util.List;
 @Component
 public class PriceDao {
 
-    private static final Logger LOG = LoggerFactory.getLogger(PriceDao.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PriceDao.class);
 
     private SqlSessionFactory sqlSessionFactory;
 
@@ -28,7 +31,12 @@ public class PriceDao {
             String query = "PriceMapper.insertPrice";
             session.insert(query, price);
         } catch (PersistenceException pe) {
-            LOG.error(pe.getMessage());
+            LOGGER.error(pe.getMessage());
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+                throw new ConnectDataBaseException("No connection to database");
+            } else {
+                throw new DataBaseException("Database error");
+            }
         }
     }
 
@@ -38,7 +46,12 @@ public class PriceDao {
             String query = "PriceMapper.selectPricesForFlight";
             entities = session.selectList(query, id);
         } catch (PersistenceException pe) {
-            LOG.error(pe.getMessage());
+            LOGGER.error(pe.getMessage());
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+                throw new ConnectDataBaseException("No connection to database");
+            } else {
+                throw new DataBaseException("Database error");
+            }
         }
         return entities;
 
@@ -49,7 +62,12 @@ public class PriceDao {
             String query = "PriceMapper.updatePrice";
             session.insert(query, price);
         } catch (PersistenceException pe) {
-            LOG.error(pe.getMessage());
+            LOGGER.error(pe.getMessage());
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+                throw new ConnectDataBaseException("No connection to database");
+            } else {
+                throw new DataBaseException("Database error");
+            }
         }
     }
 
@@ -58,7 +76,12 @@ public class PriceDao {
             String query = "PriceMapper.deletePrice";
             session.delete(query, price);
         } catch (PersistenceException pe) {
-            LOG.error(pe.getMessage());
+            LOGGER.error(pe.getMessage());
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+                throw new ConnectDataBaseException("No connection to database");
+            } else {
+                throw new DataBaseException("Database error");
+            }
         }
     }
 
@@ -67,7 +90,12 @@ public class PriceDao {
             String query = "PriceMapper.deletePricesByFlightId";
             session.delete(query, flightId);
         } catch (PersistenceException pe) {
-            LOG.error(pe.getMessage());
+            LOGGER.error(pe.getMessage());
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+                throw new ConnectDataBaseException("No connection to database");
+            } else {
+                throw new DataBaseException("Database error");
+            }
         }
     }
 }
