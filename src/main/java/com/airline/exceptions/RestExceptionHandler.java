@@ -1,6 +1,5 @@
-package com.airline.rest;
+package com.airline.exceptions;
 
-import com.airline.exceptions.*;
 import liquibase.exception.DatabaseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

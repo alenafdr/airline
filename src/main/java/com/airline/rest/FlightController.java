@@ -1,5 +1,6 @@
 package com.airline.rest;
 
+import com.airline.dto.validation.New;
 import com.airline.model.dto.FlightDTO;
 import com.airline.model.dto.Schedule;
 import com.airline.service.FlightService;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.DateFormat;
@@ -69,8 +71,9 @@ public class FlightController {
     @PostMapping(value = "",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<FlightDTO> create(@RequestBody FlightDTO flightDTO) {
+    public ResponseEntity<FlightDTO> create(@RequestBody @Validated(value = New.class) FlightDTO flightDTO) {
 
+        //logger.info();
         if (flightDTO == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -103,7 +106,6 @@ public class FlightController {
     }
 
     @DeleteMapping(value = "{id}",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<FlightDTO> delete(@PathVariable("id") Long id) {
         FlightDTO flightDTO = flightService.getById(id);
@@ -113,6 +115,5 @@ public class FlightController {
         flightService.delete(id);
         return new ResponseEntity<>(flightDTO, HttpStatus.OK);
     }
-
 
 }

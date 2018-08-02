@@ -1,8 +1,13 @@
 package com.airline.model.dto;
 
+import com.airline.dto.validation.CrossFieldValidation;
+import com.airline.dto.validation.Exist;
 import com.airline.dto.validation.New;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.AssertFalse;
@@ -14,37 +19,41 @@ import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 
+@CrossFieldValidation(groups = New.class)
 public class FlightDTO {
 
-    @Null
+    Logger logger = LoggerFactory.getLogger(FlightDTO.class);
+
+    @Null(groups = New.class)
+    @NotNull(groups = Exist.class)
     private Long id;
 
-    @NotNull
+    @NotNull(groups = {New.class, Exist.class})
     private String flightName;
 
-    @NotNull
+    @NotNull(groups = {New.class, Exist.class})
     private String planeName;
 
-    @NotNull
+    @NotNull(groups = {New.class, Exist.class})
     private String fromTown;
 
-    @NotNull
+    @NotNull(groups = {New.class, Exist.class})
     private String toTown;
 
-    @NotNull
+    @NotNull(groups = {New.class, Exist.class})
     @JsonFormat(pattern = "HH:mm:ss", shape = JsonFormat.Shape.STRING)
     @ApiModelProperty(dataType = "java.lang.String", example = "hh:mm:ss")
     private Time start;
 
-    @NotNull
+    @NotNull(groups = {New.class, Exist.class})
     @JsonFormat(pattern = "HH:mm:ss", shape = JsonFormat.Shape.STRING)
     @ApiModelProperty(dataType = "java.lang.String", example = "hh:mm:ss")
     private Time duration;
 
-    @NotNull
+    @NotNull(groups = {New.class, Exist.class})
     private BigDecimal priceBusiness;
 
-    @NotNull
+    @NotNull(groups = {New.class, Exist.class})
     private BigDecimal priceEconomy;
 
     private Schedule schedule;
@@ -55,12 +64,6 @@ public class FlightDTO {
 
     @AssertFalse(groups = New.class)
     private boolean approved;
-
-    @AssertTrue
-    private boolean isOk() {
-        return schedule == null && !dates.isEmpty() ||
-                schedule != null && dates.isEmpty();
-    }
 
     public FlightDTO() {
     }
