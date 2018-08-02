@@ -107,13 +107,13 @@ public class FlightController {
 
     @DeleteMapping(value = "{id}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<FlightDTO> delete(@PathVariable("id") Long id) {
+    public ResponseEntity<String> delete(@PathVariable("id") Long id) {
         FlightDTO flightDTO = flightService.getById(id);
         if (flightDTO == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         flightService.delete(id);
-        return new ResponseEntity<>(flightDTO, HttpStatus.OK);
+        return new ResponseEntity<>("{}", HttpStatus.OK);
     }
 
 }

@@ -102,7 +102,8 @@ public class FlightDaoTest {
         assertTrue(flightNew.getPeriods().get(0).getId().equals(5L));
     }
 
-    private Flight buildFlight(){
+    public Flight buildFlight(){
+
         Flight flight = new Flight();
         flight.setFlightName("158");
         flight.setFromTown("test");

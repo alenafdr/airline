@@ -16,6 +16,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.math.BigDecimal;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -66,6 +67,7 @@ public class FlightDTO {
     private boolean approved;
 
     public FlightDTO() {
+        dates = new ArrayList<>();
     }
 
     public Long getId() {

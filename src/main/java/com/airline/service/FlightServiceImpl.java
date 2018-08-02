@@ -93,6 +93,7 @@ public class FlightServiceImpl implements FlightService {
     public void delete(Long id) {
         flightDao.delete(id);
     }
+
     @Override
     public FlightDTO getById(Long id) {
         return flightDTOMapper.convertToDTO(flightDao.findOne(id)
@@ -100,6 +101,7 @@ public class FlightServiceImpl implements FlightService {
     }
 
     private Flight buildDependencies(FlightDTO flightDTO) {
+
         Plane plane = planeDao.findPlaneByName(flightDTO.getPlaneName())
                 .orElseThrow(() -> new PlaneNotFoundException("Not found plane with name " + flightDTO.getPlaneName()));
 
