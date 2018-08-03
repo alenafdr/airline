@@ -16,7 +16,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 public @interface CrossFieldValidation
 {
-    String message() default "{om.airline.dto.validation.CrossFieldValidation.message}";
+    String message() default "Only one field must be filled in - or dates, or period";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 

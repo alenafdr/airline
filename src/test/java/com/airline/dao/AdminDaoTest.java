@@ -19,20 +19,20 @@ import static org.junit.Assert.assertTrue;
 @MybatisTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class AdminDaoTest {
-    private final static Logger logger = LoggerFactory.getLogger(AdminDaoTest.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(AdminDaoTest.class);
 
     @Autowired
     AdminDao adminDao;
 
     @Test
-    public void insertAdminTest(){
+    public void insertAdminTest() {
         adminDao.save(buildAdmin());
         UserAdmin userAdmin = adminDao.findByLogin("test").get();
         assertNotNull(userAdmin);
     }
 
     @Test
-    public void updateAdminTest(){
+    public void updateAdminTest() {
         UserAdmin userAdmin = adminDao.findByLogin("ivanovadmin").get();
         userAdmin.setLastName("test");
         adminDao.update(userAdmin);
@@ -41,7 +41,7 @@ public class AdminDaoTest {
         assertTrue(userAdmin.getLastName().equals("test"));
     }
 
-    public UserAdmin buildAdmin(){
+    public UserAdmin buildAdmin() {
         UserAdmin userAdmin = new UserAdmin();
         userAdmin.setFirstName("test");
         userAdmin.setLastName("test");

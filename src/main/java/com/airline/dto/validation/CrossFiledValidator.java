@@ -15,16 +15,14 @@ public class CrossFiledValidator implements ConstraintValidator<CrossFieldValida
     private static final Logger LOGGER = LoggerFactory.getLogger(CrossFiledValidator.class);
 
     @Override
-    public void initialize(final CrossFieldValidation constraintAnnotation)
-    {
+    public void initialize(final CrossFieldValidation constraintAnnotation) {
 
     }
 
     @Override
     public boolean isValid(final FlightDTO flightDTO, final ConstraintValidatorContext context)
     {
-        try{
-            LOGGER.info("!!!!!!!" + flightDTO);
+        try {
             List<Date> dates = flightDTO.getDates();
             List<String> periods = flightDTO.getSchedule().getPeriods();
 
@@ -32,8 +30,7 @@ public class CrossFiledValidator implements ConstraintValidator<CrossFieldValida
                     !dates.isEmpty() && periods.isEmpty()) return true;
 
         }
-        catch (final Exception ignore)
-        {
+        catch (final Exception ignore) {
             // ignore
         }
         return false;

@@ -17,7 +17,7 @@ import java.util.Map;
 @RequestMapping(value = "/api/session/")
 public class SessionController {
 
-    private static final Logger logger = LoggerFactory.getLogger(SessionController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SessionController.class);
 
     private UserService userService;
 
@@ -31,7 +31,6 @@ public class SessionController {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<UserEntityDTO> login(HttpServletRequest request,
                                         @RequestBody Map<String, String> json) {
-        logger.info(request.getSession().getId());
         String login = json.get("login");
         UserEntityDTO userEntityDTO = userService.getUserByLogin(login);
         if (userEntityDTO.getPassword().equals(json.get("password"))) {
@@ -44,7 +43,6 @@ public class SessionController {
 
 
     @DeleteMapping(value = "",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Object> logout(HttpServletRequest request) {
         request.getSession().removeAttribute("login");

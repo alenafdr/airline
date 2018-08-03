@@ -1,7 +1,6 @@
 package com.airline.dao;
 
 import com.airline.model.*;
-import com.airline.model.dto.FlightDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
@@ -33,7 +32,7 @@ import static org.junit.Assert.assertTrue;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class FlightDaoTest {
 
-    private final static Logger logger = LoggerFactory.getLogger(FlightDaoTest.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(FlightDaoTest.class);
 
     @Autowired
     private FlightDao flightDao;
@@ -48,25 +47,25 @@ public class FlightDaoTest {
     private ClassTypeDao classTypeDao;
 
     @Test
-    public void selectFlightByIdTest(){
+    public void selectFlightByIdTest() {
         Flight flight = flightDao.findOne(1L).get();
-        logger.info(flight.toString());
+        LOGGER.info(flight.toString());
         assertNotNull("flight is null", flight);
     }
 
     @Test
-    public void selectListByParameters(){
+    public void selectListByParameters() {
         Flight flight = new Flight();
         Plane plane = new Plane();
         plane.setName("ТУ-134");
         flight.setPlane(plane);
         flight.setFlightName("53");
         List<Flight> flights = flightDao.listByParameters(flight);
-        flights.forEach(item -> logger.info(item.getId().toString()));
+        flights.forEach(item -> LOGGER.info(item.getId().toString()));
     }
 
     @Test
-    public void insertFlightTest(){
+    public void insertFlightTest() {
         Flight newFlight = buildFlight();
         Long id = flightDao.save(newFlight);
         Flight selectFlight = flightDao.findOne(id).get();
@@ -79,7 +78,7 @@ public class FlightDaoTest {
     }
 
     @Test
-    public void updateFlightTest(){
+    public void updateFlightTest() {
         Flight flight = flightDao.findOne(1L).get();
         flight.setFlightName("Test");
         flight.setStart(Time.valueOf("11:11:11"));
@@ -102,7 +101,7 @@ public class FlightDaoTest {
         assertTrue(flightNew.getPeriods().get(0).getId().equals(5L));
     }
 
-    private Flight buildFlight(){
+    private Flight buildFlight() {
         Flight flight = new Flight();
         flight.setFlightName("158");
         flight.setFromTown("test");

@@ -93,6 +93,7 @@ public class FlightServiceImpl implements FlightService {
     public void delete(Long id) {
         flightDao.delete(id);
     }
+
     @Override
     public FlightDTO getById(Long id) {
         return flightDTOMapper.convertToDTO(flightDao.findOne(id)

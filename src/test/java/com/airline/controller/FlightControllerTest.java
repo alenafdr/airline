@@ -31,7 +31,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -39,23 +39,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(value = FlightController.class, secure = false)
 @ContextConfiguration(classes = {FlightController.class})
 public class FlightControllerTest {
-    private static final Logger logger = LoggerFactory.getLogger(FlightControllerTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FlightControllerTest.class);
 
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    ObjectMapper objectMapper;
-
     @MockBean
     private FlightService flightService;
-
-    @Before
-    public void init(){
-        objectMapper.enable(SerializationFeature.INDENT_OUTPUT)
-                .disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE)
-                .setTimeZone(TimeZone.getDefault());
-    }
 
     @Test
     public void getFlightById() throws Exception {
@@ -66,21 +56,21 @@ public class FlightControllerTest {
     }
 
     @Test
-    public void validationTestIdNotNull() throws Exception{
+    public void validationTestIdNotNull() throws Exception {
         FlightDTO flightDTO = buildFlight();
         FlightDTO flightDTOSaved = buildFlight();
         when(flightService.save(any(FlightDTO.class))).thenReturn(flightDTOSaved);
 
         RequestBuilder requestBuilder = post("/api/flights/")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(objectMapper.writeValueAsString(flightDTO))
+                .content(buildFlightWithIdAndPeriodsString())
                 .accept(MediaType.APPLICATION_JSON_UTF8_VALUE);
 
         mockMvc.perform(requestBuilder).andExpect(status().is4xxClientError());
     }
 
     @Test
-    public void validationTestDatesAndPeriodsBoth() throws Exception{
+    public void validationTestDatesAndPeriodsBoth() throws Exception {
 
         when(flightService.save(any(FlightDTO.class))).thenReturn(buildFlight());
 
@@ -93,7 +83,7 @@ public class FlightControllerTest {
     }
 
     @Test
-    public void validationTestWithDates() throws Exception{
+    public void validationTestWithDates() throws Exception {
 
         when(flightService.save(any(FlightDTO.class))).thenReturn(buildFlight());
 
@@ -106,7 +96,20 @@ public class FlightControllerTest {
     }
 
     @Test
-    public void validationTestWithPeriods() throws Exception{
+    public void validationTestWithDatesUpdate() throws Exception {
+
+        when(flightService.save(any(FlightDTO.class))).thenReturn(buildFlight());
+
+        RequestBuilder requestBuilder = put("/api/flights/")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(buildFlightWithDatesString())
+                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE);
+
+        mockMvc.perform(requestBuilder).andExpect(status().isOk());
+    }
+
+    @Test
+    public void validationTestWithPeriods() throws Exception {
 
         when(flightService.save(any(FlightDTO.class))).thenReturn(buildFlight());
 
@@ -118,7 +121,7 @@ public class FlightControllerTest {
         mockMvc.perform(requestBuilder).andExpect(status().isOk());
     }
 
-    private FlightDTO buildFlight() throws Exception{
+    private FlightDTO buildFlight() throws Exception {
         FlightDTO flightDTO = new FlightDTO();
 
         flightDTO.setId(1L);
@@ -145,7 +148,7 @@ public class FlightControllerTest {
         return flightDTO;
     }
 
-    public String buildFlightWithIdAndPeriodsString(){
+    public String buildFlightWithIdAndPeriodsString() {
         return "{\n" +
                 "    \"id\": 5,\n" +
                 "    \"flightName\": \"158\",\n" +
@@ -170,7 +173,7 @@ public class FlightControllerTest {
                 "}";
     }
 
-    public String buildFlightWithDatesString(){
+    public String buildFlightWithDatesString() {
         return "{\n" +
                 "    \"flightName\": \"158\",\n" +
                 "    \"planeName\": \"Airbus A320\",\n" +
@@ -193,7 +196,7 @@ public class FlightControllerTest {
                 "}";
     }
 
-    private String buildFlightWithPeriodsString(){
+    private String buildFlightWithPeriodsString() {
         return "{\n" +
                 "    \"flightName\": \"158\",\n" +
                 "    \"planeName\": \"Airbus A320\",\n" +

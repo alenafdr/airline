@@ -1,6 +1,5 @@
 package com.airline.rest;
 
-import com.airline.dto.validation.New;
 import com.airline.model.dto.FlightDTO;
 import com.airline.model.dto.Schedule;
 import com.airline.service.FlightService;
@@ -71,7 +70,7 @@ public class FlightController {
     @PostMapping(value = "",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<FlightDTO> create(@RequestBody @Validated(value = New.class) FlightDTO flightDTO) {
+    public ResponseEntity<FlightDTO> create(@RequestBody @Validated FlightDTO flightDTO) {
 
         //logger.info();
         if (flightDTO == null) {
@@ -95,7 +94,7 @@ public class FlightController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<FlightDTO> update(@PathVariable("id") Long id,
-                                            @RequestBody FlightDTO flightDTO) {
+                                            @RequestBody @Validated FlightDTO flightDTO) {
         if (flightDTO == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

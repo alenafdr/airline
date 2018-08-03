@@ -1,8 +1,6 @@
 package com.airline.model.dto;
 
 import com.airline.dto.validation.CrossFieldValidation;
-import com.airline.dto.validation.Exist;
-import com.airline.dto.validation.New;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
@@ -11,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.AssertFalse;
-import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.math.BigDecimal;
@@ -19,41 +16,40 @@ import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 
-@CrossFieldValidation(groups = New.class)
+@CrossFieldValidation
 public class FlightDTO {
 
     Logger logger = LoggerFactory.getLogger(FlightDTO.class);
 
-    @Null(groups = New.class)
-    @NotNull(groups = Exist.class)
+    @Null
     private Long id;
 
-    @NotNull(groups = {New.class, Exist.class})
+    @NotNull
     private String flightName;
 
-    @NotNull(groups = {New.class, Exist.class})
+    @NotNull
     private String planeName;
 
-    @NotNull(groups = {New.class, Exist.class})
+    @NotNull
     private String fromTown;
 
-    @NotNull(groups = {New.class, Exist.class})
+    @NotNull
     private String toTown;
 
-    @NotNull(groups = {New.class, Exist.class})
+    @NotNull
     @JsonFormat(pattern = "HH:mm:ss", shape = JsonFormat.Shape.STRING)
     @ApiModelProperty(dataType = "java.lang.String", example = "hh:mm:ss")
     private Time start;
 
-    @NotNull(groups = {New.class, Exist.class})
+    @NotNull
     @JsonFormat(pattern = "HH:mm:ss", shape = JsonFormat.Shape.STRING)
     @ApiModelProperty(dataType = "java.lang.String", example = "hh:mm:ss")
     private Time duration;
 
-    @NotNull(groups = {New.class, Exist.class})
+    @NotNull
     private BigDecimal priceBusiness;
 
-    @NotNull(groups = {New.class, Exist.class})
+    @NotNull
     private BigDecimal priceEconomy;
 
     private Schedule schedule;
@@ -62,7 +58,7 @@ public class FlightDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private List<Date> dates;
 
-    @AssertFalse(groups = New.class)
+    @AssertFalse
     private boolean approved;
 
     public FlightDTO() {

@@ -36,7 +36,7 @@ import static org.mockito.Mockito.when;
 @ContextConfiguration(classes = ModelMapper.class)
 public class FlightServiceTest {
 
-    private static final Logger logger = LoggerFactory.getLogger(FlightServiceTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FlightServiceTest.class);
 
     @Autowired
     private ModelMapper modelMapper;
@@ -72,7 +72,7 @@ public class FlightServiceTest {
         when(classTypeDao.findClassTypeByName(ClassTypeEnum.BUSINESS.name())).thenReturn(new ClassType(1L, ClassTypeEnum.BUSINESS.name()));
         when(classTypeDao.findClassTypeByName(ClassTypeEnum.ECONOMY.name())).thenReturn(new ClassType(2L, ClassTypeEnum.ECONOMY.name()));
 
-        logger.info(flightService.save(flightDTO).toString());
+        LOGGER.info(flightService.save(flightDTO).toString());
 
     }
 
