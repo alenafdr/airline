@@ -18,7 +18,7 @@ import java.util.Optional;
 @Component
 public class ClientDao {
 
-    private static final Logger logger = LoggerFactory.getLogger(ClientDao.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClientDao.class);
 
     private SqlSessionFactory sqlSessionFactory;
 
@@ -32,7 +32,7 @@ public class ClientDao {
             String query = "ClientMapper.insertClient";
             session.insert(query, userClient);
         } catch (PersistenceException pe) {
-            logger.error(pe.getMessage());
+            LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {
@@ -47,7 +47,7 @@ public class ClientDao {
             String query = "ClientMapper.updateClient";
             session.update(query, userClient);
         } catch (PersistenceException pe) {
-            logger.error(pe.getMessage());
+            LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {
@@ -62,7 +62,8 @@ public class ClientDao {
             String query = "ClientMapper.findClientByLogin";
             userClient = (UserClient) session.selectOne(query, login);
         } catch (PersistenceException pe) {
-            logger.error(pe.getMessage());
+            LOGGER.error(pe.getMessage());
+
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {

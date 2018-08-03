@@ -8,7 +8,6 @@ public enum ErrorCode {
     DATABASE_ERROR(5),
     ARGUMENT_NOT_VALID(6),
     USER_NOT_FOUND(7)
-    ;
 
     ErrorCode(int code) {
         this.code = code;

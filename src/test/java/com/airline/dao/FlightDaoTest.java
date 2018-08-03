@@ -102,6 +102,7 @@ public class FlightDaoTest {
     }
 
     private Flight buildFlight() {
+
         Flight flight = new Flight();
         flight.setFlightName("158");
         flight.setFromTown("test");

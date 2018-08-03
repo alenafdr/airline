@@ -41,21 +41,24 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(AlreadyExistsException.class)
-    protected ResponseEntity<ApiError> handleAlreadyExistsException(AlreadyExistsException ex){
+
+    protected ResponseEntity<ApiError> handleAlreadyExistsException(AlreadyExistsException ex) {
         ApiError apiError = new ApiError();
         apiError.addSubError(ErrorCode.ALREADY_EXISTS.name(), "name", ex.getMessage());
         return new ResponseEntity<>(apiError, BAD_REQUEST);
     }
 
     @ExceptionHandler(ConnectDataBaseException.class)
-    protected ResponseEntity<ApiError> handleConnectDataBaseException(ConnectDataBaseException ex){
+
+    protected ResponseEntity<ApiError> handleConnectDataBaseException(ConnectDataBaseException ex) {
         ApiError apiError = new ApiError();
         apiError.addSubError(ErrorCode.CONNECT_TO_DATABASE.name(), "", ex.getMessage());
         return new ResponseEntity<>(apiError, INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(DatabaseException.class)
-    protected ResponseEntity<ApiError> handleDataBaseException(DatabaseException ex){
+
+    protected ResponseEntity<ApiError> handleDataBaseException(DatabaseException ex) {
         ApiError apiError = new ApiError();
         apiError.addSubError(ErrorCode.DATABASE_ERROR.name(), "", ex.getMessage());
         return new ResponseEntity<>(apiError, INTERNAL_SERVER_ERROR);

@@ -1,5 +1,7 @@
 package com.airline.dao;
 
+import com.airline.exceptions.ConnectDataBaseException;
+import com.airline.exceptions.DataBaseException;
 import com.airline.model.UserAdmin;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.session.SqlSession;
@@ -7,6 +9,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -14,7 +17,7 @@ import java.util.Optional;
 @Component
 public class AdminDao {
 
-    private static final Logger logger = LoggerFactory.getLogger(AdminDao.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AdminDao.class);
 
     private SqlSessionFactory sqlSessionFactory;
 
@@ -28,12 +31,12 @@ public class AdminDao {
             String query = "AdminMapper.insertAdmin";
             session.insert(query, userAdmin);
         } catch (PersistenceException pe) {
-            logger.error(pe.getMessage());
-            /*if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+            LOGGER.error(pe.getMessage());
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {
                 throw new DataBaseException("Database error");
-            }*/
+            }
         }
         return userAdmin.getId();
     }
@@ -43,12 +46,12 @@ public class AdminDao {
             String query = "AdminMapper.updateAdmin";
             session.update(query, userAdmin);
         } catch (PersistenceException pe) {
-            logger.error(pe.getMessage());
-            /*if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+            LOGGER.error(pe.getMessage());
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {
                 throw new DataBaseException("Database error");
-            }*/
+            }
         }
     }
 
@@ -58,12 +61,12 @@ public class AdminDao {
             String query = "AdminMapper.findAdminByLogin";
             userAdmin = (UserAdmin) session.selectOne(query, login);
         } catch (PersistenceException pe) {
-            logger.error(pe.getMessage());
-            /*if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+            LOGGER.error(pe.getMessage());
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {
                 throw new DataBaseException("Database error");
-            }*/
+            }
         }
         return Optional.ofNullable(userAdmin);
     }

@@ -41,8 +41,12 @@ public class SessionAuthenticationFilter extends GenericFilterBean {
 
         String login = (String) httpServletRequest.getSession().getAttribute("login");
         if (login == null) {
-            logger.error(httpServletRequest.getSession().getId());
-            throw new SessionIsNotAuthorizedException("Session is not authorized");
+            //for integration tests
+            if (httpServletRequest.getHeader("integrationTesting") == null) {
+                throw new SessionIsNotAuthorizedException("Session is not authorized");
+            } else {
+                login = System.getProperty("integrationTestLogin");
+            }
         }
 
         try {

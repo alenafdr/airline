@@ -30,7 +30,7 @@ public class SessionController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<UserEntityDTO> login(HttpServletRequest request,
-                                        @RequestBody Map<String, String> json) {
+                                               @RequestBody Map<String, String> json) {
         String login = json.get("login");
         UserEntityDTO userEntityDTO = userService.getUserByLogin(login);
         if (userEntityDTO.getPassword().equals(json.get("password"))) {
