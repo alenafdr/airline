@@ -20,7 +20,6 @@ public class UserEntityDTO {
 
     protected String patronymic;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     protected String userType;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

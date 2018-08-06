@@ -48,7 +48,10 @@ public class UserController {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<UserAdminDTO> updateAdmin(@RequestBody
                                                     @Validated(value = Exist.class)
-                                                            UserAdminDTO userAdminDTO) {
+                                                            UserAdminDTO userAdminDTO,
+                                                    HttpServletRequest request) {
+        String login = (String) request.getSession().getAttribute("login");
+        userAdminDTO.setLogin(login);
         return new ResponseEntity<>(userService.updateAdmin(userAdminDTO), HttpStatus.OK);
     }
 
@@ -69,7 +72,10 @@ public class UserController {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<UserClientDTO> updateClient(@RequestBody
                                                       @Validated(value = Exist.class)
-                                                              UserClientDTO userClientDTO) {
+                                                              UserClientDTO userClientDTO,
+                                                      HttpServletRequest request) {
+        String login = (String) request.getSession().getAttribute("login");
+        userClientDTO.setLogin(login);
         return new ResponseEntity<>(userService.updateClient(userClientDTO), HttpStatus.OK);
     }
 

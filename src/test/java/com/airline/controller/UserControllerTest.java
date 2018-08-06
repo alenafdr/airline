@@ -5,6 +5,7 @@ import com.airline.model.dto.UserClientDTO;
 import com.airline.rest.UserController;
 import com.airline.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -44,6 +45,14 @@ public class UserControllerTest {
     @MockBean
     private UserService userService;
 
+    private MockHttpSession mockSession;
+
+    @Before
+    public void init(){
+        mockSession = new MockHttpSession();
+        mockSession.setAttribute("login", "test");
+    }
+
     @Test
     public void createAdminTest() throws Exception{
         UserAdminDTO userAdminDTO = buildUserAdminDTO();
@@ -64,6 +73,7 @@ public class UserControllerTest {
         when(userService.updateAdmin(any(UserAdminDTO.class))).thenReturn(userAdminDTO);
 
         RequestBuilder requestBuilder = put("/api/admin/")
+                .session(mockSession)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(buildExistAdminDTOString())
                 .accept(MediaType.APPLICATION_JSON_UTF8_VALUE);
@@ -91,6 +101,7 @@ public class UserControllerTest {
         when(userService.updateClient(any(UserClientDTO.class))).thenReturn(userClientDTO);
 
         RequestBuilder requestBuilder = put("/api/client/")
+                .session(mockSession)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(buildExistClientDTOString())
                 .accept(MediaType.APPLICATION_JSON_UTF8_VALUE);
