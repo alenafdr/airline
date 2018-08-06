@@ -22,6 +22,10 @@
         select * from clients where login = #{login}
     </select>
 
+    <select id="findClientById" resultMap="ClientResultMap" parameterType="Long">
+        select * from clients where id = #{id}
+    </select>
+
     <update id="updateClient">
         update clients
         set

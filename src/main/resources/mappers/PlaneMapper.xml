@@ -25,7 +25,7 @@
         where name like #{name};
     </select>
     <resultMap id="PlaneResultMap" type="Plane">
-        <id property="id" column="plane_id" />
+        <id property="id" column="plane_id"/>
         <result property="name" column="name"/>
         <result property="businessRow" column="bussiness_row"/>
         <result property="economyRow" column="economy_row"/>

@@ -1,0 +1,33 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="OrderMapper">
+    <resultMap id="OrderResultMap" type="Order">
+        <constructor>
+            <idArg column="id" javaType="Long"/>
+        </constructor>
+        <id column="id" property="id"/>
+        <association property="departure"
+                     select="DepartureMapper.selectDepartureById"
+                     column="departure_id"/>
+
+        <association property="userClient"
+                     select="ClientMapper.findClientById"
+                     column="client_id"/>
+        <collection property="tickets"
+                    select="TicketMapper.findTicketsByOrderId"
+                    ofType="Ticket"
+                    column="id"/>
+    </resultMap>
+    <insert id="insertOrder">
+      insert into orders (departure_id, client_id)
+      values (#{departure.id}, #{userClient.id})
+    </insert>
+    <select id="findOrderById" resultMap="OrderResultMap">
+      select id,
+      departure_id,
+      client_id
+      from orders
+      where id = #{id};
+    </select>
+</mapper>

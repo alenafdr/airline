@@ -5,19 +5,19 @@
 
     <resultMap id="FlightResultMap" type="Flight" autoMapping="false">
         <constructor>
-            <idArg column="id" javaType="Long" />
+            <idArg column="id" javaType="Long"/>
         </constructor>
-        <id column="id" property="id" />
-        <result property="flightName" column="flight_name" />
-        <result property="fromTown" column="from_town" />
-        <result property="toTown" column="to_town" />
-        <result property="approved" column="approved" />
+        <id column="id" property="id"/>
+        <result property="flightName" column="flight_name"/>
+        <result property="fromTown" column="from_town"/>
+        <result property="toTown" column="to_town"/>
+        <result property="approved" column="approved"/>
         <result property="startTime" column="start_time"/>
         <result property="duration" column="duration"/>
-        <result property="fromDate" column="from_date" />
-        <result property="toDate" column="to_date" />
+        <result property="fromDate" column="from_date"/>
+        <result property="toDate" column="to_date"/>
         <association property="plane"
-                     resultMap="PlaneMapper.PlaneResultMap" />
+                     resultMap="PlaneMapper.PlaneResultMap"/>
         <collection property="prices"
                     column="id"
                     select="PriceMapper.selectPricesForFlight"
@@ -37,7 +37,7 @@
       values (#{flightName},#{plane.id},#{fromTown},#{toTown},#{startTime},#{duration},#{fromDate},#{toDate})
     </insert>
 
-    <select id="selectFlightById" parameterType="Long" resultMap="FlightResultMap" >
+    <select id="selectFlightById" parameterType="Long" resultMap="FlightResultMap">
         select
         f.id,
         f.flight_name,
