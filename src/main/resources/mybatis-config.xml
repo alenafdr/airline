@@ -37,6 +37,9 @@
 		<mapper resource="mappers/DepartureMapper.xml"/>
 		<mapper resource="mappers/AdminMapper.xml"/>
 		<mapper resource="mappers/ClientMapper.xml"/>
+		<mapper resource="mappers/OrderMapper.xml"/>
+		<mapper resource="mappers/TicketMapper.xml"/>
+		<mapper resource="mappers/NationalityMapper.xml"/>
 	</mappers>
 
 </configuration>
