@@ -19,7 +19,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.airline.rest"))
-                .paths(regex("/api/flights.*"))
+                .paths(regex("/api.*"))
                 .build();
 
     }

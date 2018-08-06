@@ -30,7 +30,7 @@ import static org.junit.Assert.assertTrue;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, classes = AirlineApplication.class)
 public class FlightIntegrationTest {
 
-    private static final Logger logger = LoggerFactory.getLogger(FlightIntegrationTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FlightIntegrationTest.class);
     public final static String USER_LOGIN = "ivanovadmin";
     private final static String USER_PASSWORD = "123456";
     private final String URL_FLIGHT = "http://localhost:8080/api/flights/";
@@ -51,11 +51,10 @@ public class FlightIntegrationTest {
     }
 
     @Test
-    public void flightIntegrationTest() throws Exception{
+    public void flightIntegrationTest() throws Exception {
         //залогинится админом
-
         ResponseEntity<UserEntityDTO> userEntityDTOResponse = restTemplate.exchange("http://localhost:8080/api/session/",
-                HttpMethod.POST ,
+                HttpMethod.POST,
                 createUserJson(),
                 UserEntityDTO.class);
 
@@ -121,17 +120,17 @@ public class FlightIntegrationTest {
 
         Schedule schedule = new Schedule();
         schedule.setFromDate(new Date());
-        schedule.setToDate(new Date(schedule.getFromDate().getTime() + 10*24*60*60*1000));
+        schedule.setToDate(new Date(schedule.getFromDate().getTime() + 10 * 24 * 60 * 60 * 1000));
         schedule.setPeriods(new ArrayList<>(Arrays.asList("1", "3", "10")));
 
         flightDTO.setSchedule(schedule);
         return flightDTO;
     }
 
-    private HttpEntity<Map<String,String>> createUserJson(){
-        Map<String,String> json = new HashMap<>();
-        json.put("login",USER_LOGIN);
-        json.put("password",USER_PASSWORD);
+    private HttpEntity<Map<String, String>> createUserJson() {
+        Map<String, String> json = new HashMap<>();
+        json.put("login", USER_LOGIN);
+        json.put("password", USER_PASSWORD);
         return new HttpEntity<>(json);
     }
 }

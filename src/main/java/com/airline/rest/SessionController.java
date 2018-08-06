@@ -17,7 +17,7 @@ import java.util.Map;
 @RequestMapping(value = "/api/session/")
 public class SessionController {
 
-    private static final Logger logger = LoggerFactory.getLogger(SessionController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SessionController.class);
 
     private UserService userService;
 
@@ -43,7 +43,6 @@ public class SessionController {
 
 
     @DeleteMapping(value = "",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Object> logout(HttpServletRequest request) {
         request.getSession().removeAttribute("login");

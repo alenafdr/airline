@@ -30,20 +30,19 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-import java.util.*;
+import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(value = SessionController.class)
 @ContextConfiguration(classes = {SecurityConfig.class, SessionUserDetailService.class, SessionController.class})
 public class SessionControllerTest {
 
-    private static final Logger logger = LoggerFactory.getLogger(SessionControllerTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SessionControllerTest.class);
     private final static String USER_LOGIN = "testLogin";
     private final static String USER_PASSWORD = "testPassword";
     private final static String USER_FIRST_NAME = "testFirstName";
@@ -77,7 +76,7 @@ public class SessionControllerTest {
     }
 
     @Test
-    public void sessionIsAuthorized() throws Exception{
+    public void sessionIsAuthorized() throws Exception {
         MockHttpSession mockSession = new MockHttpSession();
 
         when(clientDao.findByLogin(USER_LOGIN)).thenReturn(buildOptionalUserClient());
@@ -91,26 +90,22 @@ public class SessionControllerTest {
                 .content(createUserJson())
                 .accept(MediaType.APPLICATION_JSON);
 
-        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-
-        logger.info(result.getResponse().getContentAsString());
+        mockMvc.perform(requestBuilder).andExpect(status().isOk());
 
         requestBuilder = MockMvcRequestBuilders.get("/api/flights/1")
                 .session(mockSession)
                 .accept(MediaType.APPLICATION_JSON);
-        result = mockMvc.perform(requestBuilder).andReturn();
-
-        logger.info(result.getResponse().getContentAsString());
+        mockMvc.perform(requestBuilder).andExpect(status().isOk());
     }
 
-    private Optional<UserClient> buildOptionalUserClient(){
+    private Optional<UserClient> buildOptionalUserClient() {
         UserClient userClient = new UserClient();
         userClient.setLogin(USER_LOGIN);
         userClient.setPassword(USER_PASSWORD);
         return Optional.of(userClient);
     }
 
-    private UserEntityDTO buildDTOUser(){
+    private UserEntityDTO buildDTOUser() {
         UserClientDTO userClientDTO = new UserClientDTO();
         userClientDTO.setLogin(USER_LOGIN);
         userClientDTO.setPassword(USER_PASSWORD);
@@ -118,7 +113,7 @@ public class SessionControllerTest {
         return userClientDTO;
     }
 
-    private ResponseEntity<FlightDTO> buildFlight(){
+    private ResponseEntity<FlightDTO> buildFlight() {
         FlightDTO flightDTO = new FlightDTO();
 
         flightDTO.setId(1L);
@@ -127,7 +122,7 @@ public class SessionControllerTest {
         return new ResponseEntity<>(flightDTO, HttpStatus.OK);
     }
 
-    private String createUserJson(){
+    private String createUserJson() {
         return ("{\n" +
                 "\"login\":\"" + USER_LOGIN + "\",\n" +
                 "\"password\":\"" + USER_PASSWORD + "\"\n" +

@@ -33,4 +33,8 @@
         password = #{password}
         where id = #{id}
     </update>
+
+    <select id="list" resultMap="ClientResultMap">
+        select * from clients
+    </select>
 </mapper>

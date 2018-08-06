@@ -11,6 +11,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -19,7 +21,7 @@ import static org.junit.Assert.assertTrue;
 @MybatisTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class UserDaoTest {
-    private final static Logger logger = LoggerFactory.getLogger(UserDaoTest.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(UserDaoTest.class);
 
     @Autowired
     ClientDao clientDao;
@@ -39,6 +41,12 @@ public class UserDaoTest {
 
         userClient = clientDao.findByLogin("ivanov").get();
         assertTrue(userClient.getLastName().equals("test"));
+    }
+
+    @Test
+    public void listClientstest(){
+        List<UserClient> clients = clientDao.getList();
+        assertTrue(clients.size() != 0);
     }
 
     public UserClient buildClient(){

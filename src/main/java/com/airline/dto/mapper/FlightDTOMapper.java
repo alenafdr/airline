@@ -1,4 +1,4 @@
-package com.airline.dtomapper;
+package com.airline.dto.mapper;
 
 import com.airline.model.*;
 import com.airline.model.dto.FlightDTO;

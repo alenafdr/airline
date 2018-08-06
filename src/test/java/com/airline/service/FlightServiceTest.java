@@ -4,7 +4,7 @@ import com.airline.dao.ClassTypeDao;
 import com.airline.dao.FlightDao;
 import com.airline.dao.PeriodDao;
 import com.airline.dao.PlaneDao;
-import com.airline.dtomapper.FlightDTOMapper;
+import com.airline.dto.mapper.FlightDTOMapper;
 import com.airline.exceptions.AlreadyExistsException;
 import com.airline.exceptions.PlaneNotFoundException;
 import com.airline.model.*;
@@ -37,7 +37,7 @@ import static org.mockito.Mockito.when;
 @ContextConfiguration(classes = ModelMapper.class)
 public class FlightServiceTest {
 
-    private static final Logger logger = LoggerFactory.getLogger(FlightServiceTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FlightServiceTest.class);
 
     @Autowired
     private ModelMapper modelMapper;
@@ -73,7 +73,7 @@ public class FlightServiceTest {
         when(classTypeDao.findClassTypeByName(ClassTypeEnum.BUSINESS.name())).thenReturn(new ClassType(1L, ClassTypeEnum.BUSINESS.name()));
         when(classTypeDao.findClassTypeByName(ClassTypeEnum.ECONOMY.name())).thenReturn(new ClassType(2L, ClassTypeEnum.ECONOMY.name()));
 
-        logger.info(flightService.save(flightDTO).toString());
+        LOGGER.info(flightService.save(flightDTO).toString());
 
     }
 

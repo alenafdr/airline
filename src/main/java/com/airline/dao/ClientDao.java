@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -70,5 +71,21 @@ public class ClientDao {
             }
         }
         return Optional.ofNullable(userClient);
+    }
+
+    public List<UserClient> getList() {
+        List<UserClient> userClients;
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            String query = "ClientMapper.list";
+            userClients = session.selectList(query);
+        } catch (PersistenceException pe) {
+            LOGGER.error(pe.getMessage());
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+                throw new ConnectDataBaseException("No connection to database");
+            } else {
+                throw new DataBaseException("Database error");
+            }
+        }
+        return userClients;
     }
 }

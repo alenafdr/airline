@@ -25,10 +25,12 @@ public class SessionAuthenticationProvider implements AuthenticationProvider {
         SessionAuthentication sessionAuthentication = (SessionAuthentication) authentication;
         String login = (String) sessionAuthentication.getPrincipal();
         UserDetails userDetails = userDetailsService.loadUserByUsername(login);
-        sessionAuthentication.setAuthenticated(true);
-        sessionAuthentication.setDetails(userDetails);
 
-        return authentication;
+        SessionAuthentication newSessionAuthentication = new SessionAuthentication(userDetails.getAuthorities());
+        newSessionAuthentication.setAuthenticated(true);
+        newSessionAuthentication.setDetails(userDetails);
+
+        return newSessionAuthentication;
     }
 
     @Override

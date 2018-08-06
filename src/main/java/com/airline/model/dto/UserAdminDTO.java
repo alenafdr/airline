@@ -1,6 +1,10 @@
 package com.airline.model.dto;
 
+import javax.validation.constraints.NotNull;
+
 public class UserAdminDTO extends UserEntityDTO {
+
+    @NotNull
     private String position;
 
     public UserAdminDTO() {

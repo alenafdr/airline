@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.DateFormat;
@@ -38,8 +39,7 @@ public class FlightController {
             @ApiResponse(code = 400, message = "Error in the request"),
             @ApiResponse(code = 404, message = "Resource is not found")
     })
-    @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<FlightDTO>> list(@RequestParam(name = "fromTown", required = false) String fromTown,
                                                 @RequestParam(name = "toTown", required = false) String toTown,
                                                 @RequestParam(name = "flightName", required = false) String flightName,
@@ -59,9 +59,10 @@ public class FlightController {
             if (fromDate != null) flightDTO.getSchedule().setFromDate(format.parse(fromDate));
             if (toDate != null) flightDTO.getSchedule().setFromDate(format.parse(toDate));
         } catch (ParseException pe) {
-            logger.error(pe.toString());
+            logger.info(flightDTO.toString());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        logger.info(flightDTO.toString());
 
         return new ResponseEntity<>(flightService.listByParameters(flightDTO), HttpStatus.OK);
     }
@@ -69,8 +70,9 @@ public class FlightController {
     @PostMapping(value = "",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<FlightDTO> create(@RequestBody FlightDTO flightDTO) {
+    public ResponseEntity<FlightDTO> create(@RequestBody @Validated FlightDTO flightDTO) {
 
+        //logger.info();
         if (flightDTO == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -92,7 +94,7 @@ public class FlightController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<FlightDTO> update(@PathVariable("id") Long id,
-                                            @RequestBody FlightDTO flightDTO) {
+                                            @RequestBody @Validated FlightDTO flightDTO) {
         if (flightDTO == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -112,6 +114,5 @@ public class FlightController {
         flightService.delete(id);
         return new ResponseEntity<>("{}", HttpStatus.OK);
     }
-
 
 }
