@@ -66,6 +66,7 @@ public class UserServiceImpl implements UserService {
         return userAdminDTO;
     }
 
+    //TODO must be return without id
     @Override
     public UserAdminDTO updateAdmin(UserAdminDTO userAdminDTO) {
         String login = userAdminDTO.getLogin().toLowerCase();
@@ -93,6 +94,7 @@ public class UserServiceImpl implements UserService {
         return userClientDTO;
     }
 
+    //TODO must be return without id
     @Override
     public UserClientDTO updateClient(UserClientDTO userClientDTO) {
         String login = userClientDTO.getLogin().toLowerCase();
