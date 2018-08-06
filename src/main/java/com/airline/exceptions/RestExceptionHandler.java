@@ -57,7 +57,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(DatabaseException.class)
-
     protected ResponseEntity<ApiError> handleDataBaseException(DatabaseException ex) {
         ApiError apiError = new ApiError();
         apiError.addSubError(ErrorCode.DATABASE_ERROR.name(), "", ex.getMessage());

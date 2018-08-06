@@ -11,6 +11,10 @@ public class UserEntity {
     public UserEntity() {
     }
 
+    public UserEntity(Long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }

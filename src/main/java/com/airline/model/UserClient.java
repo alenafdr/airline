@@ -7,6 +7,10 @@ public class UserClient extends UserEntity {
     public UserClient() {
     }
 
+    public UserClient(Long id) {
+        super(id);
+    }
+
     public String getEmail() {
         return email;
     }
