@@ -79,7 +79,7 @@ public class ClientDao {
             String query = "ClientMapper.list";
             userClients = session.selectList(query);
         } catch (PersistenceException pe) {
-            logger.error(pe.getMessage());
+            LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {

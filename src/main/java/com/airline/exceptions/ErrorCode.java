@@ -7,7 +7,7 @@ public enum ErrorCode {
     CONNECT_TO_DATABASE(4),
     DATABASE_ERROR(5),
     ARGUMENT_NOT_VALID(6),
-    USER_NOT_FOUND(7)
+    USER_NOT_FOUND(7);
 
     ErrorCode(int code) {
         this.code = code;

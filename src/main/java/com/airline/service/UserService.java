@@ -7,10 +7,10 @@ import com.airline.model.dto.UserEntityDTO;
 import java.util.List;
 
 public interface UserService {
-    public UserEntityDTO getUserByLogin(String login);
-    public UserAdminDTO saveAdmin(UserAdminDTO userAdminDTO);
-    public UserAdminDTO updateAdmin(UserAdminDTO userAdminDTO);
-    public UserClientDTO saveClient(UserClientDTO userClientDTO);
-    public UserClientDTO updateClient(UserClientDTO userClientDTO);
-    public List<UserClientDTO> getListClients();
+    UserEntityDTO getUserByLogin(String login);
+    UserAdminDTO saveAdmin(UserAdminDTO userAdminDTO);
+    UserAdminDTO updateAdmin(UserAdminDTO userAdminDTO);
+    UserClientDTO saveClient(UserClientDTO userClientDTO);
+    UserClientDTO updateClient(UserClientDTO userClientDTO);
+    List<UserClientDTO> getListClients();
 }

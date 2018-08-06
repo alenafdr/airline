@@ -30,10 +30,10 @@ public class SessionUserDetailService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         UserEntity user;
-        Optional<UserClient> userClient = clientDao.findByLogin(s);
-        Optional<UserAdmin> userAdmin = adminDao.findByLogin(s);
+        Optional<UserClient> userClient = clientDao.findByLogin(login);
+        Optional<UserAdmin> userAdmin = adminDao.findByLogin(login);
         Set<GrantedAuthority> authorities = new HashSet<>();
         if (userClient.isPresent()) {
             authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
@@ -42,7 +42,7 @@ public class SessionUserDetailService implements UserDetailsService {
             authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
             user = userAdmin.get();
         } else {
-            throw new UsernameNotFoundException("Unknown " + s);
+            throw new UsernameNotFoundException("Unknown " + login);
         }
 
 
