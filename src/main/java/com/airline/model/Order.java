@@ -50,9 +50,10 @@ public class Order {
     @Override
     public String toString() {
         return "Order{" +
-                "id=" + id +
-                ", departure=" + departure +
-                ", tickets=" + tickets +
+                "\nid=" + id +
+                ", \ndeparture=" + departure +
+                ", \nuserClient=" + userClient +
+                ", \ntickets=" + tickets +
                 '}';
     }
 }

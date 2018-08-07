@@ -2,8 +2,8 @@ package com.airline.service;
 
 import com.airline.dao.AdminDao;
 import com.airline.dao.ClientDao;
-import com.airline.dto.mapper.UserAdminMapper;
-import com.airline.dto.mapper.UserClientMapper;
+import com.airline.dto.mapper.UserAdminDTOMapper;
+import com.airline.dto.mapper.UserClientDTOMapper;
 import com.airline.exceptions.AlreadyExistsException;
 import com.airline.exceptions.ChangePasswordException;
 import com.airline.exceptions.LoginNotFoundException;
@@ -16,7 +16,6 @@ import com.airline.model.dto.UserEntityDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,18 +25,18 @@ public class UserServiceImpl implements UserService {
 
     private AdminDao adminDao;
     private ClientDao clientDao;
-    private UserClientMapper userClientMapper;
-    private UserAdminMapper userAdminMapper;
+    private UserClientDTOMapper userClientDTOMapper;
+    private UserAdminDTOMapper userAdminDTOMapper;
 
     @Autowired
     public UserServiceImpl(AdminDao adminDao,
                            ClientDao clientDao,
-                           UserClientMapper userClientMapper,
-                           UserAdminMapper userAdminMapper) {
+                           UserClientDTOMapper userClientDTOMapper,
+                           UserAdminDTOMapper userAdminDTOMapper) {
         this.adminDao = adminDao;
         this.clientDao = clientDao;
-        this.userClientMapper = userClientMapper;
-        this.userAdminMapper = userAdminMapper;
+        this.userClientDTOMapper = userClientDTOMapper;
+        this.userAdminDTOMapper = userAdminDTOMapper;
     }
 
     @Override
@@ -46,22 +45,22 @@ public class UserServiceImpl implements UserService {
         UserEntityDTO entity;
         Optional<UserClient> userClient = clientDao.findByLogin(loginLC);
         if (userClient.isPresent()) {
-            entity = userClientMapper.convertToDTO(userClient.get());
+            entity = userClientDTOMapper.convertToDTO(userClient.get());
         } else {
-            entity = userAdminMapper.convertToDTO(adminDao.findByLogin(loginLC)
+            entity = userAdminDTOMapper.convertToDTO(adminDao.findByLogin(loginLC)
                     .orElseThrow(() -> new LoginNotFoundException("Not found user with login " + loginLC)));
         }
         return entity;
     }
 
     @Override
-    public UserAdminDTO saveAdmin(UserAdminDTO userAdminDTO){
+    public UserAdminDTO saveAdmin(UserAdminDTO userAdminDTO) {
         String loginLC = userAdminDTO.getLogin().toLowerCase();
         userAdminDTO.setLogin(loginLC);
         if (adminDao.findByLogin(loginLC).isPresent() || clientDao.findByLogin(loginLC).isPresent()) {
             throw new AlreadyExistsException("User with login " + userAdminDTO.getLogin() + " already exists");
         }
-        Long id = adminDao.save(userAdminMapper.converToEntity(userAdminDTO));
+        Long id = adminDao.save(userAdminDTOMapper.converToEntity(userAdminDTO));
         userAdminDTO.setId(id);
         return userAdminDTO;
     }
@@ -75,7 +74,7 @@ public class UserServiceImpl implements UserService {
         if (userAdmin.getPassword().equals(userAdminDTO.getOldPassword())) {
             userAdminDTO.setPassword(userAdminDTO.getNewPassword());
 
-            adminDao.update(userAdminMapper.converToEntity(userAdminDTO));
+            adminDao.update(userAdminDTOMapper.converToEntity(userAdminDTO));
             return userAdminDTO;
         } else {
             throw new ChangePasswordException("Wrong old password");
@@ -89,7 +88,7 @@ public class UserServiceImpl implements UserService {
         if (adminDao.findByLogin(loginLC).isPresent() || clientDao.findByLogin(loginLC).isPresent()) {
             throw new AlreadyExistsException("User with login " + userClientDTO.getLogin() + " already exists");
         }
-        Long id = clientDao.save(userClientMapper.converToEntity(userClientDTO));
+        Long id = clientDao.save(userClientDTOMapper.converToEntity(userClientDTO));
         userClientDTO.setId(id);
         return userClientDTO;
     }
@@ -103,7 +102,7 @@ public class UserServiceImpl implements UserService {
         if (userClient.getPassword().equals(userClientDTO.getOldPassword())) {
             userClientDTO.setPassword(userClientDTO.getNewPassword());
 
-            clientDao.update(userClientMapper.converToEntity(userClientDTO));
+            clientDao.update(userClientDTOMapper.converToEntity(userClientDTO));
             return userClientDTO;
         } else {
             throw new ChangePasswordException("Wrong old password");
@@ -114,7 +113,7 @@ public class UserServiceImpl implements UserService {
     public List<UserClientDTO> getListClients() {
         return clientDao.getList()
                 .stream()
-                .map(client -> userClientMapper.convertToDTO(client))
+                .map(client -> userClientDTOMapper.convertToDTO(client))
                 .collect(Collectors.toList());
     }
 }

@@ -1,5 +1,8 @@
 package com.airline.utils;
 
+import com.airline.model.Ticket;
+
+import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -53,5 +56,13 @@ public class Utils {
                 .stream()
                 .map(mp::get)
                 .collect(Collectors.toList());
+    }
+
+    public static BigDecimal calculateTotalPrice(List<Ticket> tickets) {
+        return tickets.stream()
+                .map(ticket -> ticket.getPrice().getPrice())
+                .collect(Collectors.toList())
+                .stream()
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

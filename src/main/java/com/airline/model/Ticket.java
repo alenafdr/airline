@@ -1,7 +1,5 @@
 package com.airline.model;
 
-import java.math.BigDecimal;
-
 public class Ticket {
     private Long id;
     private String firstName;
@@ -101,8 +99,9 @@ public class Ticket {
                 ", nationality=" + nationality +
                 ", passport='" + passport + '\'' +
                 ", classType=" + classType +
+                ", place='" + place + '\'' +
                 ", price=" + price +
-                ", order=" + order.getId() +
+                ", order=" + order +
                 '}';
     }
 }

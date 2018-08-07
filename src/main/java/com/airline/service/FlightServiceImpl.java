@@ -55,7 +55,7 @@ public class FlightServiceImpl implements FlightService {
     @Override
     public List<FlightDTO> listByParameters(FlightDTO flightDTO) {
         Plane plane = null;
-        if (flightDTO.getPlaneName() != null){
+        if (flightDTO.getPlaneName() != null) {
             plane = planeDao.findPlaneByName(flightDTO.getPlaneName())
                     .orElseThrow(() -> new PlaneNotFoundException("Not found plane with name " + flightDTO.getPlaneName()));
         }

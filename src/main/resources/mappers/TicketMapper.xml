@@ -2,7 +2,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="TicketMapper">
-    <resultMap id="ticektResultMap" type="Ticket">
+    <resultMap id="ticketResultMap" type="Ticket">
         <constructor>
             <idArg column="id" javaType="Long"/>
         </constructor>
@@ -23,7 +23,7 @@
                      select="PriceMapper.findPriceByOrderIdAndClassId"
                      column="{classId=class_id,orderId=order_id}"/>
     </resultMap>
-    <select id="findTicketById" resultMap="ticektResultMap">
+    <select id="findTicketById" resultMap="ticketResultMap">
       select t.id,
       t.order_id,
       t.first_name,
@@ -35,7 +35,7 @@
       from tickets t
       where id = #{id}
     </select>
-    <select id="findTicketsByOrderId" resultMap="ticektResultMap">
+    <select id="findTicketsByOrderId" resultMap="ticketResultMap">
       select t.id,
       t.order_id,
       t.first_name,
@@ -46,6 +46,20 @@
       t.place
       from tickets t
       where order_id = #{id}
+    </select>
+    <select id="findBusyPlaces" resultMap="ticketResultMap">
+        select t.id,
+      t.order_id,
+      t.first_name,
+      t.last_name,
+      t.nationality,
+      t.passport,
+      t.class_id,
+      t.place
+      from tickets t
+      join orders o on t.order_id = o.id
+      join departures d on o.departure_id = d.id
+      where d.id = #{departureId} and t.place is not null
     </select>
     <insert id="insertTicket" parameterType="Ticket" useGeneratedKeys="true" keyProperty="id">
         insert into tickets (order_id, first_name, last_name, nationality, passport, class_id)

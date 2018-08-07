@@ -2,8 +2,8 @@ package com.airline.service;
 
 import com.airline.dao.AdminDao;
 import com.airline.dao.ClientDao;
-import com.airline.dto.mapper.UserAdminMapper;
-import com.airline.dto.mapper.UserClientMapper;
+import com.airline.dto.mapper.UserAdminDTOMapper;
+import com.airline.dto.mapper.UserClientDTOMapper;
 import com.airline.exceptions.AlreadyExistsException;
 import com.airline.exceptions.ChangePasswordException;
 import com.airline.exceptions.UserNotFoundException;
@@ -52,9 +52,9 @@ public class UserServiceTest {
 
     @Before
     public void init() {
-        UserClientMapper userClientMapper = new UserClientMapper(modelMapper);
-        UserAdminMapper userAdminMapper = new UserAdminMapper(modelMapper);
-        userService = new UserServiceImpl(adminDao, clientDao, userClientMapper, userAdminMapper);
+        UserClientDTOMapper userClientDTOMapper = new UserClientDTOMapper(modelMapper);
+        UserAdminDTOMapper userAdminDTOMapper = new UserAdminDTOMapper(modelMapper);
+        userService = new UserServiceImpl(adminDao, clientDao, userClientDTOMapper, userAdminDTOMapper);
     }
 
     @Test
@@ -161,7 +161,7 @@ public class UserServiceTest {
         return userAdmin;
     }
 
-    private UserAdmin buildUserAdmin(){
+    private UserAdmin buildUserAdmin() {
         UserAdmin userAdmin = new UserAdmin();
         userAdmin.setFirstName("test first name");
         userAdmin.setLastName("test last name");
@@ -180,7 +180,7 @@ public class UserServiceTest {
         return userClient;
     }
 
-    private UserClient buildUserClient(){
+    private UserClient buildUserClient() {
         UserClient userClient = new UserClient();
         userClient.setFirstName("test first name");
         userClient.setLastName("test last name");
