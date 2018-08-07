@@ -73,6 +73,22 @@ public class TicketDao {
         return tickets;
     }
 
+    public List<Ticket> findBusyPlaces(Long departureId) {
+        List<Ticket> tickets;
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            String query = "TicketMapper.findBusyPlaces";
+            tickets = session.selectList(query, departureId);
+        } catch (PersistenceException pe) {
+            LOGGER.error(pe.getMessage());
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+                throw new ConnectDataBaseException("No connection to database");
+            } else {
+                throw new DataBaseException("Database error");
+            }
+        }
+        return tickets;
+    }
+
     public void updatePlaceInTicket(Ticket ticket) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "TicketMapper.updatePlaceInTicket";

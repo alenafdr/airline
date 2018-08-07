@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserClientMapper {
+public class UserClientDTOMapper {
     private ModelMapper modelMapper;
 
     @Autowired
-    public UserClientMapper(ModelMapper modelMapper) {
+    public UserClientDTOMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }
 

@@ -13,6 +13,7 @@ import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class DepartureDao {
@@ -39,7 +40,7 @@ public class DepartureDao {
         }
     }
 
-    public List<Departure> selectDepartureByFlightId(Long id) {
+    public List<Departure> findDepartureByFlightId(Long id) {
         List<Departure> entities = null;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "DepartureMapper.selectDeparturesByFlightId";
@@ -53,6 +54,22 @@ public class DepartureDao {
             }
         }
         return entities;
+    }
+
+    public Optional<Departure> findDepartureById(Long id) {
+        Departure departure;
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            String query = "DepartureMapper.selectDepartureById";
+            departure = session.selectOne(query, id);
+        } catch (PersistenceException pe) {
+            LOGGER.error(pe.getMessage());
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+                throw new ConnectDataBaseException("No connection to database");
+            } else {
+                throw new DataBaseException("Database error");
+            }
+        }
+        return Optional.ofNullable(departure);
     }
 
     public void update(Departure departure) {

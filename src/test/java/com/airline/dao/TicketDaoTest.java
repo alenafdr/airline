@@ -27,7 +27,10 @@ public class TicketDaoTest {
 
     @Test
     public void findTicketByIdTest() {
-        assertTrue(ticketDao.findTicketsByOrderId(11L).size() > 1);
+        Ticket ticket = ticketDao.findTicketById(11L).get();
+
+        assertNotNull(ticket.getOrder());
+        assertNotNull(ticket.getOrder().getDeparture().getFlight().getPlane());
     }
 
     @Test
@@ -36,7 +39,7 @@ public class TicketDaoTest {
     }
 
     @Test
-    public void uodatePlaceInTicket() {
+    public void updatePlaceInTicket() {
         Ticket ticket = buildTicket();
 
         Long id = ticketDao.save(ticket);
@@ -50,6 +53,13 @@ public class TicketDaoTest {
 
         assertEquals(ticket.getPlace(), "1A");
 
+    }
+
+    @Test
+    public void findEngagedPlacesTest() {
+        for (Ticket ticket : ticketDao.findBusyPlaces(2L)) {
+            assertNotNull(ticket.getPlace());
+        }
     }
 
     private Ticket buildTicket() {
