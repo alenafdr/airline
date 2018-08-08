@@ -7,7 +7,9 @@ import com.airline.model.Ticket;
 import com.airline.model.dto.TicketDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TicketDTOMapper {
     private ModelMapper modelMapper;
 

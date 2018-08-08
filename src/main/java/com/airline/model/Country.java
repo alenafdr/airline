@@ -30,9 +30,6 @@ public class Country {
 
     @Override
     public String toString() {
-        return "Country{" +
-                "iso='" + iso + '\'' +
-                ", name='" + name + '\'' +
-                '}';
+        return iso + "-" + name;
     }
 }

@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
             entity = userClientDTOMapper.convertToDTO(userClient.get());
         } else {
             entity = userAdminDTOMapper.convertToDTO(adminDao.findByLogin(loginLC)
-                    .orElseThrow(() -> new LoginNotFoundException("Not found user with login " + loginLC)));
+                    .orElseThrow(() -> new LoginNotFoundException("Not found user with login " + login)));
         }
         return entity;
     }
@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
     public UserAdminDTO updateAdmin(UserAdminDTO userAdminDTO) {
         String login = userAdminDTO.getLogin().toLowerCase();
         UserAdmin userAdmin = adminDao.findByLogin(login)
-                .orElseThrow(() -> new UserNotFoundException("Not found user with login " + login));
+                .orElseThrow(() -> new UserNotFoundException("Not found user with login " + userAdminDTO.getLogin()));
         if (userAdmin.getPassword().equals(userAdminDTO.getOldPassword())) {
             userAdminDTO.setPassword(userAdminDTO.getNewPassword());
 
@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService {
     public UserClientDTO updateClient(UserClientDTO userClientDTO) {
         String login = userClientDTO.getLogin().toLowerCase();
         UserClient userClient = clientDao.findByLogin(login)
-                .orElseThrow(() -> new UserNotFoundException("Not found user with login " + login));
+                .orElseThrow(() -> new UserNotFoundException("Not found user with login " + userClientDTO.getLogin()));
         if (userClient.getPassword().equals(userClientDTO.getOldPassword())) {
             userClientDTO.setPassword(userClientDTO.getNewPassword());
 

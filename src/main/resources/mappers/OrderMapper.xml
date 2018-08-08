@@ -55,7 +55,7 @@
             <if test="departure.flight.flightName != null">
                 and f.flight_name like #{departure.flight.flightName}
             </if>
-            <if test="departure.flight.plane.name != null">
+            <if test="departure.flight.plane != null and departure.flight.plane.name != null">
                 and p.name like #{departure.flight.plane.name}
             </if>
             <if test="departure.flight.fromDate != null">
