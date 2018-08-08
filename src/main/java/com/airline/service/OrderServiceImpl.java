@@ -165,8 +165,8 @@ public class OrderServiceImpl implements OrderService {
         Ticket ticket = ticketDao.findTicketById(placeDTO.getTicket())
                 .orElseThrow(() -> new TicketNotFoundException("Not found ticket with id " + placeDTO.getTicket()));
 
-        if (!login.equals(ticket.getOrder().getUserClient().getLogin())){
-            throw  new TicketNotFoundException("Not found ticket " + placeDTO.getTicket() + " for user with login " + login);
+        if (!login.equals(ticket.getOrder().getUserClient().getLogin())) {
+            throw new TicketNotFoundException("Not found ticket " + placeDTO.getTicket() + " for user with login " + login);
         }
 
         Plane plane = ticket.getOrder().getDeparture().getFlight().getPlane();
@@ -184,15 +184,23 @@ public class OrderServiceImpl implements OrderService {
         return placeDTO;
     }
 
-    //TODO количество мест в ряду в бизнес и в экономе отличается!
     public List<String> getPlacesByPlane(Plane plane) {
-        int rows = plane.getBusinessRow() + plane.getEconomyRow();
-        int placesInRow = plane.getPlacesInBusinessRow();
+        int rows = plane.getEconomyRow() + plane.getBusinessRow();
+        int rowsInBusiness = plane.getBusinessRow();
+        int placesInRowBusiness = plane.getPlacesInBusinessRow();
+        int placesInRowEconomy = plane.getPlacesInEconomyRow();
         List<String> listPlaces = new ArrayList<>();
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < placesInRow; j++) {
+        int currRow = 0;
+        for (; currRow < rowsInBusiness; currRow++) {
+            for (int j = 0; j < placesInRowBusiness; j++) {
                 char place = (char) (j + 65);
-                listPlaces.add(String.valueOf(i + 1) + Character.toString(place));
+                listPlaces.add(String.valueOf(currRow + 1) + Character.toString(place));
+            }
+        }
+        for (; currRow < rows; currRow++) {
+            for (int j = 0; j < placesInRowEconomy; j++) {
+                char place = (char) (j + 65);
+                listPlaces.add(String.valueOf(currRow + 1) + Character.toString(place));
             }
         }
         return listPlaces;
