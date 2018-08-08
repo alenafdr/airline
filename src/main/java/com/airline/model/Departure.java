@@ -19,6 +19,10 @@ public class Departure {
         this.date = date;
     }
 
+    public Departure(Flight flight) {
+        this.flight = flight;
+    }
+
     public Departure(Date date, Flight flight) {
         this.date = date;
         this.flight = flight;

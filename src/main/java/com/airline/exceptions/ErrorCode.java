@@ -13,7 +13,9 @@ public enum ErrorCode {
     PRICE_NOT_FOUND(10),
     ORDER_NOT_FOUND(11),
     TICKET_NOT_FOUND(12),
-    WRONG_PLACE(13);
+    WRONG_PLACE(13),
+    WRONG_DATE_FORMAT(14)
+    ;
 
     ErrorCode(int code) {
         this.code = code;

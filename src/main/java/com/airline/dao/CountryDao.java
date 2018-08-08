@@ -25,7 +25,7 @@ public class CountryDao {
         this.sqlSessionFactory = sqlSessionFactory;
     }
 
-    public Optional<Country> getCountryByIso(String iso) {
+    public Optional<Country> findCountryByIso(String iso) {
         Country country;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "NationalityMapper.selectCountryByIso";

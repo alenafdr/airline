@@ -60,7 +60,7 @@ public class FlightDaoTest {
         plane.setName("ТУ-134");
         flight.setPlane(plane);
         flight.setFlightName("53");
-        List<Flight> flights = flightDao.listByParameters(flight);
+        List<Flight> flights = flightDao.findListByParameters(flight);
         flights.forEach(item -> LOGGER.info(item.getId().toString()));
     }
 
@@ -124,7 +124,7 @@ public class FlightDaoTest {
         flight.setDepartures(departures);
 
         List<Period> periods = new ArrayList<>();
-        periods.add(periodDao.selectPeriodById(1L));
+        periods.add(periodDao.findPeriodById(1L));
         flight.setPeriods(periods);
 
         return flight;

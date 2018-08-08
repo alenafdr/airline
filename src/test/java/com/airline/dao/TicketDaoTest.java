@@ -57,7 +57,7 @@ public class TicketDaoTest {
 
     @Test
     public void findEngagedPlacesTest() {
-        for (Ticket ticket : ticketDao.findBusyPlaces(2L)) {
+        for (Ticket ticket : ticketDao.findOccupyPlaces(2L)) {
             assertNotNull(ticket.getPlace());
         }
     }

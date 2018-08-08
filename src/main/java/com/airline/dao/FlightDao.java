@@ -40,7 +40,7 @@ public class FlightDao {
         this.departureDao = departureDao;
     }
 
-    public int selectCountByName(String s) {
+    public int findCountByName(String s) {
         int count;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "FlightMapper.selectCountByName";
@@ -184,7 +184,7 @@ public class FlightDao {
         }
     }
 
-    public List<Flight> listByParameters(Flight flight) {
+    public List<Flight> findListByParameters(Flight flight) {
         List<Flight> entities = null;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "FlightMapper.selectListByParameters";

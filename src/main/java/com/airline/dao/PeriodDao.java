@@ -44,7 +44,7 @@ public class PeriodDao {
 
     }
 
-    public List<Period> selectPeriodsByFlightId(Long id) {
+    public List<Period> findPeriodsByFlightId(Long id) {
         List<Period> entities = null;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "PeriodMapper.selectPeriodsByFlightId";
@@ -60,7 +60,7 @@ public class PeriodDao {
         return entities;
     }
 
-    public Period selectPeriodById(Long id) {
+    public Period findPeriodById(Long id) {
         Period entity = null;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "PeriodMapper.selectPeriodById";
@@ -76,7 +76,7 @@ public class PeriodDao {
         return entity;
     }
 
-    public Period selectPeriodByValue(String value) {
+    public Period findPeriodByValue(String value) {
         Period entity = null;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "PeriodMapper.selectPeriodByValue";

@@ -24,9 +24,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.time.ZoneId;
-import java.util.Arrays;
 import java.time.ZoneId;
 import java.util.*;
 
@@ -68,8 +65,8 @@ public class FlightServiceTest {
         FlightDTO flightDTO = buildFlight();
 
         when(planeDao.findPlaneByName("testPlane")).thenReturn(Optional.ofNullable(new Plane(1L, "testPlane", 2, 2, 2, 4)));
-        when(periodDao.selectPeriodByValue("Thu")).thenReturn(new Period(30L, "Thu"));
-        when(periodDao.selectPeriodByValue("Fri")).thenReturn(new Period(32L, "Fri"));
+        when(periodDao.findPeriodByValue("Thu")).thenReturn(new Period(30L, "Thu"));
+        when(periodDao.findPeriodByValue("Fri")).thenReturn(new Period(32L, "Fri"));
         when(classTypeDao.findClassTypeByName(ClassTypeEnum.BUSINESS.name())).thenReturn(new ClassType(1L, ClassTypeEnum.BUSINESS.name()));
         when(classTypeDao.findClassTypeByName(ClassTypeEnum.ECONOMY.name())).thenReturn(new ClassType(2L, ClassTypeEnum.ECONOMY.name()));
 
@@ -113,7 +110,7 @@ public class FlightServiceTest {
     }
 
     @Test(expected = PlaneNotFoundException.class)
-    public void createFlightWithUnknownPlane(){
+    public void createFlightWithUnknownPlane() {
         FlightDTO flightDTO = buildFlight();
         when(planeDao.findPlaneByName("testPlane")).thenReturn(Optional.ofNullable(null));
         flightService.save(flightDTO);
@@ -121,17 +118,17 @@ public class FlightServiceTest {
     }
 
     @Test(expected = AlreadyExistsException.class)
-    public void createFlightWithDuplicateName(){
+    public void createFlightWithDuplicateName() {
         FlightDTO flightDTO = buildFlight();
 
         when(planeDao.findPlaneByName("testPlane")).thenReturn(Optional.ofNullable(new Plane(1L, "testPlane", 2, 2, 2, 4)));
-        when(periodDao.selectPeriodByValue("Thu")).thenReturn(new Period(30L, "Thu"));
-        when(periodDao.selectPeriodByValue("Fri")).thenReturn(new Period(32L, "Fri"));
+        when(periodDao.findPeriodByValue("Thu")).thenReturn(new Period(30L, "Thu"));
+        when(periodDao.findPeriodByValue("Fri")).thenReturn(new Period(32L, "Fri"));
         when(classTypeDao.findClassTypeByName(ClassTypeEnum.BUSINESS.name())).thenReturn(new ClassType(1L, ClassTypeEnum.BUSINESS.name()));
         when(classTypeDao.findClassTypeByName(ClassTypeEnum.ECONOMY.name())).thenReturn(new ClassType(2L, ClassTypeEnum.ECONOMY.name()));
 
         flightService.save(flightDTO);
-        when(flightDao.selectCountByName("test")).thenReturn(1);
+        when(flightDao.findCountByName("test")).thenReturn(1);
         flightService.save(flightDTO);
     }
 

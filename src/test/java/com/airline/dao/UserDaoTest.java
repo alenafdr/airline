@@ -45,7 +45,7 @@ public class UserDaoTest {
 
     @Test
     public void listClientstest(){
-        List<UserClient> clients = clientDao.getList();
+        List<UserClient> clients = clientDao.findList();
         assertTrue(clients.size() != 0);
     }
 

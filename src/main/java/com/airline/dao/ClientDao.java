@@ -73,7 +73,24 @@ public class ClientDao {
         return Optional.ofNullable(userClient);
     }
 
-    public List<UserClient> getList() {
+    public Optional<UserClient> findById(Long id) {
+        UserClient userClient = null;
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            String query = "ClientMapper.findClientById";
+            userClient = (UserClient) session.selectOne(query, id);
+        } catch (PersistenceException pe) {
+            LOGGER.error(pe.getMessage());
+
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+                throw new ConnectDataBaseException("No connection to database");
+            } else {
+                throw new DataBaseException("Database error");
+            }
+        }
+        return Optional.ofNullable(userClient);
+    }
+
+    public List<UserClient> findList() {
         List<UserClient> userClients;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "ClientMapper.list";
