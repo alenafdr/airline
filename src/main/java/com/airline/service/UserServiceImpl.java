@@ -111,7 +111,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserClientDTO> getListClients() {
-        return clientDao.getList()
+        return clientDao.findList()
                 .stream()
                 .map(client -> userClientDTOMapper.convertToDTO(client))
                 .collect(Collectors.toList());

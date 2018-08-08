@@ -65,7 +65,7 @@ public class FlightServiceImpl implements FlightService {
                 null,
                 null,
                 null);
-        return flightDao.listByParameters(flight)
+        return flightDao.findListByParameters(flight)
                 .stream()
                 .map(flight1 -> flightDTOMapper.convertToDTO(flight1))
                 .collect(Collectors.toList());
@@ -73,7 +73,7 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public FlightDTO save(FlightDTO flightDTO) {
-        if (flightDao.selectCountByName(flightDTO.getFlightName()) != 0) {
+        if (flightDao.findCountByName(flightDTO.getFlightName()) != 0) {
             throw new AlreadyExistsException("Flight with name " + flightDTO.getFlightName() + " already exists");
         }
         Flight flight = buildDependencies(flightDTO);
@@ -113,7 +113,7 @@ public class FlightServiceImpl implements FlightService {
 
         List<Period> periods = flightDTO.getSchedule().getPeriods()
                 .stream()
-                .map(s -> periodDao.selectPeriodByValue(s))
+                .map(s -> periodDao.findPeriodByValue(s))
                 .collect(Collectors.toList());
 
         List<Departure> departures;

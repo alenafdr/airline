@@ -73,10 +73,10 @@ public class TicketDao {
         return tickets;
     }
 
-    public List<Ticket> findBusyPlaces(Long departureId) {
+    public List<Ticket> findOccupyPlaces(Long departureId) {
         List<Ticket> tickets;
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            String query = "TicketMapper.findBusyPlaces";
+            String query = "TicketMapper.findOccupyPlaces";
             tickets = session.selectList(query, departureId);
         } catch (PersistenceException pe) {
             LOGGER.error(pe.getMessage());

@@ -1,9 +1,6 @@
 package com.airline.dao;
 
-import com.airline.model.Departure;
-import com.airline.model.Order;
-import com.airline.model.Ticket;
-import com.airline.model.UserClient;
+import com.airline.model.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
@@ -14,7 +11,10 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
@@ -33,9 +33,35 @@ public class OrderDaoTest {
 
     @Test
     public void getOrderByIdTest() {
-        Order order = orderDao.getOrderById(11L).get();
+        Order order = orderDao.findOrderById(11L).get();
         assertNotNull(order.getDeparture().getFlight());
         assertNotNull(order.getDeparture().getFlight().getPlane().getName());
+    }
+
+    @Test
+    public void getOrdersByParameters() throws Exception{
+        Plane plane = new Plane();
+        plane.setName("Airbus A320");
+
+        Flight flight = new Flight();
+        flight.setFromTown("Омск");
+        flight.setToTown("Владивосток");
+        flight.setFlightName("958");
+
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date fromDate = format.parse("2018-07-17");
+        Date toDate = format.parse("2018-07-30");
+
+        flight.setFromDate(fromDate);
+        flight.setToDate(toDate);
+        flight.setPlane(plane);
+
+        Departure departure = new Departure(flight);
+
+        Order order = new Order();
+        order.setDeparture(departure);
+
+        assertTrue(orderDao.findOrdersByParameters(order).size() > 0);
     }
 
     @Test

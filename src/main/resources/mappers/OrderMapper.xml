@@ -10,7 +10,6 @@
         <association property="departure"
                      select="DepartureMapper.selectDepartureById"
                      column="departure_id"/>
-
         <association property="userClient"
                      select="ClientMapper.findClientById"
                      column="client_id"/>
@@ -29,5 +28,47 @@
       client_id
       from orders
       where id = #{id};
+    </select>
+    <select id="findOrdersByParameters" resultMap="OrderResultMap">
+        select
+        o.id,
+        o.departure_id,
+        o.client_id,
+        f.from_town,
+        f.to_town,
+        f.flight_name,
+        f.from_date,
+        f.to_date,
+        p.name,
+        d.date
+        from orders o
+        join departures d on o.departure_id = d.id
+        join flights f on d.flight_id = f.id
+        join planes p on f.flight_plane_id = p.plane_id
+        <where>
+            <if test="departure.flight.fromTown != null">
+                f.from_town like #{departure.flight.fromTown}
+            </if>
+            <if test="departure.flight.toTown != null">
+                and f.to_town like #{departure.flight.toTown}
+            </if>
+            <if test="departure.flight.flightName != null">
+                and f.flight_name like #{departure.flight.flightName}
+            </if>
+            <if test="departure.flight.plane.name != null">
+                and p.name like #{departure.flight.plane.name}
+            </if>
+            <if test="departure.flight.fromDate != null">
+                and d.date >= #{departure.flight.fromDate}
+            </if>
+            <if test="departure.flight.toDate != null">
+                <![CDATA[
+                and d.date <= #{departure.flight.toDate}
+                ]]>
+            </if>
+            <if test="userClient != null and userClient.id != null">
+                and o.client_id = #{userClient.id}
+            </if>
+        </where>
     </select>
 </mapper>

@@ -5,4 +5,3 @@ public class WrongPlaceException extends RuntimeException {
         super(s);
     }
 }
-l

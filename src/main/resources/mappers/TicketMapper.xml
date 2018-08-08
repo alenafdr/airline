@@ -47,7 +47,7 @@
       from tickets t
       where order_id = #{id}
     </select>
-    <select id="findBusyPlaces" resultMap="ticketResultMap">
+    <select id="findOccupyPlaces" resultMap="ticketResultMap">
         select t.id,
       t.order_id,
       t.first_name,

@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.text.ParseException;
+
 import static org.springframework.http.HttpStatus.*;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -121,6 +123,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<ApiError> handleWrongPlaceException(WrongPlaceException ex) {
         ApiError apiError = new ApiError();
         apiError.addSubError(ErrorCode.WRONG_PLACE.name(), "place", ex.getMessage());
+        return new ResponseEntity<>(apiError, BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ParseException.class)
+    protected ResponseEntity<ApiError> handleParseException(ParseException ex) {
+        ApiError apiError = new ApiError();
+        apiError.addSubError(ErrorCode.WRONG_DATE_FORMAT.name(), "Date", ex.getMessage());
         return new ResponseEntity<>(apiError, BAD_REQUEST);
     }
 

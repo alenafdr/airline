@@ -22,10 +22,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.math.BigDecimal;
 import java.sql.Time;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
@@ -59,6 +56,12 @@ public class OrderServiceTest {
     @MockBean
     private PriceDao priceDao;
 
+    @MockBean
+    private PlaneDao planeDao;
+
+    @MockBean
+    private ClientDao clientDao;
+
     private OrderDTOMapper orderDTOMapper;
 
     private TicketDTOMapper ticketDTOMapper;
@@ -73,17 +76,18 @@ public class OrderServiceTest {
                 orderDao, ticketDao,
                 orderDTOMapper, ticketDTOMapper,
                 departureDao, classTypeDao,
-                countryDao, priceDao);
+                countryDao, priceDao,
+                planeDao, clientDao);
     }
 
     @Test
     public void saveOrderTest() {
         when(departureDao.findDepartureById(anyLong())).thenReturn(buildDeparture());
-        when(countryDao.getCountryByIso("RU")).thenReturn(Optional.ofNullable(new Country("RU", "Russian federation")));
+        when(countryDao.findCountryByIso("RU")).thenReturn(Optional.ofNullable(new Country("RU", "Russian federation")));
         when(classTypeDao.findClassTypeByName(any())).thenReturn(new ClassType(1L, ClassTypeEnum.ECONOMY.name()));
         when(priceDao.findPricesByFlightId(anyLong())).thenReturn(buildListPrices());
         when(orderDao.saveOrder(any(Order.class))).thenReturn(1L);
-        when(orderDao.getOrderById(anyLong())).thenReturn(Optional.ofNullable(buildOrder()));
+        when(orderDao.findOrderById(anyLong())).thenReturn(Optional.ofNullable(buildOrder()));
 
         OrderDTO orderDTO = orderService.saveOrder(buildOrderDTO(), new UserClient(1L));
         assertNotNull(orderDTO.getOrderId());
@@ -101,8 +105,8 @@ public class OrderServiceTest {
 
     @Test
     public void getFreePlacesTest() {
-        when(orderDao.getOrderById(anyLong())).thenReturn(Optional.ofNullable(buildOrder()));
-        when(ticketDao.findBusyPlaces(anyLong())).thenReturn(buildBusyTickets());
+        when(orderDao.findOrderById(anyLong())).thenReturn(Optional.ofNullable(buildOrder()));
+        when(ticketDao.findOccupyPlaces(anyLong())).thenReturn(buildBusyTickets());
 
         assertFalse(orderService.getFreePlaces(1L).contains("1A"));
     }
@@ -149,7 +153,15 @@ public class OrderServiceTest {
         assertFalse(orderService.isPlaceInRightClass(plane, classTypeBusiness, "4A"));
         assertTrue(orderService.isPlaceInRightClass(plane, classTypeBusiness, "2A"));
         assertFalse(orderService.isPlaceInRightClass(plane, classTypeEconomy, "1A"));
+    }
 
+    @Test
+    public void getOrdersByParametersTest() throws Exception {
+        when(planeDao.findPlaneByName(any())).thenReturn(Optional.ofNullable(buildPlane()));
+        when(clientDao.findById(anyLong())).thenReturn(Optional.ofNullable(new UserClient(1L)));
+        when(orderDao.findOrdersByParameters(any(Order.class))).thenReturn(buildListOrders());
+
+        assertTrue(orderService.getOrdersByParameters(buildParameters()).size() > 0);;
     }
 
     //tests DTO mappers
@@ -330,6 +342,25 @@ public class OrderServiceTest {
         placeDTO.setPlace("1A");
         placeDTO.setTicket(1L);
         return placeDTO;
+    }
+
+    private Map<String, String> buildParameters() {
+        Map<String, String> map = new HashMap<>();
+        map.put(ParametersEnum.PLANE_NAME.getValue(), "test plane");
+        map.put(ParametersEnum.FROM_TOWN.getValue(), "test");
+        map.put(ParametersEnum.TO_TOWN.getValue(), "test");
+        map.put(ParametersEnum.FLIGHT_NAME.getValue(), "test");
+        map.put(ParametersEnum.FROM_DATE.getValue(), "2018-01-01");
+        map.put(ParametersEnum.TO_DATE.getValue(), "2018-08-01");
+        map.put(ParametersEnum.CLIENT_ID.getValue(), "1");
+        return map;
+    }
+
+    public List<Order> buildListOrders() {
+        List<Order> orders = new ArrayList<>();
+        orders.add(buildOrder());
+        orders.add(buildOrder());
+        return orders;
     }
 
 }

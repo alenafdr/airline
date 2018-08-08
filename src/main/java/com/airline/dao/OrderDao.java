@@ -14,6 +14,7 @@ import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -21,7 +22,6 @@ public class OrderDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(TicketDao.class);
 
     private SqlSessionFactory sqlSessionFactory;
-
     private TicketDao ticketDao;
 
     @Autowired
@@ -52,7 +52,7 @@ public class OrderDao {
         return order.getId();
     }
 
-    public Optional<Order> getOrderById(Long id) {
+    public Optional<Order> findOrderById(Long id) {
         Order order = null;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "OrderMapper.findOrderById";
@@ -68,5 +68,20 @@ public class OrderDao {
         return Optional.ofNullable(order);
     }
 
+    public List<Order> findOrdersByParameters(Order order){
+        List<Order> orders;
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            String query = "OrderMapper.findOrdersByParameters";
+            orders = session.selectList(query, order);
+        } catch (PersistenceException pe) {
+            LOGGER.error(pe.getMessage());
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+                throw new ConnectDataBaseException("No connection to database");
+            } else {
+                throw new DataBaseException("Database error");
+            }
+        }
+        return orders;
+    }
 
 }
