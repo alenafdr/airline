@@ -89,7 +89,7 @@ public class OrderServiceTest {
         when(orderDao.saveOrder(any(Order.class))).thenReturn(1L);
         when(orderDao.findOrderById(anyLong())).thenReturn(Optional.ofNullable(buildOrder()));
 
-        OrderDTO orderDTO = orderService.saveOrder(buildOrderDTO(), new UserClient(1L));
+        OrderDTO orderDTO = orderService.saveOrder(buildOrderDTO(),"testLogin");
         assertNotNull(orderDTO.getOrderId());
         assertNotNull(orderDTO.getFlightId());
         assertNotNull(orderDTO.getFromTown());
@@ -108,21 +108,21 @@ public class OrderServiceTest {
         when(orderDao.findOrderById(anyLong())).thenReturn(Optional.ofNullable(buildOrder()));
         when(ticketDao.findOccupyPlaces(anyLong())).thenReturn(buildBusyTickets());
 
-        assertFalse(orderService.getFreePlaces(1L).contains("1A"));
+        assertFalse(orderService.getOccupyPlaces(1L).contains("1A"));
     }
 
     @Test
     public void registartionRightTest() {
         doNothing().when(ticketDao).updatePlaceInTicket(any());
         when(ticketDao.findTicketById(anyLong())).thenReturn(Optional.ofNullable(buildFullTicket()));
-        PlaceDTO placeDTO = orderService.registration(buildPlaceDTO());
+        PlaceDTO placeDTO = orderService.registration(buildPlaceDTO(), "testLogin");
     }
 
     @Test(expected = TicketNotFoundException.class)
     public void registartionWrongTicketTest() {
         doNothing().when(ticketDao).updatePlaceInTicket(any());
         when(ticketDao.findTicketById(anyLong())).thenReturn(Optional.ofNullable(null));
-        PlaceDTO placeDTO = orderService.registration(buildPlaceDTO());
+        PlaceDTO placeDTO = orderService.registration(buildPlaceDTO(), "testLogin");
     }
 
     @Test(expected = WrongPlaceException.class)
@@ -131,7 +131,7 @@ public class OrderServiceTest {
         when(ticketDao.findTicketById(anyLong())).thenReturn(Optional.ofNullable(buildFullTicket()));
         PlaceDTO placeDTO = buildPlaceDTO();
         placeDTO.setPlace("3F");
-        orderService.registration(placeDTO);
+        orderService.registration(placeDTO, "testLogin");
     }
 
     @Test(expected = WrongPlaceException.class)
@@ -140,7 +140,7 @@ public class OrderServiceTest {
         when(ticketDao.findTicketById(anyLong())).thenReturn(Optional.ofNullable(buildFullTicket()));
         PlaceDTO placeDTO = buildPlaceDTO();
         placeDTO.setPlace("3A"); //for this ticket place must be between 1-2 rows
-        orderService.registration(placeDTO);
+        orderService.registration(placeDTO, "testLogin");
     }
 
     @Test
@@ -231,7 +231,7 @@ public class OrderServiceTest {
         departure.setFlight(buildFlight());
         order.setDeparture(departure);
 
-        order.setUserClient(new UserClient(5L));
+        order.setUserClient(new UserClient(5L, "testLogin"));
 
         List<Ticket> tickets = new ArrayList<>();
         tickets.add(buildSimpleTicket());

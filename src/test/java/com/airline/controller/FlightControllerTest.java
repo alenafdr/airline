@@ -4,10 +4,6 @@ import com.airline.model.dto.FlightDTO;
 import com.airline.model.dto.Schedule;
 import com.airline.rest.FlightController;
 import com.airline.service.FlightService;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -25,13 +21,14 @@ import java.math.BigDecimal;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -100,7 +97,7 @@ public class FlightControllerTest {
 
         when(flightService.save(any(FlightDTO.class))).thenReturn(buildFlight());
 
-        RequestBuilder requestBuilder = put("/api/flights/")
+        RequestBuilder requestBuilder = put("/api/flights/" + 1)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(buildFlightWithDatesString())
                 .accept(MediaType.APPLICATION_JSON_UTF8_VALUE);

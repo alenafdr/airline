@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 public interface OrderService {
-    OrderDTO saveOrder(OrderDTO orderDTO, UserClient userClient);
+    OrderDTO saveOrder(OrderDTO orderDTO, String login);
 
     List<OrderDTO> getOrdersByParameters (Map<String,String> parameters) throws Exception ;
 
-    List<String> getFreePlaces(Long orderId);
+    List<String> getOccupyPlaces(Long orderId);
 
-    PlaceDTO registration(PlaceDTO placeDTO);
+    PlaceDTO registration(PlaceDTO placeDTO, String login);
 }

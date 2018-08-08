@@ -4,14 +4,7 @@ package com.airline.service;
 import com.airline.dao.*;
 import com.airline.dto.mapper.OrderDTOMapper;
 import com.airline.dto.mapper.TicketDTOMapper;
-import com.airline.exceptions.FlightNotFoundException;
-import com.airline.exceptions.NationalityNotFoundException;
-import com.airline.exceptions.PriceNotFoundException;
-import com.airline.exceptions.PlaneNotFoundException;
-import com.airline.exceptions.UserNotFoundException;
-import com.airline.exceptions.OrderNotFoundException;
-import com.airline.exceptions.TicketNotFoundException;
-import com.airline.exceptions.WrongPlaceException;
+import com.airline.exceptions.*;
 import com.airline.model.*;
 import com.airline.model.dto.OrderDTO;
 import com.airline.model.dto.PlaceDTO;
@@ -19,6 +12,7 @@ import com.airline.model.dto.TicketDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -27,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Service
 public class OrderServiceImpl implements OrderService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OrderServiceImpl.class);
@@ -69,7 +64,10 @@ public class OrderServiceImpl implements OrderService {
     //nationality can be null
 
     @Override
-    public OrderDTO saveOrder(OrderDTO orderDTO, UserClient userClient) {
+    public OrderDTO saveOrder(OrderDTO orderDTO, String login) {
+        String loginLC = login.toLowerCase();
+        UserClient userClient = clientDao.findByLogin(loginLC).orElseThrow(() -> new LoginNotFoundException("Not found login " + login));
+
         Order order;
         Long flightId = orderDTO.getFlightId();
         Departure departure = departureDao.findDepartureById(flightId)
@@ -131,8 +129,9 @@ public class OrderServiceImpl implements OrderService {
         Departure departure = new Departure(flight);
 
         UserClient userClient = null;
-        Long id = Long.parseLong(parameters.get(ParametersEnum.CLIENT_ID.getValue()));
-        if (id != null) {
+
+        if (parameters.get(ParametersEnum.CLIENT_ID.getValue()) != null) {
+            Long id = Long.parseLong(parameters.get(ParametersEnum.CLIENT_ID.getValue()));
             userClient = clientDao.findById(id)
                     .orElseThrow(() -> new UserNotFoundException("Not found user with id " + id));
         }
@@ -148,7 +147,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<String> getFreePlaces(Long orderId) {
+    public List<String> getOccupyPlaces(Long orderId) {
         Order order = orderDao.findOrderById(orderId)
                 .orElseThrow(() -> new OrderNotFoundException("Not found order with id " + orderId));
         List<String> busyPlaces = ticketDao.findOccupyPlaces(order.getDeparture().getId())
@@ -162,9 +161,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public PlaceDTO registration(PlaceDTO placeDTO) {
+    public PlaceDTO registration(PlaceDTO placeDTO, String login) {
         Ticket ticket = ticketDao.findTicketById(placeDTO.getTicket())
                 .orElseThrow(() -> new TicketNotFoundException("Not found ticket with id " + placeDTO.getTicket()));
+
+        if (!login.equals(ticket.getOrder().getUserClient().getLogin())){
+            throw  new TicketNotFoundException("Not found ticket " + placeDTO.getTicket() + " for user with login " + login);
+        }
 
         Plane plane = ticket.getOrder().getDeparture().getFlight().getPlane();
         String place = placeDTO.getPlace();
@@ -181,9 +184,10 @@ public class OrderServiceImpl implements OrderService {
         return placeDTO;
     }
 
+    //TODO количество мест в ряду в бизнес и в экономе отличается!
     public List<String> getPlacesByPlane(Plane plane) {
         int rows = plane.getBusinessRow() + plane.getEconomyRow();
-        int placesInRow = plane.getPlacesInBusinessRow() + plane.getPlacesInEconomyRow();
+        int placesInRow = plane.getPlacesInBusinessRow();
         List<String> listPlaces = new ArrayList<>();
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < placesInRow; j++) {

@@ -15,6 +15,11 @@ public class UserEntity {
         this.id = id;
     }
 
+    public UserEntity(Long id, String login) {
+        this.id = id;
+        this.login = login;
+    }
+
     public Long getId() {
         return id;
     }

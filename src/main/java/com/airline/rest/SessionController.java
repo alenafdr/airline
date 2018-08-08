@@ -35,6 +35,8 @@ public class SessionController {
         UserEntityDTO userEntityDTO = userService.getUserByLogin(login);
         if (userEntityDTO.getPassword().equals(json.get("password"))) {
             request.getSession().setAttribute("login", userEntityDTO.getLogin());
+            request.getSession().setAttribute("userId", userEntityDTO.getId());
+            request.getSession().setAttribute("userType", userEntityDTO.getUserType());
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
