@@ -10,6 +10,7 @@ import com.airline.exceptions.PlaneNotFoundException;
 import com.airline.model.*;
 import com.airline.model.dto.FlightDTO;
 import com.airline.model.dto.Schedule;
+import com.airline.service.impl.FlightServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

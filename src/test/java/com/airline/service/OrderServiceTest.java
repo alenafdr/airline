@@ -9,6 +9,7 @@ import com.airline.model.*;
 import com.airline.model.dto.OrderDTO;
 import com.airline.model.dto.PlaceDTO;
 import com.airline.model.dto.TicketDTO;
+import com.airline.service.impl.OrderServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

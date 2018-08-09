@@ -26,9 +26,12 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import static org.hamcrest.core.Is.is;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -118,6 +121,18 @@ public class FlightControllerTest {
         mockMvc.perform(requestBuilder).andExpect(status().isOk());
     }
 
+    @Test
+    public void approveTest() throws Exception {
+        FlightDTO flightDTO = buildFlight();
+        flightDTO.setApproved(true);
+        when(flightService.approved(anyLong())).thenReturn(flightDTO);
+
+        RequestBuilder requestBuilder = put("/api/flights/" + 1 + "/approve")
+                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE);
+
+        mockMvc.perform(requestBuilder).andExpect(status().isOk()).andExpect(jsonPath("$.approved", is(true)));
+    }
+
     private FlightDTO buildFlight() throws Exception {
         FlightDTO flightDTO = new FlightDTO();
 
@@ -141,6 +156,7 @@ public class FlightControllerTest {
         List<Date> dates = new ArrayList<>();
         dates.add(format.parse("2018-01-03"));
         flightDTO.setDates(dates);
+
 
         return flightDTO;
     }

@@ -1,4 +1,4 @@
-package com.airline.service;
+package com.airline.service.impl;
 
 import com.airline.dao.ClassTypeDao;
 import com.airline.dao.FlightDao;
@@ -10,6 +10,7 @@ import com.airline.exceptions.FlightNotFoundException;
 import com.airline.exceptions.PlaneNotFoundException;
 import com.airline.model.*;
 import com.airline.model.dto.FlightDTO;
+import com.airline.service.FlightService;
 import com.airline.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -98,6 +99,14 @@ public class FlightServiceImpl implements FlightService {
     public FlightDTO getById(Long id) {
         return flightDTOMapper.convertToDTO(flightDao.findOne(id)
                 .orElseThrow(() -> new FlightNotFoundException("Not found flight with id " + id)));
+    }
+
+    @Override
+    public FlightDTO approved(Long id) {
+        Flight flight = flightDao.findOne(id)
+                .orElseThrow(()-> new FlightNotFoundException("Not found flight with id " + id));
+        flight.setApproved(true);
+        return flightDTOMapper.convertToDTO(flight);
     }
 
     private Flight buildDependencies(FlightDTO flightDTO) {

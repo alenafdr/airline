@@ -1,4 +1,4 @@
-package com.airline.service;
+package com.airline.service.impl;
 
 import com.airline.dao.AdminDao;
 import com.airline.dao.ClientDao;
@@ -13,6 +13,7 @@ import com.airline.model.UserClient;
 import com.airline.model.dto.UserAdminDTO;
 import com.airline.model.dto.UserClientDTO;
 import com.airline.model.dto.UserEntityDTO;
+import com.airline.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
