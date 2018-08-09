@@ -66,12 +66,14 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDTO saveOrder(OrderDTO orderDTO, String login) {
         String loginLC = login.toLowerCase();
-        UserClient userClient = clientDao.findByLogin(loginLC).orElseThrow(() -> new LoginNotFoundException("Not found login " + login));
+        UserClient userClient = clientDao.findByLogin(loginLC)
+                .orElseThrow(() -> new LoginNotFoundException("Not found login " + login));
 
         Order order;
         Long flightId = orderDTO.getFlightId();
-        Departure departure = departureDao.findDepartureById(flightId)
-                .orElseThrow(() -> new FlightNotFoundException("Not found flight witn id " + flightId));
+        Departure departure = departureDao.findDepartureByFlightIdAndDate(new Departure(orderDTO.getDate(), new Flight(orderDTO.getFlightId())))
+                .orElseThrow(() -> new DepartureNotFoundException("Not found departure for flight "
+                        + flightId + " with date " + orderDTO.getDate()));
 
         List<Ticket> tickets = new ArrayList<>();
         for (TicketDTO ticketDTO : orderDTO.getPassengers()) {
@@ -85,9 +87,10 @@ public class OrderServiceImpl implements OrderService {
             }
 
             if (ticketDTO.getClassType() != null) {
-                classType = classTypeDao.findClassTypeByName(ticketDTO.getClassType());
+                classType = classTypeDao.findClassTypeByName(ticketDTO.getClassType())
+                        .orElseThrow(()->new ClassTypeNotFoundException("Not found class with name " + ticketDTO.getClassType()));
             } else {
-                classType = classTypeDao.findClassTypeByName(ClassTypeEnum.ECONOMY.name());
+                classType = classTypeDao.findClassTypeByName(ClassTypeEnum.ECONOMY.name()).get();
             }
 
             price = priceDao.findPricesByFlightId(departure.getFlight().getId())
@@ -166,7 +169,8 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new TicketNotFoundException("Not found ticket with id " + placeDTO.getTicket()));
 
         if (!login.equals(ticket.getOrder().getUserClient().getLogin())) {
-            throw new TicketNotFoundException("Not found ticket " + placeDTO.getTicket() + " for user with login " + login);
+            throw new TicketNotFoundException("Not found ticket " + placeDTO.getTicket()
+                    + " for user with login " + login);
         }
 
         Plane plane = ticket.getOrder().getDeparture().getFlight().getPlane();
@@ -179,7 +183,8 @@ public class OrderServiceImpl implements OrderService {
             ticket.setPlace(place);
             ticketDao.updatePlaceInTicket(ticket);
         } else {
-            throw new WrongPlaceException("Wrong place, you must register place in " + ticket.getClassType() + " class");
+            throw new WrongPlaceException("Wrong place, you must register place in "
+                    + ticket.getClassType() + " class");
         }
         return placeDTO;
     }

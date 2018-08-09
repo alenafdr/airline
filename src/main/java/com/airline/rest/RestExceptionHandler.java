@@ -129,7 +129,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(ParseException.class)
     protected ResponseEntity<ApiError> handleParseException(ParseException ex) {
         ApiError apiError = new ApiError();
-        apiError.addSubError(ErrorCode.WRONG_DATE_FORMAT.name(), "Date", ex.getMessage());
+        apiError.addSubError(ErrorCode.WRONG_DATE_FORMAT.name(), "date", ex.getMessage());
+        return new ResponseEntity<>(apiError, BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ClassTypeNotFoundException.class)
+    protected ResponseEntity<ApiError> handleClassTypeNotFoundException(ClassTypeNotFoundException ex) {
+        ApiError apiError = new ApiError();
+        apiError.addSubError(ErrorCode.CLASS_NOT_FOUND.name(), "class", ex.getMessage());
         return new ResponseEntity<>(apiError, BAD_REQUEST);
     }
 

@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class ClassTypeDao {
 
@@ -40,7 +42,7 @@ public class ClassTypeDao {
         return entity;
     }
 
-    public ClassType findClassTypeByName(String name) {
+    public Optional<ClassType> findClassTypeByName(String name) {
         ClassType entity = null;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "ClassTypeMapper.findClassTypeByName";
@@ -53,6 +55,6 @@ public class ClassTypeDao {
                 throw new DataBaseException("Database error");
             }
         }
-        return entity;
+        return Optional.ofNullable(entity);
     }
 }

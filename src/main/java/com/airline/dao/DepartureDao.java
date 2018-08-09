@@ -12,8 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Component
 public class DepartureDao {
@@ -98,5 +97,22 @@ public class DepartureDao {
                 throw new DataBaseException("Database error");
             }
         }
+    }
+
+    public Optional<Departure> findDepartureByFlightIdAndDate(Departure departure) {
+        Departure newDeparture;
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            String query = "DepartureMapper.selectDepartureByFlightIdAndDate";
+            newDeparture = session.selectOne(query, departure);
+        } catch (PersistenceException pe) {
+            LOGGER.error(pe.getMessage());
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+                throw new ConnectDataBaseException("No connection to database");
+            } else {
+                throw new DataBaseException("Database error");
+            }
+        }
+        return Optional.ofNullable(newDeparture);
+
     }
 }

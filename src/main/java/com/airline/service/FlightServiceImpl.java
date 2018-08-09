@@ -106,9 +106,9 @@ public class FlightServiceImpl implements FlightService {
                 .orElseThrow(() -> new PlaneNotFoundException("Not found plane with name " + flightDTO.getPlaneName()));
 
         List<Price> prices = new ArrayList<>();
-        prices.add(new Price(classTypeDao.findClassTypeByName(ClassTypeEnum.BUSINESS.name()),
+        prices.add(new Price(classTypeDao.findClassTypeByName(ClassTypeEnum.BUSINESS.name()).get(),
                 flightDTO.getPriceBusiness()));
-        prices.add(new Price(classTypeDao.findClassTypeByName(ClassTypeEnum.ECONOMY.name()),
+        prices.add(new Price(classTypeDao.findClassTypeByName(ClassTypeEnum.ECONOMY.name()).get(),
                 flightDTO.getPriceEconomy()));
 
         List<Period> periods = flightDTO.getSchedule().getPeriods()

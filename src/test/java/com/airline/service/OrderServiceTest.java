@@ -84,7 +84,7 @@ public class OrderServiceTest {
     public void saveOrderTest() {
         when(departureDao.findDepartureById(anyLong())).thenReturn(buildDeparture());
         when(countryDao.findCountryByIso("RU")).thenReturn(Optional.ofNullable(new Country("RU", "Russian federation")));
-        when(classTypeDao.findClassTypeByName(any())).thenReturn(new ClassType(1L, ClassTypeEnum.ECONOMY.name()));
+        when(classTypeDao.findClassTypeByName(any())).thenReturn(Optional.ofNullable(new ClassType(1L, ClassTypeEnum.ECONOMY.name())));
         when(priceDao.findPricesByFlightId(anyLong())).thenReturn(buildListPrices());
         when(orderDao.saveOrder(any(Order.class))).thenReturn(1L);
         when(orderDao.findOrderById(anyLong())).thenReturn(Optional.ofNullable(buildOrder()));

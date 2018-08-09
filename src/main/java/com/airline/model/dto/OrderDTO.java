@@ -1,21 +1,44 @@
 package com.airline.model.dto;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 
 public class OrderDTO {
+    @Null
     private Long orderId;
+
+    @NotNull
     private Long flightId;
+
     private String fromTown;
+
     private String toTown;
+
     private String flightName;
+
     private String planeName;
+
+    @NotNull
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date date;
+
     private Time start;
+
     private Time duration;
+
+    @Size(min = 1)
+    @NotNull
     private List<TicketDTO> passengers;
+
+    @Null
     private BigDecimal totalPrice;
 
     public OrderDTO() {
