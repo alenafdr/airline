@@ -3,17 +3,28 @@ package com.airline.model.dto;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.math.BigDecimal;
 
 public class TicketDTO {
+    @Null
     private Long ticket;
+
+    @NotNull
     private String firstName;
+
+    @NotNull
     private String lastName;
     private String nationality;
+
+    @NotNull
     private String passport;
 
     @JsonProperty("class")
     private String classType;
+
+    @Null
     private BigDecimal price;
 
     public TicketDTO() {

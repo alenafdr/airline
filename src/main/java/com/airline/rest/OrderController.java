@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,8 @@ import java.util.Map;
 @RestController()
 @RequestMapping(value = "/api/orders/")
 public class OrderController {
+
+
 
     private OrderService orderService;
 
@@ -29,7 +32,7 @@ public class OrderController {
     @PostMapping(value = "",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<OrderDTO> saveOrder(@RequestBody OrderDTO orderDTO,
+    public ResponseEntity<OrderDTO> saveOrder(@RequestBody @Validated OrderDTO orderDTO,
                                               HttpServletRequest request) {
         String login = (String) request.getSession().getAttribute("login");
         return new ResponseEntity<>(orderService.saveOrder(orderDTO, login), HttpStatus.OK);

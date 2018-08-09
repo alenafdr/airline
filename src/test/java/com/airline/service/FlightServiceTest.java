@@ -67,8 +67,8 @@ public class FlightServiceTest {
         when(planeDao.findPlaneByName("testPlane")).thenReturn(Optional.ofNullable(new Plane(1L, "testPlane", 2, 2, 2, 4)));
         when(periodDao.findPeriodByValue("Thu")).thenReturn(new Period(30L, "Thu"));
         when(periodDao.findPeriodByValue("Fri")).thenReturn(new Period(32L, "Fri"));
-        when(classTypeDao.findClassTypeByName(ClassTypeEnum.BUSINESS.name())).thenReturn(new ClassType(1L, ClassTypeEnum.BUSINESS.name()));
-        when(classTypeDao.findClassTypeByName(ClassTypeEnum.ECONOMY.name())).thenReturn(new ClassType(2L, ClassTypeEnum.ECONOMY.name()));
+        when(classTypeDao.findClassTypeByName(ClassTypeEnum.BUSINESS.name())).thenReturn(Optional.ofNullable(new ClassType(1L, ClassTypeEnum.BUSINESS.name())));
+        when(classTypeDao.findClassTypeByName(ClassTypeEnum.ECONOMY.name())).thenReturn(Optional.ofNullable(new ClassType(2L, ClassTypeEnum.ECONOMY.name())));
 
         LOGGER.info(flightService.save(flightDTO).toString());
 
@@ -124,8 +124,8 @@ public class FlightServiceTest {
         when(planeDao.findPlaneByName("testPlane")).thenReturn(Optional.ofNullable(new Plane(1L, "testPlane", 2, 2, 2, 4)));
         when(periodDao.findPeriodByValue("Thu")).thenReturn(new Period(30L, "Thu"));
         when(periodDao.findPeriodByValue("Fri")).thenReturn(new Period(32L, "Fri"));
-        when(classTypeDao.findClassTypeByName(ClassTypeEnum.BUSINESS.name())).thenReturn(new ClassType(1L, ClassTypeEnum.BUSINESS.name()));
-        when(classTypeDao.findClassTypeByName(ClassTypeEnum.ECONOMY.name())).thenReturn(new ClassType(2L, ClassTypeEnum.ECONOMY.name()));
+        when(classTypeDao.findClassTypeByName(ClassTypeEnum.BUSINESS.name())).thenReturn(Optional.ofNullable(new ClassType(1L, ClassTypeEnum.BUSINESS.name())));
+        when(classTypeDao.findClassTypeByName(ClassTypeEnum.ECONOMY.name())).thenReturn(Optional.ofNullable(new ClassType(2L, ClassTypeEnum.ECONOMY.name())));
 
         flightService.save(flightDTO);
         when(flightDao.findCountByName("test")).thenReturn(1);

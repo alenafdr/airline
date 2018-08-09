@@ -1,10 +1,21 @@
 package com.airline.model.dto;
 
+import javax.validation.constraints.NotNull;
+
 public class PlaceDTO {
+    @NotNull
     private Long orderId;
+
+    @NotNull
     private Long ticket;
+
+    @NotNull
     private String lastName;
+
+    @NotNull
     private String firstName;
+
+    @NotNull
     private String place;
 
     public PlaceDTO() {

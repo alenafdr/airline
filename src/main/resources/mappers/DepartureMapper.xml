@@ -28,6 +28,12 @@
         where id = #{id}
     </select>
 
+    <select id="selectDepartureByFlightIdAndDate" parameterType="java.util.Map" resultMap="DepartureResultMap">
+        select *
+        from departures d
+        where d.flight_id = #{flight.id} and d.date = #{date}
+    </select>
+
     <insert id="updateDeparture">
         insert into departures ("date", flight_id)
         values (#{date},#{flight.id})
