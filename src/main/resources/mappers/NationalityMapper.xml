@@ -11,4 +11,7 @@
             parameterType="java.lang.String">
         select * from countries where iso3166 like #{iso}
     </select>
+    <select id="selectCountries" resultMap="NationalityResulMap">
+        select * from countries
+    </select>
 </mapper>

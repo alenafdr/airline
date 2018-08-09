@@ -11,6 +11,7 @@ import com.airline.model.UserAdmin;
 import com.airline.model.UserClient;
 import com.airline.model.dto.UserAdminDTO;
 import com.airline.model.dto.UserClientDTO;
+import com.airline.service.impl.UserServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

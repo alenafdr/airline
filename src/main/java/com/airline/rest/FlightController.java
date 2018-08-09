@@ -59,10 +59,8 @@ public class FlightController {
             if (fromDate != null) flightDTO.getSchedule().setFromDate(format.parse(fromDate));
             if (toDate != null) flightDTO.getSchedule().setFromDate(format.parse(toDate));
         } catch (ParseException pe) {
-            logger.info(flightDTO.toString());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        logger.info(flightDTO.toString());
 
         return new ResponseEntity<>(flightService.listByParameters(flightDTO), HttpStatus.OK);
     }
@@ -71,12 +69,6 @@ public class FlightController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<FlightDTO> create(@RequestBody @Validated FlightDTO flightDTO) {
-
-        //logger.info();
-        if (flightDTO == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
         return new ResponseEntity<>(flightService.save(flightDTO), HttpStatus.OK);
     }
 
@@ -84,9 +76,6 @@ public class FlightController {
     @GetMapping(value = "{id}")
     public ResponseEntity<FlightDTO> read(@PathVariable("id") Long id) {
         FlightDTO flightDTO = flightService.getById(id);
-        if (flightDTO == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
         return new ResponseEntity<>(flightDTO, HttpStatus.OK);
     }
 
@@ -95,24 +84,22 @@ public class FlightController {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<FlightDTO> update(@PathVariable("id") Long id,
                                             @RequestBody @Validated FlightDTO flightDTO) {
-        if (flightDTO == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
         flightDTO.setId(id);
         flightService.update(flightDTO);
-
         return new ResponseEntity<>(flightDTO, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "{id}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<String> delete(@PathVariable("id") Long id) {
-        FlightDTO flightDTO = flightService.getById(id);
-        if (flightDTO == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
         flightService.delete(id);
         return new ResponseEntity<>("{}", HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/{id}/approve",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<FlightDTO> approve(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(flightService.approved(id), HttpStatus.OK);
     }
 
 }

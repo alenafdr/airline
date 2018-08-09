@@ -14,4 +14,6 @@ public interface FlightService {
     void delete(Long id);
 
     FlightDTO getById(Long id);
+
+    FlightDTO approved(Long id);
 }

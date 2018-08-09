@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -39,5 +40,21 @@ public class CountryDao {
             }
         }
         return Optional.ofNullable(country);
+    }
+
+    public List<Country> findCountries() {
+        List<Country> countries;
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            String query = "NationalityMapper.selectCountries";
+            countries = session.selectList(query);
+        } catch (PersistenceException pe) {
+            LOGGER.error(pe.getMessage());
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+                throw new ConnectDataBaseException("No connection to database");
+            } else {
+                throw new DataBaseException("Database error");
+            }
+        }
+        return countries;
     }
 }
