@@ -27,10 +27,10 @@ public class ClassTypeDao {
     }
 
     public ClassType findClassTypeById(Long id) {
-        ClassType entity = null;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "ClassTypeMapper.findClassTypeById";
-            entity = (ClassType) session.selectOne(query, id);
+            ClassType entity = (ClassType) session.selectOne(query, id);
+            return entity;
         } catch (PersistenceException pe) {
             LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
@@ -39,14 +39,13 @@ public class ClassTypeDao {
                 throw new DataBaseException("Database error");
             }
         }
-        return entity;
     }
 
     public Optional<ClassType> findClassTypeByName(String name) {
-        ClassType entity = null;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "ClassTypeMapper.findClassTypeByName";
-            entity = (ClassType) session.selectOne(query, name);
+            ClassType entity = (ClassType) session.selectOne(query, name);
+            return Optional.ofNullable(entity);
         } catch (PersistenceException pe) {
             LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
@@ -55,6 +54,5 @@ public class ClassTypeDao {
                 throw new DataBaseException("Database error");
             }
         }
-        return Optional.ofNullable(entity);
     }
 }

@@ -27,10 +27,10 @@ public class CountryDao {
     }
 
     public Optional<Country> findCountryByIso(String iso) {
-        Country country;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "NationalityMapper.selectCountryByIso";
-            country = session.selectOne(query, iso);
+            Country country = session.selectOne(query, iso);
+            return Optional.ofNullable(country);
         } catch (PersistenceException pe) {
             LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
@@ -39,14 +39,14 @@ public class CountryDao {
                 throw new DataBaseException("Database error");
             }
         }
-        return Optional.ofNullable(country);
+
     }
 
     public List<Country> findCountries() {
-        List<Country> countries;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "NationalityMapper.selectCountries";
-            countries = session.selectList(query);
+            List<Country> countries = session.selectList(query);
+            return countries;
         } catch (PersistenceException pe) {
             LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
@@ -55,6 +55,5 @@ public class CountryDao {
                 throw new DataBaseException("Database error");
             }
         }
-        return countries;
     }
 }

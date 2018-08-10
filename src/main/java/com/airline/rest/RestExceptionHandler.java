@@ -140,4 +140,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(apiError, BAD_REQUEST);
     }
 
+    @ExceptionHandler(PeriodNotFoundException.class)
+    protected ResponseEntity<ApiError> handlePeriodNotFoundException(PeriodNotFoundException ex) {
+        ApiError apiError = new ApiError();
+        apiError.addSubError(ErrorCode.PERIOD_NOT_FOUND.name(), "period", ex.getMessage());
+        return new ResponseEntity<>(apiError, BAD_REQUEST);
+    }
+
 }

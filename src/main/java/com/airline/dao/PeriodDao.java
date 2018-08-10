@@ -14,6 +14,7 @@ import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class PeriodDao {
@@ -28,10 +29,10 @@ public class PeriodDao {
     }
 
     public List<Period> listPeriod() {
-        List<Period> entities = null;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "PeriodMapper.findAllPeriods";
-            entities = session.selectList(query);
+            List<Period> entities = session.selectList(query);
+            return entities;
         } catch (PersistenceException pe) {
             LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
@@ -40,15 +41,13 @@ public class PeriodDao {
                 throw new DataBaseException("Database error");
             }
         }
-        return entities;
-
     }
 
     public List<Period> findPeriodsByFlightId(Long id) {
-        List<Period> entities = null;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "PeriodMapper.selectPeriodsByFlightId";
-            entities = session.selectList(query, id);
+            List<Period> entities = session.selectList(query, id);
+            return entities;
         } catch (PersistenceException pe) {
             LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
@@ -57,14 +56,13 @@ public class PeriodDao {
                 throw new DataBaseException("Database error");
             }
         }
-        return entities;
     }
 
-    public Period findPeriodById(Long id) {
-        Period entity = null;
+    public Optional<Period> findPeriodById(Long id) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "PeriodMapper.selectPeriodById";
-            entity = session.selectOne(query, id);
+            Period entity = session.selectOne(query, id);
+            return Optional.ofNullable(entity);
         } catch (PersistenceException pe) {
             LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
@@ -73,14 +71,13 @@ public class PeriodDao {
                 throw new DataBaseException("Database error");
             }
         }
-        return entity;
     }
 
-    public Period findPeriodByValue(String value) {
-        Period entity = null;
+    public Optional<Period> findPeriodByValue(String value) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "PeriodMapper.selectPeriodByValue";
-            entity = session.selectOne(query, value);
+            Period entity = session.selectOne(query, value);
+            return Optional.ofNullable(entity);
         } catch (PersistenceException pe) {
             LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
@@ -89,7 +86,6 @@ public class PeriodDao {
                 throw new DataBaseException("Database error");
             }
         }
-        return entity;
     }
 
     public void savePeriodForFlight(PeriodFlight periodFlight) {

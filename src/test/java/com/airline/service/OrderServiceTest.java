@@ -73,12 +73,11 @@ public class OrderServiceTest {
     public void init() {
         ticketDTOMapper = new TicketDTOMapper(modelMapper);
         orderDTOMapper = new OrderDTOMapper(modelMapper, ticketDTOMapper);
-        orderService = new OrderServiceImpl(
-                orderDao, ticketDao,
-                orderDTOMapper, ticketDTOMapper,
-                departureDao, classTypeDao,
-                countryDao, priceDao,
-                planeDao, clientDao);
+        orderService = new OrderServiceImpl(orderDao, departureDao,
+                classTypeDao, countryDao,
+                priceDao, planeDao,
+                clientDao, orderDTOMapper,
+                ticketDTOMapper);
     }
 
     @Test
@@ -90,7 +89,7 @@ public class OrderServiceTest {
         when(orderDao.saveOrder(any(Order.class))).thenReturn(1L);
         when(orderDao.findOrderById(anyLong())).thenReturn(Optional.ofNullable(buildOrder()));
 
-        OrderDTO orderDTO = orderService.saveOrder(buildOrderDTO(),"testLogin");
+        OrderDTO orderDTO = orderService.saveOrder(buildOrderDTO(), "testLogin");
         assertNotNull(orderDTO.getOrderId());
         assertNotNull(orderDTO.getFlightId());
         assertNotNull(orderDTO.getFromTown());
@@ -105,64 +104,12 @@ public class OrderServiceTest {
     }
 
     @Test
-    public void getFreePlacesTest() {
-        when(orderDao.findOrderById(anyLong())).thenReturn(Optional.ofNullable(buildOrder()));
-        when(ticketDao.findOccupyPlaces(anyLong())).thenReturn(buildBusyTickets());
-
-        assertFalse(orderService.getOccupyPlaces(1L).contains("1A"));
-    }
-
-    @Test
-    public void registartionRightTest() {
-        doNothing().when(ticketDao).updatePlaceInTicket(any());
-        when(ticketDao.findTicketById(anyLong())).thenReturn(Optional.ofNullable(buildFullTicket()));
-        PlaceDTO placeDTO = orderService.registration(buildPlaceDTO(), "testLogin");
-    }
-
-    @Test(expected = TicketNotFoundException.class)
-    public void registartionWrongTicketTest() {
-        doNothing().when(ticketDao).updatePlaceInTicket(any());
-        when(ticketDao.findTicketById(anyLong())).thenReturn(Optional.ofNullable(null));
-        PlaceDTO placeDTO = orderService.registration(buildPlaceDTO(), "testLogin");
-    }
-
-    @Test(expected = WrongPlaceException.class)
-    public void registartionWrongPlaceTest() {
-        doNothing().when(ticketDao).updatePlaceInTicket(any());
-        when(ticketDao.findTicketById(anyLong())).thenReturn(Optional.ofNullable(buildFullTicket()));
-        PlaceDTO placeDTO = buildPlaceDTO();
-        placeDTO.setPlace("3F");
-        orderService.registration(placeDTO, "testLogin");
-    }
-
-    @Test(expected = WrongPlaceException.class)
-    public void registartionWrongClassTest() {
-        doNothing().when(ticketDao).updatePlaceInTicket(any());
-        when(ticketDao.findTicketById(anyLong())).thenReturn(Optional.ofNullable(buildFullTicket()));
-        PlaceDTO placeDTO = buildPlaceDTO();
-        placeDTO.setPlace("3A"); //for this ticket place must be between 1-2 rows
-        orderService.registration(placeDTO, "testLogin");
-    }
-
-    @Test
-    public void isPlaceInRightClassTest() {
-        Plane plane = buildPlane();
-        ClassType classTypeEconomy = new ClassType(1L, ClassTypeEnum.ECONOMY.name());
-        ClassType classTypeBusiness = new ClassType(2L, ClassTypeEnum.BUSINESS.name());
-
-        assertTrue(orderService.isPlaceInRightClass(plane, classTypeEconomy, "3A"));
-        assertFalse(orderService.isPlaceInRightClass(plane, classTypeBusiness, "4A"));
-        assertTrue(orderService.isPlaceInRightClass(plane, classTypeBusiness, "2A"));
-        assertFalse(orderService.isPlaceInRightClass(plane, classTypeEconomy, "1A"));
-    }
-
-    @Test
     public void getOrdersByParametersTest() throws Exception {
         when(planeDao.findPlaneByName(any())).thenReturn(Optional.ofNullable(buildPlane()));
         when(clientDao.findById(anyLong())).thenReturn(Optional.ofNullable(new UserClient(1L)));
         when(orderDao.findOrdersByParameters(any(Order.class))).thenReturn(buildListOrders());
 
-        assertTrue(orderService.getOrdersByParameters(buildParameters()).size() > 0);;
+        assertTrue(orderService.getOrdersByParameters(buildParameters()).size() > 0);
     }
 
     //tests DTO mappers
@@ -275,12 +222,6 @@ public class OrderServiceTest {
         return ticket;
     }
 
-    private Ticket buildFullTicket() {
-        Ticket ticket = buildSimpleTicket();
-        ticket.setOrder(buildOrder());
-        return ticket;
-    }
-
     private TicketDTO buildTicketDTO() {
         TicketDTO ticketDTO = new TicketDTO();
         ticketDTO.setTicket(5L);
@@ -327,22 +268,6 @@ public class OrderServiceTest {
         departure.setId(1L);
         departure.setFlight(new Flight(1L));
         return Optional.ofNullable(departure);
-    }
-
-    private List<Ticket> buildBusyTickets() {
-        List<Ticket> busyTicket = new ArrayList<>();
-        Ticket ticket = buildSimpleTicket();
-        ticket.setPlace("1A");
-        busyTicket.add(ticket);
-        return busyTicket;
-    }
-
-    private PlaceDTO buildPlaceDTO() {
-        PlaceDTO placeDTO = new PlaceDTO();
-        placeDTO.setOrderId(1L);
-        placeDTO.setPlace("1A");
-        placeDTO.setTicket(1L);
-        return placeDTO;
     }
 
     private Map<String, String> buildParameters() {

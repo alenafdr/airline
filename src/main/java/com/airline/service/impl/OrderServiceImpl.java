@@ -28,37 +28,33 @@ public class OrderServiceImpl implements OrderService {
     private static final Logger LOGGER = LoggerFactory.getLogger(OrderServiceImpl.class);
 
     private OrderDao orderDao;
-    private TicketDao ticketDao;
-    private OrderDTOMapper orderDTOMapper;
-    private TicketDTOMapper ticketDTOMapper;
     private DepartureDao departureDao;
     private ClassTypeDao classTypeDao;
     private CountryDao countryDao;
     private PriceDao priceDao;
     private PlaneDao planeDao;
     private ClientDao clientDao;
+    private OrderDTOMapper orderDTOMapper;
+    private TicketDTOMapper ticketDTOMapper;
 
-    @Autowired
     public OrderServiceImpl(OrderDao orderDao,
-                            TicketDao ticketDao,
-                            OrderDTOMapper orderDTOMapper,
-                            TicketDTOMapper ticketDTOMapper,
                             DepartureDao departureDao,
                             ClassTypeDao classTypeDao,
                             CountryDao countryDao,
                             PriceDao priceDao,
                             PlaneDao planeDao,
-                            ClientDao clientDao) {
+                            ClientDao clientDao,
+                            OrderDTOMapper orderDTOMapper,
+                            TicketDTOMapper ticketDTOMapper) {
         this.orderDao = orderDao;
-        this.ticketDao = ticketDao;
-        this.orderDTOMapper = orderDTOMapper;
-        this.ticketDTOMapper = ticketDTOMapper;
         this.departureDao = departureDao;
         this.classTypeDao = classTypeDao;
         this.countryDao = countryDao;
         this.priceDao = priceDao;
         this.planeDao = planeDao;
         this.clientDao = clientDao;
+        this.orderDTOMapper = orderDTOMapper;
+        this.ticketDTOMapper = ticketDTOMapper;
     }
 
     //classType can be null
@@ -149,88 +145,4 @@ public class OrderServiceImpl implements OrderService {
                 .map(order1 -> orderDTOMapper.convertToDTO(order1))
                 .collect(Collectors.toList());
     }
-
-    @Override
-    public List<String> getOccupyPlaces(Long orderId) {
-        Order order = orderDao.findOrderById(orderId)
-                .orElseThrow(() -> new OrderNotFoundException("Not found order with id " + orderId));
-        List<String> busyPlaces = ticketDao.findOccupyPlaces(order.getDeparture().getId())
-                .stream()
-                .map(ticket -> ticket.getPlace())
-                .collect(Collectors.toList());
-
-        List<String> freePlaces = getPlacesByPlane(order.getDeparture().getFlight().getPlane());
-        freePlaces.removeAll(busyPlaces);
-        return freePlaces;
-    }
-
-    @Override
-    public PlaceDTO registration(PlaceDTO placeDTO, String login) {
-        Ticket ticket = ticketDao.findTicketById(placeDTO.getTicket())
-                .orElseThrow(() -> new TicketNotFoundException("Not found ticket with id " + placeDTO.getTicket()));
-
-        if (!login.equals(ticket.getOrder().getUserClient().getLogin())) {
-            throw new TicketNotFoundException("Not found ticket " + placeDTO.getTicket()
-                    + " for user with login " + login);
-        }
-
-        Plane plane = ticket.getOrder().getDeparture().getFlight().getPlane();
-        String place = placeDTO.getPlace();
-        if (!getPlacesByPlane(plane).contains(place)) {
-            throw new WrongPlaceException("Wrong place, there is no place " + place + " in the plane");
-        }
-
-        if (isPlaceInRightClass(plane, ticket.getClassType(), place)) {
-            ticket.setPlace(place);
-            ticketDao.updatePlaceInTicket(ticket);
-        } else {
-            throw new WrongPlaceException("Wrong place, you must register place in "
-                    + ticket.getClassType() + " class");
-        }
-        return placeDTO;
-    }
-
-    public List<String> getPlacesByPlane(Plane plane) {
-        int rows = plane.getEconomyRow() + plane.getBusinessRow();
-        int rowsInBusiness = plane.getBusinessRow();
-        int placesInRowBusiness = plane.getPlacesInBusinessRow();
-        int placesInRowEconomy = plane.getPlacesInEconomyRow();
-        List<String> listPlaces = new ArrayList<>();
-        int currRow = 0;
-        for (; currRow < rowsInBusiness; currRow++) {
-            for (int j = 0; j < placesInRowBusiness; j++) {
-                char place = (char) (j + 65);
-                listPlaces.add(String.valueOf(currRow + 1) + Character.toString(place));
-            }
-        }
-        for (; currRow < rows; currRow++) {
-            for (int j = 0; j < placesInRowEconomy; j++) {
-                char place = (char) (j + 65);
-                listPlaces.add(String.valueOf(currRow + 1) + Character.toString(place));
-            }
-        }
-        return listPlaces;
-    }
-
-    public boolean isPlaceInRightClass(Plane plane, ClassType classType, String place) {
-        int row = Integer.valueOf(place.replaceAll("[^-?0-9]+", ""));
-        if (ClassTypeEnum.ECONOMY.name().equals(classType.getName()) && isPlaceInEconomy(plane, row)) {
-            return true;
-        } else if (ClassTypeEnum.BUSINESS.name().equals(classType.getName()) && isPlaceInBusiness(plane, row)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    private boolean isPlaceInBusiness(Plane plane, int row) {
-        if (row <= plane.getBusinessRow()) return true;
-        return false;
-    }
-
-    private boolean isPlaceInEconomy(Plane plane, int row) {
-        if (row > plane.getBusinessRow()) return true;
-        return false;
-    }
-
 }

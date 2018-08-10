@@ -30,6 +30,7 @@ public class TicketDao {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "TicketMapper.insertTicket";
             session.insert(query, ticket);
+            return ticket.getId();
         } catch (PersistenceException pe) {
             LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
@@ -38,14 +39,13 @@ public class TicketDao {
                 throw new DataBaseException("Database error");
             }
         }
-        return ticket.getId();
     }
 
     public Optional<Ticket> findTicketById(Long id) {
-        Ticket ticket;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "TicketMapper.findTicketById";
-            ticket = session.selectOne(query, id);
+            Ticket ticket = session.selectOne(query, id);
+            return Optional.ofNullable(ticket);
         } catch (PersistenceException pe) {
             LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
@@ -54,14 +54,13 @@ public class TicketDao {
                 throw new DataBaseException("Database error");
             }
         }
-        return Optional.ofNullable(ticket);
     }
 
     public List<Ticket> findTicketsByOrderId(Long id) {
-        List<Ticket> tickets;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "TicketMapper.findTicketsByOrderId";
-            tickets = session.selectList(query, id);
+            List<Ticket> tickets = session.selectList(query, id);
+            return tickets;
         } catch (PersistenceException pe) {
             LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
@@ -70,14 +69,13 @@ public class TicketDao {
                 throw new DataBaseException("Database error");
             }
         }
-        return tickets;
     }
 
     public List<Ticket> findOccupyPlaces(Long departureId) {
-        List<Ticket> tickets;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "TicketMapper.findOccupyPlaces";
-            tickets = session.selectList(query, departureId);
+            List<Ticket>tickets = session.selectList(query, departureId);
+            return tickets;
         } catch (PersistenceException pe) {
             LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
@@ -86,7 +84,6 @@ public class TicketDao {
                 throw new DataBaseException("Database error");
             }
         }
-        return tickets;
     }
 
     public void updatePlaceInTicket(Ticket ticket) {

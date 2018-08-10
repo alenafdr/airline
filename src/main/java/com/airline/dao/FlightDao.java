@@ -40,11 +40,11 @@ public class FlightDao {
         this.departureDao = departureDao;
     }
 
-    public int findCountByName(String s) {
-        int count;
+    public boolean isPresent(String name) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "FlightMapper.selectCountByName";
-            count = (int) session.selectOne(query, s);
+            boolean count = (boolean) session.selectOne(query, name);
+            return count;
         } catch (PersistenceException pe) {
             LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
@@ -53,7 +53,6 @@ public class FlightDao {
                 throw new DataBaseException("Database error");
             }
         }
-        return count;
     }
 
     @Transactional
@@ -95,10 +94,10 @@ public class FlightDao {
     }
 
     public Optional<Flight> findOne(Long id) {
-        Flight entity = null;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "FlightMapper.selectFlightById";
-            entity = (Flight) session.selectOne(query, id);
+            Flight entity = (Flight) session.selectOne(query, id);
+            return Optional.ofNullable(entity);
         } catch (PersistenceException pe) {
             LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
@@ -107,8 +106,6 @@ public class FlightDao {
                 throw new DataBaseException("Database error");
             }
         }
-
-        return Optional.ofNullable(entity);
     }
 
     @Transactional
@@ -185,10 +182,10 @@ public class FlightDao {
     }
 
     public List<Flight> findListByParameters(Flight flight) {
-        List<Flight> entities = null;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "FlightMapper.selectListByParameters";
-            entities = session.selectList(query, flight);
+            List<Flight> entities = session.selectList(query, flight);
+            return entities;
         } catch (PersistenceException pe) {
             LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
@@ -197,7 +194,5 @@ public class FlightDao {
                 throw new DataBaseException("Database error");
             }
         }
-        return entities;
-
     }
 }

@@ -2,7 +2,7 @@ package com.airline.controller;
 
 import com.airline.model.dto.PlaceDTO;
 import com.airline.rest.PlaceController;
-import com.airline.service.OrderService;
+import com.airline.service.PlaceService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +33,7 @@ public class PlaceControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private OrderService orderService;
+    private PlaceService placeService;
 
     private MockHttpSession mockSession;
 
@@ -47,7 +47,7 @@ public class PlaceControllerTest {
 
     @Test
     public void getOccupyPlacesTest() throws Exception {
-        when(orderService.getOccupyPlaces(123L)).thenReturn(Arrays.asList("1A", "1B", "2C"));
+        when(placeService.getOccupyPlaces(123L)).thenReturn(Arrays.asList("1A", "1B", "2C"));
 
         RequestBuilder requestBuilder = get("/api/places/" + 123)
                 .accept(MediaType.APPLICATION_JSON_UTF8_VALUE);
@@ -57,7 +57,7 @@ public class PlaceControllerTest {
 
     @Test
     public void registratedPlaceTest() throws Exception {
-        when(orderService.registration(any(PlaceDTO.class), eq("test"))).thenReturn(buildPlaceDTO());
+        when(placeService.registration(any(PlaceDTO.class), eq("test"))).thenReturn(buildPlaceDTO());
 
         RequestBuilder requestBuilder = post("/api/places/")
                 .session(mockSession)

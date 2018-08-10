@@ -27,10 +27,10 @@ public class PlaneDao {
     }
 
     public Optional<Plane> findPlanetById(Long id) {
-        Plane entity = null;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "PlaneMapper.findPlaneById";
-            entity = (Plane) session.selectOne(query, id);
+            Plane entity = (Plane) session.selectOne(query, id);
+            return Optional.ofNullable(entity);
         } catch (PersistenceException pe) {
             LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
@@ -39,14 +39,13 @@ public class PlaneDao {
                 throw new DataBaseException("Database error");
             }
         }
-        return Optional.ofNullable(entity);
     }
 
     public Optional<Plane> findPlaneByName(String name) {
-        Plane entity = null;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "PlaneMapper.findPlaneByName";
-            entity = (Plane) session.selectOne(query, name);
+            Plane entity = (Plane) session.selectOne(query, name);
+            return Optional.ofNullable(entity);
         } catch (PersistenceException pe) {
             LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
@@ -55,14 +54,13 @@ public class PlaneDao {
                 throw new DataBaseException("Database error");
             }
         }
-        return Optional.ofNullable(entity);
     }
 
     public List<Plane> getPlanes() {
-        List<Plane> planes;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "PlaneMapper.findPlanes";
-            planes = session.selectList(query);
+            List<Plane> planes = session.selectList(query);
+            return planes;
         } catch (PersistenceException pe) {
             LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
@@ -71,6 +69,5 @@ public class PlaneDao {
                 throw new DataBaseException("Database error");
             }
         }
-        return planes;
     }
 }

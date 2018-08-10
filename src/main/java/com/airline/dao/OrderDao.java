@@ -53,10 +53,10 @@ public class OrderDao {
     }
 
     public Optional<Order> findOrderById(Long id) {
-        Order order = null;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "OrderMapper.findOrderById";
-            order = (Order) session.selectOne(query, id);
+            Order order = (Order) session.selectOne(query, id);
+            return Optional.ofNullable(order);
         } catch (PersistenceException pe) {
             LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
@@ -65,14 +65,13 @@ public class OrderDao {
                 throw new DataBaseException("Database error");
             }
         }
-        return Optional.ofNullable(order);
     }
 
     public List<Order> findOrdersByParameters(Order order){
-        List<Order> orders;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "OrderMapper.findOrdersByParameters";
-            orders = session.selectList(query, order);
+            List<Order>orders = session.selectList(query, order);
+            return orders;
         } catch (PersistenceException pe) {
             LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
@@ -81,7 +80,6 @@ public class OrderDao {
                 throw new DataBaseException("Database error");
             }
         }
-        return orders;
     }
 
 }

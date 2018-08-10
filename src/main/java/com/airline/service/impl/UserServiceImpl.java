@@ -85,6 +85,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserClientDTO saveClient(UserClientDTO userClientDTO) {
         String loginLC = userClientDTO.getLogin().toLowerCase();
+        userClientDTO.setPhone(userClientDTO.getPhone().replace("-",""));
         userClientDTO.setLogin(userClientDTO.getLogin().toLowerCase());
         if (adminDao.findByLogin(loginLC).isPresent() || clientDao.findByLogin(loginLC).isPresent()) {
             throw new AlreadyExistsException("User with login " + userClientDTO.getLogin() + " already exists");
