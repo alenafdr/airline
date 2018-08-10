@@ -12,7 +12,4 @@ public interface OrderService {
 
     List<OrderDTO> getOrdersByParameters (Map<String,String> parameters) throws Exception ;
 
-    List<String> getOccupyPlaces(Long orderId);
-
-    PlaceDTO registration(PlaceDTO placeDTO, String login);
 }

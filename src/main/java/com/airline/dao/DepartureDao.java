@@ -40,10 +40,10 @@ public class DepartureDao {
     }
 
     public List<Departure> findDepartureByFlightId(Long id) {
-        List<Departure> entities = null;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "DepartureMapper.selectDeparturesByFlightId";
-            entities = session.selectList(query, id);
+            List<Departure> entities = session.selectList(query, id);
+            return entities;
         } catch (PersistenceException pe) {
             LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
@@ -52,14 +52,13 @@ public class DepartureDao {
                 throw new DataBaseException("Database error");
             }
         }
-        return entities;
     }
 
     public Optional<Departure> findDepartureById(Long id) {
-        Departure departure;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "DepartureMapper.selectDepartureById";
-            departure = session.selectOne(query, id);
+            Departure departure = session.selectOne(query, id);
+            return Optional.ofNullable(departure);
         } catch (PersistenceException pe) {
             LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
@@ -68,7 +67,6 @@ public class DepartureDao {
                 throw new DataBaseException("Database error");
             }
         }
-        return Optional.ofNullable(departure);
     }
 
     public void update(Departure departure) {
@@ -100,10 +98,10 @@ public class DepartureDao {
     }
 
     public Optional<Departure> findDepartureByFlightIdAndDate(Departure departure) {
-        Departure newDeparture;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "DepartureMapper.selectDepartureByFlightIdAndDate";
-            newDeparture = session.selectOne(query, departure);
+            Departure newDeparture = session.selectOne(query, departure);
+            return Optional.ofNullable(newDeparture);
         } catch (PersistenceException pe) {
             LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
@@ -112,7 +110,5 @@ public class DepartureDao {
                 throw new DataBaseException("Database error");
             }
         }
-        return Optional.ofNullable(newDeparture);
-
     }
 }

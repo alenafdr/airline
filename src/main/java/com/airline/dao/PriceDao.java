@@ -41,10 +41,10 @@ public class PriceDao {
     }
 
     public List<Price> findPricesByFlightId(Long id) {
-        List<Price> entities = null;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "PriceMapper.selectPricesForFlight";
-            entities = session.selectList(query, id);
+            List<Price> entities = session.selectList(query, id);
+            return entities;
         } catch (PersistenceException pe) {
             LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
@@ -53,8 +53,6 @@ public class PriceDao {
                 throw new DataBaseException("Database error");
             }
         }
-        return entities;
-
     }
 
     public void update(Price price) {

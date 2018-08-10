@@ -31,6 +31,7 @@ public class ClientDao {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "ClientMapper.insertClient";
             session.insert(query, userClient);
+            return userClient.getId();
         } catch (PersistenceException pe) {
             LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
@@ -39,7 +40,6 @@ public class ClientDao {
                 throw new DataBaseException("Database error");
             }
         }
-        return userClient.getId();
     }
 
     public void update(UserClient userClient) {
@@ -57,44 +57,40 @@ public class ClientDao {
     }
 
     public Optional<UserClient> findByLogin(String login) {
-        UserClient userClient = null;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "ClientMapper.findClientByLogin";
-            userClient = (UserClient) session.selectOne(query, login);
+            UserClient userClient = (UserClient) session.selectOne(query, login);
+            return Optional.ofNullable(userClient);
         } catch (PersistenceException pe) {
             LOGGER.error(pe.getMessage());
-
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {
                 throw new DataBaseException("Database error");
             }
         }
-        return Optional.ofNullable(userClient);
     }
 
     public Optional<UserClient> findById(Long id) {
-        UserClient userClient = null;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "ClientMapper.findClientById";
-            userClient = (UserClient) session.selectOne(query, id);
+            UserClient userClient = (UserClient) session.selectOne(query, id);
+            return Optional.ofNullable(userClient);
         } catch (PersistenceException pe) {
             LOGGER.error(pe.getMessage());
-
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
                 throw new ConnectDataBaseException("No connection to database");
             } else {
                 throw new DataBaseException("Database error");
             }
         }
-        return Optional.ofNullable(userClient);
     }
 
     public List<UserClient> findList() {
-        List<UserClient> userClients;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "ClientMapper.list";
-            userClients = session.selectList(query);
+            List<UserClient> userClients = session.selectList(query);
+            return userClients;
         } catch (PersistenceException pe) {
             LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
@@ -103,6 +99,5 @@ public class ClientDao {
                 throw new DataBaseException("Database error");
             }
         }
-        return userClients;
     }
 }

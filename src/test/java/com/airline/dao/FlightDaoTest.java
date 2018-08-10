@@ -124,7 +124,7 @@ public class FlightDaoTest {
         flight.setDepartures(departures);
 
         List<Period> periods = new ArrayList<>();
-        periods.add(periodDao.findPeriodById(1L));
+        periods.add(periodDao.findPeriodById(1L).get());
         flight.setPeriods(periods);
 
         return flight;

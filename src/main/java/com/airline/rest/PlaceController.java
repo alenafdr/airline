@@ -2,6 +2,7 @@ package com.airline.rest;
 
 import com.airline.model.dto.PlaceDTO;
 import com.airline.service.OrderService;
+import com.airline.service.PlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,16 +17,16 @@ import java.util.List;
 @RequestMapping(value = "/api/places/")
 public class PlaceController {
 
-    private OrderService orderService;
+    private PlaceService placeService;
 
     @Autowired
-    public PlaceController(OrderService orderService) {
-        this.orderService = orderService;
+    public PlaceController(PlaceService placeService) {
+        this.placeService = placeService;
     }
 
     @GetMapping(value = "/{orderId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<String>> getOccupyPlaces(@PathVariable("orderId") Long orderId){
-        return new ResponseEntity<>(orderService.getOccupyPlaces(orderId), HttpStatus.OK);
+        return new ResponseEntity<>(placeService.getOccupyPlaces(orderId), HttpStatus.OK);
     }
 
     @PostMapping(value = "",
@@ -34,6 +35,6 @@ public class PlaceController {
     public ResponseEntity<PlaceDTO> registratedPlace(@RequestBody @Validated PlaceDTO placeDTO,
                                                      HttpServletRequest request){
         String login = (String) request.getSession().getAttribute("login");
-        return new ResponseEntity<>(orderService.registration(placeDTO, login), HttpStatus.OK);
+        return new ResponseEntity<>(placeService.registration(placeDTO, login), HttpStatus.OK);
     }
 }

@@ -30,6 +30,7 @@ public class AdminDao {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "AdminMapper.insertAdmin";
             session.insert(query, userAdmin);
+            return userAdmin.getId();
         } catch (PersistenceException pe) {
             LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
@@ -38,7 +39,6 @@ public class AdminDao {
                 throw new DataBaseException("Database error");
             }
         }
-        return userAdmin.getId();
     }
 
     public void update(UserAdmin userAdmin) {
@@ -56,10 +56,10 @@ public class AdminDao {
     }
 
     public Optional<UserAdmin> findByLogin(String login) {
-        UserAdmin userAdmin = null;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "AdminMapper.findAdminByLogin";
-            userAdmin = (UserAdmin) session.selectOne(query, login);
+            UserAdmin userAdmin = (UserAdmin) session.selectOne(query, login);
+            return Optional.ofNullable(userAdmin);
         } catch (PersistenceException pe) {
             LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
@@ -68,6 +68,5 @@ public class AdminDao {
                 throw new DataBaseException("Database error");
             }
         }
-        return Optional.ofNullable(userAdmin);
     }
 }

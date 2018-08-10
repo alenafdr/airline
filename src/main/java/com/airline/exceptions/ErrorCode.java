@@ -15,7 +15,8 @@ public enum ErrorCode {
     TICKET_NOT_FOUND(12),
     WRONG_PLACE(13),
     WRONG_DATE_FORMAT(14),
-    CLASS_NOT_FOUND(15)
+    CLASS_NOT_FOUND(15),
+    PERIOD_NOT_FOUND(16)
     ;
 
     ErrorCode(int code) {

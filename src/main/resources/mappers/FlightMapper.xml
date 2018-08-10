@@ -108,7 +108,7 @@
     <select id="selectCountByName" resultType="int" parameterType="java.lang.String">
         select count(flight_name)
         from flights
-        where flight_name = #{s}
+        where flight_name = #{name}
     </select>
 
     <update id="updateFlight">

@@ -7,6 +7,7 @@ import com.airline.dao.PlaneDao;
 import com.airline.dto.mapper.FlightDTOMapper;
 import com.airline.exceptions.AlreadyExistsException;
 import com.airline.exceptions.FlightNotFoundException;
+import com.airline.exceptions.PeriodNotFoundException;
 import com.airline.exceptions.PlaneNotFoundException;
 import com.airline.model.*;
 import com.airline.model.dto.FlightDTO;
@@ -74,7 +75,7 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public FlightDTO save(FlightDTO flightDTO) {
-        if (flightDao.findCountByName(flightDTO.getFlightName()) != 0) {
+        if (!flightDao.isPresent(flightDTO.getFlightName())) {
             throw new AlreadyExistsException("Flight with name " + flightDTO.getFlightName() + " already exists");
         }
         Flight flight = buildDependencies(flightDTO);
@@ -115,14 +116,17 @@ public class FlightServiceImpl implements FlightService {
                 .orElseThrow(() -> new PlaneNotFoundException("Not found plane with name " + flightDTO.getPlaneName()));
 
         List<Price> prices = new ArrayList<>();
-        prices.add(new Price(classTypeDao.findClassTypeByName(ClassTypeEnum.BUSINESS.name()).get(),
-                flightDTO.getPriceBusiness()));
-        prices.add(new Price(classTypeDao.findClassTypeByName(ClassTypeEnum.ECONOMY.name()).get(),
-                flightDTO.getPriceEconomy()));
+
+        classTypeDao.findClassTypeByName(ClassTypeEnum.BUSINESS.name())
+                .ifPresent(classType -> prices.add(new Price(classType, flightDTO.getPriceBusiness())));
+
+        classTypeDao.findClassTypeByName(ClassTypeEnum.ECONOMY.name())
+                .ifPresent(classType -> prices.add(new Price(classType, flightDTO.getPriceEconomy())));
 
         List<Period> periods = flightDTO.getSchedule().getPeriods()
                 .stream()
-                .map(s -> periodDao.findPeriodByValue(s))
+                .map(name -> periodDao.findPeriodByValue(name)
+                        .orElseThrow(()-> new PeriodNotFoundException("Not found period with value " + name)))
                 .collect(Collectors.toList());
 
         List<Departure> departures;
@@ -166,7 +170,6 @@ public class FlightServiceImpl implements FlightService {
                 .map(Departure::new)
                 .collect(Collectors.toList());
     }
-
 
     private List<Date> getDatesByDaysOfWeek(List<DayOfWeek> daysOfWeek, List<LocalDate> localDates) {
         return localDates
