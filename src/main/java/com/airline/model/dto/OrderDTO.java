@@ -1,5 +1,7 @@
 package com.airline.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotEmpty;
@@ -27,11 +29,17 @@ public class OrderDTO {
     private String planeName;
 
     @NotNull
-    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @ApiModelProperty(dataType = "java.lang.String", example = "YYYY-MM-DD")
     private Date date;
 
+    @JsonFormat(pattern = "HH:mm:ss", shape = JsonFormat.Shape.STRING)
+    @ApiModelProperty(dataType = "java.lang.String", example = "hh:mm:ss")
     private Time start;
 
+    @JsonFormat(pattern = "HH:mm:ss", shape = JsonFormat.Shape.STRING)
+    @ApiModelProperty(dataType = "java.lang.String", example = "hh:mm:ss")
     private Time duration;
 
     @Size(min = 1)

@@ -90,7 +90,7 @@ public class OrderController {
         map.put(ParametersEnum.TO_DATE.getValue(), toDate);
         String userType = (String) request.getSession().getAttribute("userType");
         if ("client".equals(userType)) {
-            String id = (String) request.getSession().getAttribute("userId");
+            String id = String.valueOf(request.getSession().getAttribute("userId")) ;
             map.put(ParametersEnum.CLIENT_ID.getValue(), id);
         } else {
             map.put(ParametersEnum.CLIENT_ID.getValue(), clientId);

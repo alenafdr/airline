@@ -95,7 +95,7 @@ public class PlaceServiceImpl implements PlaceService {
             ticketDao.updatePlaceInTicket(ticket);
         } else {
             throw new WrongPlaceException("Wrong place, you must register place in "
-                    + ticket.getClassType() + " class");
+                    + ticket.getClassType().getName() + " class");
         }
         return placeDTO;
     }

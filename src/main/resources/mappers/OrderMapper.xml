@@ -18,7 +18,7 @@
                     ofType="Ticket"
                     column="id"/>
     </resultMap>
-    <insert id="insertOrder">
+    <insert id="insertOrder" parameterType="Order" useGeneratedKeys="true" keyProperty="id">
       insert into orders (departure_id, client_id)
       values (#{departure.id}, #{userClient.id})
     </insert>

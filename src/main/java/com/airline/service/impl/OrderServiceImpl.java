@@ -128,8 +128,9 @@ public class OrderServiceImpl implements OrderService {
         }
 
         order = orderDTOMapper.convertToEntity(orderDTO, userClient, departure, tickets);
-        Long orderId = orderDao.saveOrder(order);
-        return orderDTOMapper.convertToDTO(orderDao.findOrderById(orderId).get());
+        order.setId(orderDao.saveOrder(order));
+
+        return orderDTOMapper.convertToDTO(order);
     }
 
     /**

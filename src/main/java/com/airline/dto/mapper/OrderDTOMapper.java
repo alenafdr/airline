@@ -25,6 +25,7 @@ public class OrderDTOMapper {
     public OrderDTO convertToDTO(Order order) {
         OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
         Flight flight = order.getDeparture().getFlight();
+        orderDTO.setOrderId(order.getId());
         orderDTO.setFlightId(flight.getId());
         orderDTO.setFromTown(flight.getFromTown());
         orderDTO.setToTown(flight.getToTown());
