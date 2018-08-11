@@ -1,0 +1,74 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="TicketMapper">
+    <resultMap id="ticketResultMap" type="Ticket">
+        <constructor>
+            <idArg column="id" javaType="Long"/>
+        </constructor>
+        <id column="id" property="id"/>
+        <result property="firstName" column="first_name"/>
+        <result property="lastName" column="last_name"/>
+        <result property="passport" column="passport"/>
+        <association property="nationality"
+                     select="NationalityMapper.selectCountryByIso"
+                     column="nationality"/>
+        <association property="classType"
+                     select="ClassTypeMapper.findClassTypeById"
+                     column="class_id"/>
+        <association property="order"
+                     select="OrderMapper.findOrderById"
+                     column="order_id"/>
+        <association property="price"
+                     select="PriceMapper.findPriceByOrderIdAndClassId"
+                     column="{classId=class_id,orderId=order_id}"/>
+    </resultMap>
+    <select id="findTicketById" resultMap="ticketResultMap">
+      select t.id,
+      t.order_id,
+      t.first_name,
+      t.last_name,
+      t.nationality,
+      t.passport,
+      t.class_id,
+      t.place
+      from tickets t
+      where id = #{id}
+    </select>
+    <select id="findTicketsByOrderId" resultMap="ticketResultMap">
+      select t.id,
+      t.order_id,
+      t.first_name,
+      t.last_name,
+      t.nationality,
+      t.passport,
+      t.class_id,
+      t.place
+      from tickets t
+      where order_id = #{id}
+    </select>
+    <select id="findOccupyPlaces" resultMap="ticketResultMap">
+        select t.id,
+      t.order_id,
+      t.first_name,
+      t.last_name,
+      t.nationality,
+      t.passport,
+      t.class_id,
+      t.place
+      from tickets t
+      join orders o on t.order_id = o.id
+      join departures d on o.departure_id = d.id
+      where d.id = #{departureId} and t.place is not null
+    </select>
+    <insert id="insertTicket" parameterType="Ticket" useGeneratedKeys="true" keyProperty="id">
+        insert into tickets (order_id, first_name, last_name, nationality, passport, class_id)
+        values (#{order.id}, #{firstName}, #{lastName}, #{nationality.iso}, #{passport}, #{classType.id});
+    </insert>
+    <update id="updatePlaceInTicket">
+        update tickets
+        set
+        place = #{place}
+        where id = #{id}
+    </update>
+</mapper>

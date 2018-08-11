@@ -1,0 +1,47 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DepartureMapper">
+    <resultMap id="DepartureResultMap" type="Departure">
+        <id property="id" column="id"/>
+        <result property="date" column="date"/>
+        <association property="flight"
+                     column="flight_id"
+                     select="FlightMapper.selectFlightById"/>
+    </resultMap>
+
+    <insert id="insertDeparture" parameterType="Departure" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+      insert into departures ("date", flight_id)
+      VALUES (#{date}, #{flight.id})
+    </insert>
+
+    <select id="selectDeparturesByFlightId" resultMap="DepartureResultMap">
+        select *
+        from departures
+        where flight_id = #{id}
+        order by departures.date
+    </select>
+
+    <select id="selectDepartureById" resultMap="DepartureResultMap">
+        select *
+        from departures
+        where id = #{id}
+    </select>
+
+    <select id="selectDepartureByFlightIdAndDate" parameterType="java.util.Map" resultMap="DepartureResultMap">
+        select *
+        from departures d
+        where d.flight_id = #{flight.id} and d.date = #{date}
+    </select>
+
+    <insert id="updateDeparture">
+        insert into departures ("date", flight_id)
+        values (#{date},#{flight.id})
+        on conflict ON CONSTRAINT departures_date_flight_id_pk
+        do nothing
+    </insert>
+
+    <delete id="deleteDeparture" parameterType="Long">
+        delete from departures where id = #{id}
+    </delete>
+</mapper>

@@ -4,14 +4,15 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
-	<properties resource="mysql.jdbc.properties"/>
+	<properties resource="postgresql.jdbc.properties"/>
 
 	<settings>
 		<setting name="aggressiveLazyLoading" value="false"/>
 	</settings>
 
 	<typeAliases>
-		<typeAlias alias="Admin" type="net.thumbtack.airline.model.person.Administrator" />
+		<!--<typeAlias alias="Admin" type="net.thumbtack.airline.model.person.Administrator" />-->
+		<package name="com.airline.model"/>
 	</typeAliases>
 	
 
@@ -28,7 +29,17 @@
 	</environments>
 
 	<mappers>
-		<package name="net.thumbtack.airline.bd.mappers" />
+		<mapper resource="mappers/ClassTypeMapper.xml"/>
+		<mapper resource="mappers/FlightMapper.xml"/>
+		<mapper resource="mappers/PlaneMapper.xml"/>
+        <mapper resource="mappers/PriceMapper.xml"/>
+		<mapper resource="mappers/PeriodMapper.xml"/>
+		<mapper resource="mappers/DepartureMapper.xml"/>
+		<mapper resource="mappers/AdminMapper.xml"/>
+		<mapper resource="mappers/ClientMapper.xml"/>
+		<mapper resource="mappers/OrderMapper.xml"/>
+		<mapper resource="mappers/TicketMapper.xml"/>
+		<mapper resource="mappers/NationalityMapper.xml"/>
 	</mappers>
 
 </configuration>

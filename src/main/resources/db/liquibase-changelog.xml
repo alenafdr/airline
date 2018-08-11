@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="alena (generated)" id="1532927098297-10">
+        <createTable tableName="admins">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="admins_pkey"/>
+            </column>
+            <column name="first_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="patronymic" type="VARCHAR(255)"/>
+            <column name="position" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="login" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-11">
+        <createTable tableName="classes">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="classes_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(15)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-12">
+        <createTable tableName="clients">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="clients_pkey"/>
+            </column>
+            <column name="first_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="patronymic" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="login" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-13">
+        <createTable tableName="countries">
+            <column name="iso3166" type="VARCHAR(2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-14">
+        <createTable tableName="departures">
+            <column name="date" type="date"/>
+            <column name="flight_id" type="BIGINT"/>
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="departures_id_pk"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-15">
+        <createTable tableName="flights">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="flights_pkey"/>
+            </column>
+            <column name="flight_name" type="VARCHAR(15)"/>
+            <column name="flight_plane_id" type="BIGINT"/>
+            <column name="from_town" type="VARCHAR(255)"/>
+            <column name="to_town" type="VARCHAR(255)"/>
+            <column name="start_time" type="TIME WITHOUT TIME ZONE"/>
+            <column name="duration" type="TIME WITHOUT TIME ZONE"/>
+            <column name="from_date" type="TIMESTAMP(29) WITHOUT TIME ZONE"/>
+            <column name="to_date" type="TIMESTAMP(29) WITHOUT TIME ZONE"/>
+            <column defaultValueBoolean="false" name="approved" type="BOOL"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-16">
+        <createTable tableName="orders">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="orders_pkey"/>
+            </column>
+            <column name="departure_id" type="BIGINT"/>
+            <column name="client_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-17">
+        <createTable tableName="period">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="period_pkey"/>
+            </column>
+            <column name="value" type="VARCHAR(5)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-18">
+        <createTable tableName="period_flight">
+            <column name="period_id" type="BIGINT"/>
+            <column name="flight_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-19">
+        <createTable tableName="planes">
+            <column autoIncrement="true" name="plane_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="planes_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="bussiness_row" type="INT"/>
+            <column name="economy_row" type="INT"/>
+            <column name="places_in_business_row" type="INT"/>
+            <column name="places_in_economy_row" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-20">
+        <createTable tableName="prices">
+            <column name="flight_id" type="BIGINT"/>
+            <column name="class_id" type="BIGINT"/>
+            <column name="price" type="numeric(10, 2)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-21">
+        <createTable tableName="spring_session">
+            <column name="session_id" type="BPCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="creation_time" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_access_time" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="max_inactive_interval" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="principal_name" type="VARCHAR(100)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-22">
+        <createTable tableName="spring_session_attributes">
+            <column name="session_id" type="BPCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="attribute_name" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="attribute_bytes" type="BYTEA">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-23">
+        <createTable tableName="tickets">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="tickets_pkey"/>
+            </column>
+            <column name="order_id" type="BIGINT"/>
+            <column name="first_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nationality" type="VARCHAR(2)"/>
+            <column name="passport" type="VARCHAR(12)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="class_id" type="BIGINT"/>
+            <column name="place" type="VARCHAR(5)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-24">
+        <addPrimaryKey columnNames="iso3166" constraintName="countries_pkey" tableName="countries"/>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-25">
+        <addPrimaryKey columnNames="session_id, attribute_name" constraintName="spring_session_attributes_pk" tableName="spring_session_attributes"/>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-26">
+        <addPrimaryKey columnNames="session_id" constraintName="spring_session_pk" tableName="spring_session"/>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-27">
+        <addUniqueConstraint columnNames="period_id, flight_id" constraintName="period_flight_period_id_flight_id_pk" tableName="period_flight"/>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-28">
+        <addUniqueConstraint columnNames="flight_id, class_id" constraintName="prices_flight_id_class_id_unique" tableName="prices"/>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-29">
+        <createIndex indexName="clients_login_index" tableName="clients">
+            <column name="login"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-30">
+        <createIndex indexName="departures_flight_id_index" tableName="departures">
+            <column name="flight_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-31">
+        <createIndex indexName="flights_flight_name_uindex" tableName="flights" unique="true">
+            <column name="flight_name"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-32">
+        <createIndex indexName="flights_from_date_index" tableName="flights">
+            <column name="from_date"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-33">
+        <createIndex indexName="flights_from_town_index" tableName="flights">
+            <column name="from_town"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-34">
+        <createIndex indexName="flights_to_date_index" tableName="flights">
+            <column name="to_date"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-35">
+        <createIndex indexName="flights_to_town_index" tableName="flights">
+            <column name="to_town"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-36">
+        <createIndex indexName="orders_client_id_index" tableName="orders">
+            <column name="client_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-37">
+        <createIndex indexName="orders_departure_id_index" tableName="orders">
+            <column name="departure_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-38">
+        <createIndex indexName="period_flight_flight_id_index" tableName="period_flight">
+            <column name="flight_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-39">
+        <createIndex indexName="period_value_uindex" tableName="period" unique="true">
+            <column name="value"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-40">
+        <createIndex indexName="planes_name_uindex" tableName="planes" unique="true">
+            <column name="name"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-41">
+        <createIndex indexName="spring_session_attributes_ix1" tableName="spring_session_attributes">
+            <column name="session_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-42">
+        <createIndex indexName="spring_session_ix1" tableName="spring_session">
+            <column name="last_access_time"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-43">
+        <createIndex indexName="tickets_order_id_index" tableName="tickets">
+            <column name="order_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-44">
+        <createIndex indexName="tickets_place_index" tableName="tickets">
+            <column name="place"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-45">
+        <addForeignKeyConstraint baseColumnNames="flight_id" baseTableName="departures" constraintName="departures_flights_id_fk" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="flights"/>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-46">
+        <addForeignKeyConstraint baseColumnNames="flight_plane_id" baseTableName="flights" constraintName="flights_planes_plane_id_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="plane_id" referencedTableName="planes"/>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-47">
+        <addForeignKeyConstraint baseColumnNames="client_id" baseTableName="orders" constraintName="orders_clients_id_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="clients"/>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-48">
+        <addForeignKeyConstraint baseColumnNames="departure_id" baseTableName="orders" constraintName="orders_departures_id_fk" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="departures"/>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-49">
+        <addForeignKeyConstraint baseColumnNames="flight_id" baseTableName="period_flight" constraintName="period_flight_flights_id_fk" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="flights"/>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-50">
+        <addForeignKeyConstraint baseColumnNames="period_id" baseTableName="period_flight" constraintName="period_flight_period_id_fk" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="period"/>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-51">
+        <addForeignKeyConstraint baseColumnNames="class_id" baseTableName="prices" constraintName="price_classes_id_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="classes"/>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-52">
+        <addForeignKeyConstraint baseColumnNames="flight_id" baseTableName="prices" constraintName="price_flights_id_fk" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="flights"/>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-53">
+        <addForeignKeyConstraint baseColumnNames="session_id" baseTableName="spring_session_attributes" constraintName="spring_session_attributes_fk" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="session_id" referencedTableName="spring_session"/>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-54">
+        <addForeignKeyConstraint baseColumnNames="class_id" baseTableName="tickets" constraintName="tickets_classes_id_fk" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="classes"/>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-55">
+        <addForeignKeyConstraint baseColumnNames="nationality" baseTableName="tickets" constraintName="tickets_countries_iso3166_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="CASCADE" referencedColumnNames="iso3166" referencedTableName="countries"/>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-56">
+        <addForeignKeyConstraint baseColumnNames="order_id" baseTableName="tickets" constraintName="tickets_orders_id_fk" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="orders"/>
+    </changeSet>
+</databaseChangeLog>
