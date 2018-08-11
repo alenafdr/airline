@@ -15,11 +15,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Класс используется для обработки входящих запросов по адресу "/api/orders/", имеет методы для обработки
+ * POST и GET запросов
+ */
+
+@CrossOrigin
 @RestController()
 @RequestMapping(value = "/api/orders/")
 public class OrderController {
-
-
 
     private OrderService orderService;
 
@@ -28,6 +32,17 @@ public class OrderController {
         this.orderService = orderService;
 
     }
+
+    /**
+     * Метод обрабатывает входящие POST запросы по адресу "/api/orders/". Получает на вход объект {@link OrderDTO}
+     * для дальнейшей обработки, а так же {@link HttpServletRequest} необходимый для получения атрибутов сессии,
+     * заданных при авторизации
+     *
+     * @param orderDTO объект для сохранения, проходит валидацию (параметры валидации заданы аннотациями в классе
+     *                 {@link OrderDTO}
+     * @param request  для получения атрибутов сессии
+     * @return {@link ResponseEntity<OrderDTO>}
+     */
 
     @PostMapping(value = "",
             consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -38,7 +53,26 @@ public class OrderController {
         return new ResponseEntity<>(orderService.saveOrder(orderDTO, login), HttpStatus.OK);
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    /**
+     * Метод принимает на вход список троковых параметров, все параметры не обязательные, собирает все параметры в
+     * {@link} Map<String, String> и отправляет в {@link OrderService}. По установленным параметрам сессии определяет
+     * тип пользователя, от которого был получен запрос - если это client, то устанавливает clientId из параметров сессии
+     * (чтобы клиент видел только свои заказы), если это admin, то устанавливает clientId из параметров запроса
+     *
+     * @param fromTown
+     * @param toTown
+     * @param flightName
+     * @param planeName
+     * @param fromDate
+     * @param toDate
+     * @param clientId
+     * @param request    параметр необходим для получения атрибутов сессии
+     * @return {@link ResponseEntity<List<OrderDTO>>}
+     * @throws Exception
+     */
+
+    @GetMapping(value = "",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<OrderDTO>> getOrdersByParameters(@RequestParam(name = "fromTown", required = false) String fromTown,
                                                                 @RequestParam(name = "toTown", required = false) String toTown,
                                                                 @RequestParam(name = "flightName", required = false) String flightName,
