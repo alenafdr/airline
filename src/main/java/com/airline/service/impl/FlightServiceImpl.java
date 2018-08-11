@@ -135,7 +135,7 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public void delete(Long id) {
-        flightDao.delete(id);
+        if (!getById(id).isApproved()) flightDao.delete(id);
     }
 
     /**
