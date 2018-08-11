@@ -59,7 +59,7 @@ public class FlightDaoTest {
         Plane plane = new Plane();
         plane.setName("ТУ-134");
         flight.setPlane(plane);
-        flight.setFlightName("53");
+        flight.setApproved(true);
         List<Flight> flights = flightDao.findListByParameters(flight);
         flights.forEach(item -> LOGGER.info(item.getId().toString()));
     }

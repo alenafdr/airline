@@ -101,6 +101,9 @@
                 and f.to_date <= #{toDate}
                 ]]>
             </if>
+            <if test="approved">
+                and f.approved
+            </if>
         </where>
 
     </select>

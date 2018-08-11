@@ -7,7 +7,6 @@ import com.airline.dto.mapper.TicketDTOMapper;
 import com.airline.exceptions.*;
 import com.airline.model.*;
 import com.airline.model.dto.OrderDTO;
-import com.airline.model.dto.PlaceDTO;
 import com.airline.model.dto.TicketDTO;
 import com.airline.service.OrderService;
 import org.slf4j.Logger;
@@ -16,11 +15,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+/**
+ * Класс используется для обаботки запросов из контроллера, подготовки запросов к отправке в БД,
+ * для маппинга результатов в DTO объекты
+ */
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -37,6 +42,7 @@ public class OrderServiceImpl implements OrderService {
     private OrderDTOMapper orderDTOMapper;
     private TicketDTOMapper ticketDTOMapper;
 
+    @Autowired
     public OrderServiceImpl(OrderDao orderDao,
                             DepartureDao departureDao,
                             ClassTypeDao classTypeDao,
@@ -57,9 +63,29 @@ public class OrderServiceImpl implements OrderService {
         this.ticketDTOMapper = ticketDTOMapper;
     }
 
-    //classType can be null
-    //nationality can be null
-
+    /**
+     * Метод получает объект {@link OrderDTO} и логин отправителя. Проверяет, есть ли такой отправитель в БД.
+     * Проверяет, есть ли вылет с такой датой для текущего рейса. Для каждого объекта {@link TicketDTO}
+     * создает {@link Ticket} -
+     * назначает {@link Price}, {@link ClassType}, {@link Country}.
+     * конструирует полноценный объект {@link Order},
+     * сохраняет в БД,
+     * по возвращаемому id забирает из БД сохраненный {@link Order},
+     * конвертирует в {@link OrderDTO} и возвращает контроллеру
+     *
+     * @param orderDTO объект для сохранения в БД
+     * @param login    логин отправителя, для связи заказа с определенным {@link UserClient}
+     * @return {@link OrderDTO}
+     * @throws {@link LoginNotFoundException} если не был найден пользователь по login (маловероятно, потому что login
+     *                берется из Session и устанавливается туда при авторизации
+     * @throws {@link DepartureNotFoundException} если не существует отправления c датой {@link OrderDTO#getDate()}
+     *                для указанного рейса {@link OrderDTO#getFlightId()}
+     * @throws {@link NationalityNotFoundException} если не верно указан код национальности (допустимо не указывать)
+     * @throws {@link ClassTypeNotFoundException} если не верно указан тип класса (допустимо не указывать,
+     *                по умолчанию установится ECONOMY)
+     * @throws {@link PriceNotFoundException} если не найден прайс для этого класса для текущего рейса (допущены
+     *                ошибки при сохранении рейса)
+     */
     @Override
     public OrderDTO saveOrder(OrderDTO orderDTO, String login) {
         String loginLC = login.toLowerCase();
@@ -85,7 +111,7 @@ public class OrderServiceImpl implements OrderService {
 
             if (ticketDTO.getClassType() != null) {
                 classType = classTypeDao.findClassTypeByName(ticketDTO.getClassType())
-                        .orElseThrow(()->new ClassTypeNotFoundException("Not found class with name " + ticketDTO.getClassType()));
+                        .orElseThrow(() -> new ClassTypeNotFoundException("Not found class with name " + ticketDTO.getClassType()));
             } else {
                 classType = classTypeDao.findClassTypeByName(ClassTypeEnum.ECONOMY.name()).get();
             }
@@ -106,8 +132,23 @@ public class OrderServiceImpl implements OrderService {
         return orderDTOMapper.convertToDTO(orderDao.findOrderById(orderId).get());
     }
 
+    /**
+     * Метод принимает на вход список параметров в виде {@link Map<String,String}. Все параметры не обязятельные
+     * Для поиска по заданным параметрам формируется объект {@link Order} и отправляется в БД
+     * Проверка параметров на null осуществляется непосредственно при поиске в resources/mappers/OrderMapper.xml
+     *
+     * @param parameters Полный список доступных параметров {@link ParametersEnum}
+     * @return {@link List<OrderDTO} список объектов
+     * @throws {@link PlaneNotFoundException} если в параметрах поиска было указано неверное имя {@link Plane}
+     * @throws {@link UserNotFoundException} если в параметрах был указан неверный clientId (при запросе
+     *                от {@link UserClient}) id берется из сессии, при запросе от {@link UserAdmin} устанавливается в
+     *                параметрах запроса
+     * @throws ParseException может выкинуть при форматировании строки в {@link java.util.Date}
+     *                Формат даты yyyy-MM-dd
+     */
+
     @Override
-    public List<OrderDTO> getOrdersByParameters(Map<String, String> parameters) throws Exception {
+    public List<OrderDTO> getOrdersByParameters(Map<String, String> parameters) throws ParseException {
         Plane plane = null;
         String planeName = parameters.get(ParametersEnum.PLANE_NAME);
         if (planeName != null) {
