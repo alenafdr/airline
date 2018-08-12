@@ -42,7 +42,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(AlreadyExistsException.class)
-
     protected ResponseEntity<ApiError> handleAlreadyExistsException(AlreadyExistsException ex) {
         ApiError apiError = new ApiError();
         apiError.addSubError(ErrorCode.ALREADY_EXISTS.name(), "name", ex.getMessage());
@@ -50,7 +49,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(ConnectDataBaseException.class)
-
     protected ResponseEntity<ApiError> handleConnectDataBaseException(ConnectDataBaseException ex) {
         ApiError apiError = new ApiError();
         apiError.addSubError(ErrorCode.CONNECT_TO_DATABASE.name(), "", ex.getMessage());
@@ -144,6 +142,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<ApiError> handlePeriodNotFoundException(PeriodNotFoundException ex) {
         ApiError apiError = new ApiError();
         apiError.addSubError(ErrorCode.PERIOD_NOT_FOUND.name(), "period", ex.getMessage());
+        return new ResponseEntity<>(apiError, BAD_REQUEST);
+    }
+
+    @ExceptionHandler(SessionIsNotAuthorizedException.class)
+    protected ResponseEntity<Object> handleSessionIsNotAuthorizedException(SessionIsNotAuthorizedException ex) {
+        ApiError apiError = new ApiError();
+        apiError.addSubError(ErrorCode.SESSION_IS_NOT_AUTHORIDED.name(), "", ex.getMessage());
         return new ResponseEntity<>(apiError, BAD_REQUEST);
     }
 

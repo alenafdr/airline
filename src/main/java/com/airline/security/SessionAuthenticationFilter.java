@@ -25,7 +25,7 @@ import java.util.HashSet;
 public class SessionAuthenticationFilter extends GenericFilterBean {
 
     private AuthenticationManager authenticationManager;
-    private static final Logger logger = LoggerFactory.getLogger(SessionAuthenticationFilter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SessionAuthenticationFilter.class);
 
     @Autowired
     public SessionAuthenticationFilter(AuthenticationManager authenticationManager) {
