@@ -109,6 +109,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new UserNotFoundException("Not found user with login " + userAdminDTO.getLogin()));
         if (userAdmin.getPassword().equals(userAdminDTO.getOldPassword())) {
             userAdminDTO.setPassword(userAdminDTO.getNewPassword());
+            userAdminDTO.setId(userAdmin.getId());
             adminDao.update(userAdminDTOMapper.converToEntity(userAdminDTO));
             return userAdminDTO;
         } else {
@@ -157,9 +158,10 @@ public class UserServiceImpl implements UserService {
         String login = userClientDTO.getLogin().toLowerCase();
         UserClient userClient = clientDao.findByLogin(login)
                 .orElseThrow(() -> new UserNotFoundException("Not found user with login " + userClientDTO.getLogin()));
-        userClientDTO.setPhone(userClientDTO.getPhone().replace("-", ""));
         if (userClient.getPassword().equals(userClientDTO.getOldPassword())) {
             userClientDTO.setPassword(userClientDTO.getNewPassword());
+            userClientDTO.setId(userClient.getId());
+            userClientDTO.setPhone(userClientDTO.getPhone().replace("-", ""));
             clientDao.update(userClientDTOMapper.converToEntity(userClientDTO));
             return userClientDTO;
         } else {

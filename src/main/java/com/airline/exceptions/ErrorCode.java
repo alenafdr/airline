@@ -16,7 +16,8 @@ public enum ErrorCode {
     WRONG_PLACE(13),
     WRONG_DATE_FORMAT(14),
     CLASS_NOT_FOUND(15),
-    PERIOD_NOT_FOUND(16)
+    PERIOD_NOT_FOUND(16),
+    SESSION_IS_NOT_AUTHORIDED(17)
     ;
 
     ErrorCode(int code) {

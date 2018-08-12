@@ -9,7 +9,7 @@ import javax.validation.constraints.Pattern;
 
 public class UserClientDTO extends UserEntityDTO {
 
-    @Pattern(groups = {New.class, Exist.class}, regexp = "^[-A-Za-z0-9!#$%&\\'*+\\/=?^_`{|}~]+(\\.[-A-Za-z0-9!#$%&\\'*+\\/=?^_`{|}~]+)*@([A-Za-z0-9]([-A-Za-z0-9]{0,61}[A-Za-z0-9])?\\.)+([A-Za-z0-9][-A-Za-z0-9]{0,28}[A-Za-z0-9])$")
+    @Pattern(groups = {New.class, Exist.class}, regexp = "^[-A-Za-z0-9!#$%&\\'*+\\/=?^_`{|}~]+(\\.[-A-Za-z0-9!#$%&\\'*+\\/=?^_`{|}~]+)*@([A-Za-z0-9]([-A-Za-z0-9]{0,61}[A-Za-z0-9])?\\.)+([A-Za-z0-9][-A-Za-z0-9]{0,28}[A-Za-z0-9])$", message = "Email not valid")
     @NotNull(groups = {New.class, Exist.class})
     private String email;
 

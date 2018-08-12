@@ -164,5 +164,37 @@ INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport,
 INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (30, 13, 'Иван', 'Иванов', 'RU', '5555 55555', 1, null);
 INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (34, 15, 'Иван', 'Иванов', 'CH', '5555 55555', 1, null);
 
+
+INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (35, 16, 'Иван', 'Иванов', 'IN', '5555 55555', 1, null);
+INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (36, 16, 'Иван', 'Иванов', 'RU', '5555 55555', 2, null);
+INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (37, 17, 'Иван', 'Иванов', 'CH', '5555 55555', 1, null);
+INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (38, 18, 'Иван', 'Иванов', 'RU', '5555 55555', 1, null);
+INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (39, 19, 'Иван', 'Иванов', 'RU', '5555 55555', 2, null);
+INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (40, 17, 'Иван', 'Иванов', 'IN', '5555 55555', 2, null);
+INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (41, 20, 'Иван', 'Иванов', 'IN', '5555 55555', 2, '1A');
+INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (42, 19, 'Иван', 'Иванов', 'CH', '5555 55555', 2, null);
+INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (43, 20, 'Иван', 'Иванов', 'CH', '5555 55555', 2, null);
+INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (44, 20, 'Иван', 'Иванов', 'RU', '5555 55555', 2, '1B');
+INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (45, 21, 'Иван', 'Иванов', 'RU', '5555 55555', 1, null);
+INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (46, 21, 'Иван', 'Иванов', 'IN', '5555 55555', 1, null);
+INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (47, 6, 'Иван', 'Иванов', 'IN', '5555 55555', 2, null);
+INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (48, 21, 'Иван', 'Иванов', 'CH', '5555 55555', 2, null);
+INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (49, 22, 'Иван', 'Иванов', 'CH', '5555 55555', 1, null);
+INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (50, 23, 'Иван', 'Иванов', 'RU', '5555 55555', 1, null);
+INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (51, 24, 'Иван', 'Иванов', 'RU', '5555 55555', 1, null);
+INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (52, 24, 'Иван', 'Иванов', 'IN', '5555 55555', 2, null);
+INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (53, 25, 'Иван', 'Иванов', 'IN', '5555 55555', 2, null);
+INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (54, 25, 'Иван', 'Иванов', 'CH', '5555 55555', 1, null);
+INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (55, 26, 'Иван', 'Иванов', 'CH', '5555 55555', 2, null);
+INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (56, 26, 'Иван', 'Иванов', 'RU', '5555 55555', 1, null);
+INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (57, 27, 'Иван', 'Иванов', 'RU', '5555 55555', 2, null);
+INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (58, 26, 'Иван', 'Иванов', 'IN', '5555 55555', 1, null);
+INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (59, 28, 'Иван', 'Иванов', 'IN', '5555 55555', 2, null);
+INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (60, 27, 'Иван', 'Иванов', 'CH', '5555 55555', 1, null);
+INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (61, 29, 'Иван', 'Иванов', 'CH', '5555 55555', 2, null);
+INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (62, 29, 'Иван', 'Иванов', 'RU', '5555 55555', 1, null);
+INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (63, 30, 'Иван', 'Иванов', 'CH', '5555 55555', 1, null);
+
+
 INSERT INTO admins (id, first_name, last_name, patronymic, position, login, password) VALUES (1, 'Иван', 'Иванов', null, 'инженер', 'ivanovadmin', '123456');
 INSERT INTO admins (id, first_name, last_name, patronymic, position, login, password) VALUES (2, 'Петр', 'Петров', null, 'инженер', 'petrovadmin', '123456');
