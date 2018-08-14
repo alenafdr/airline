@@ -41,7 +41,7 @@ public class PlaceController {
 
     @GetMapping(value = "/{orderId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<String>> getOccupyPlaces(@PathVariable("orderId") Long orderId) {
-        return new ResponseEntity<>(placeService.getOccupyPlaces(orderId), HttpStatus.OK);
+        return new ResponseEntity<>(placeService.getFreePlaces(orderId), HttpStatus.OK);
     }
 
     /**

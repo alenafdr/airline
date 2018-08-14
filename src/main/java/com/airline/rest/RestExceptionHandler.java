@@ -30,7 +30,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(PlaneNotFoundException.class)
     protected ResponseEntity<ApiError> handlePlaneNotFound(PlaneNotFoundException ex) {
         ApiError apiError = new ApiError();
-        apiError.addSubError(ErrorCode.PLANE_NOT_FOUND.name(), "name", ex.getMessage());
+        apiError.addSubError(ErrorCode.PLANE_NOT_FOUND.name(), "planeName", ex.getMessage());
 
         return new ResponseEntity<>(apiError, NOT_FOUND);
     }

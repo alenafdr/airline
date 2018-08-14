@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>UI</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet"/>
@@ -69,13 +69,13 @@
             <input id="btn_user_get_list" type="button" value="List clients"/><br/>
         </td>
         <td width="50%">
-            <table id="user_table" border="1px">
+            <table id="user_table" border="1px" class="table">
             </table>
         </td>
 
         <td rowspan="7" width="30%">
             RESPONSE<br/>
-            <textarea style="width:100%;height:800px" id="response_text"></textarea>
+            <textarea style="width:100%;height:1000px" id="response_text"></textarea>
         </td>
     </tr>
     <tr>
@@ -169,7 +169,7 @@
 
         </td>
         <td>
-            <table id="flight_table" border="1px">
+            <table id="flight_table">
 
             </table>
         </td>
@@ -211,7 +211,33 @@
             <input id="btn_order_list" type="button" value="List"/><br/>
         </td>
         <td>
-            <table id="order_table" cellpadding="10px">
+            <table id="order_table" class="table">
+
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            REGISTRATION<br/>
+            <table>
+                <tr>
+                    <td>odrer id:</td>
+                    <td><input id="place_order_id" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>ticket:</td>
+                    <td><input id="place_ticket" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>place:</td>
+                    <td><input id="place_place" type="text"/></td>
+                </tr>
+            </table>
+            <input id="btn_places_get_occupy" type="button" value="Free places"/>
+            <input id="btn_place_registration" type="button" value="Register"/><br/>
+        </td>
+        <td>
+            <table id="places_table">
 
             </table>
         </td>
@@ -222,7 +248,7 @@
             <input id="btn_planes_list" type="button" value="List"/>
         </td>
         <td>
-            <table id="plane_table" border="1px">
+            <table id="plane_table" class="table">
             </table>
         </td>
     </tr>
@@ -232,14 +258,11 @@
             <input id="btn_countries_list" type="button" value="List"/>
         </td>
         <td>
-            <table id="countries_table" border="1px">
+            <table id="countries_table" class="table">
             </table>
         </td>
     </tr>
 </table>
-
-
-<input id="btn_get_order" type="button" value="Order"/>
 
 <script>
     //var BASE_URL = "https://alenaairline.herokuapp.com/api/";
@@ -329,13 +352,16 @@
                 duration: $("#flight_duration").val(),
                 priceBusiness: $("#flight_priceBusiness").val(),
                 priceEconomy: $("#flight_priceEconomy").val(),
-                approved: $("#flight_approved").val(),
                 schedule: {
                     fromDate: $("#flight_fromDate").val(),
                     toDate: $("#flight_toDate").val(),
-                    periods: $("#flight_periods").val().split(",").filter(function(v){return v!==''}),
+                    periods: $("#flight_periods").val().split(",").filter(function (v) {
+                        return v !== ''
+                    }),
                 },
-                dates: $("#flight_dates").val().split(",").filter(function(v){return v!==''}),
+                dates: $("#flight_dates").val().split(",").filter(function (v) {
+                    return v !== ''
+                }),
             };
             create_flight(flight);
         });
@@ -356,13 +382,16 @@
                 duration: $("#flight_duration").val(),
                 priceBusiness: $("#flight_priceBusiness").val(),
                 priceEconomy: $("#flight_priceEconomy").val(),
-                approved: $("#flight_approved").val(),
                 schedule: {
                     fromDate: $("#flight_fromDate").val(),
                     toDate: $("#flight_toDate").val(),
-                    periods: $("#flight_periods").val().split(",").filter(function(v){return v!==''}),
+                    periods: $("#flight_periods").val().split(",").filter(function (v) {
+                        return v !== ''
+                    }),
                 },
-                dates: $("#flight_dates").val().split(",").filter(function(v){return v!==''}),
+                dates: $("#flight_dates").val().split(",").filter(function (v) {
+                    return v !== ''
+                }),
             };
             update_flight(id, flight);
         });
@@ -403,6 +432,23 @@
             };
             save_order(order);
         });
+
+        /*------------------------places------------------------*/
+
+        $("#btn_places_get_occupy").click(function () {
+            var id = parseInt($("#place_order_id").val());
+            get_free_places(id);
+        });
+
+        $("#btn_place_registration").click(function () {
+            var ticket = {
+                orderId: $("#place_order_id").val(),
+                ticket: $("#place_ticket").val(),
+                place: $("#place_place").val(),
+            }
+            registration_ticket(ticket);
+        });
+
         /*------------------------planes------------------------*/
         $("#btn_planes_list").click(function () {
             list_planes();
@@ -440,21 +486,21 @@
         $("#user_table").html("");
         var head = "<tr><th>"
             + ("id") + "</th><th>"
-            + ("firstName") +"</th><th>"
-            + ("lastName") +"</th><th>"
-            + ("patronymic") +"</th><th>"
-            + ("phone") +"</th><th>"
-            + ("email") +"</th></tr>";
+            + ("firstName") + "</th><th>"
+            + ("lastName") + "</th><th>"
+            + ("patronymic") + "</th><th>"
+            + ("phone") + "</th><th>"
+            + ("email") + "</th></tr>";
         $("#user_table").append(head);
         data.forEach(function (item) {
             console.log(item);
             var element = "<tr><td>"
                 + (item.id) + "</td><td>"
-                + (item.firstName) +"</td><td>"
-                + (item.lastName) +"</td><td>"
-                + (item.patronymic) +"</td><td>"
-                + (item.phone) +"</td><td>"
-                + (item.email) +"</td></tr>";
+                + (item.firstName) + "</td><td>"
+                + (item.lastName) + "</td><td>"
+                + (item.patronymic) + "</td><td>"
+                + (item.phone) + "</td><td>"
+                + (item.email) + "</td></tr>";
             $("#user_table").append(element);
         });
 
@@ -568,7 +614,7 @@
 
     function get_list_clients() {
         $.ajax({
-            url:"/api/clients",
+            url: "/api/clients",
             method: "GET",
             dataType: "json",
             crossDomain: true,
@@ -590,7 +636,7 @@
 
     function login(data) {
         $.ajax({
-            url:"/api/session/",
+            url: "/api/session/",
             data: JSON.stringify(data),
             method: "POST",
             dataType: "json",
@@ -611,7 +657,7 @@
 
     function logout() {
         $.ajax({
-            url:"/api/session/",
+            url: "/api/session/",
             method: "DELETE",
             contentType: "application/json",
             crossDomain: true,
@@ -659,38 +705,38 @@
         $("#flight_table").html("");
         var head = "<tr><th>"
             + ("id") + "</th><th>"
-            + ("flight name") +"</th><th>"
-            + ("plane name") +"</th><th>"
-            + ("from town") +"</th><th>"
-            + ("to town") +"</th><th>"
-            + ("start") +"</th><th>"
-            + ("duration") +"</th><th>"
-            + ("price business") +"</th><th>"
-            + ("price economy") +"</th><th>"
-            + ("from date") +"</th><th>"
-            + ("to date") +"</th><th>"
-            + ("periods") +"</th><th>"
-            + ("dates") +"</th><th>"
-            + ("approved") +"</th></tr>";
+            + ("flight name") + "</th><th>"
+            + ("plane name") + "</th><th>"
+            + ("from town") + "</th><th>"
+            + ("to town") + "</th><th>"
+            + ("start") + "</th><th>"
+            + ("duration") + "</th><th>"
+            + ("price business") + "</th><th>"
+            + ("price economy") + "</th><th>"
+            + ("from date") + "</th><th>"
+            + ("to date") + "</th><th>"
+            + ("periods") + "</th><th>"
+            + ("dates") + "</th><th>"
+            + ("approved") + "</th></tr>";
         $("#flight_table").append(head);
     }
 
     function update_flight_item(item) {
         var element = "<tr><td>"
             + (item.id) + "</td><td>"
-            + (item.flightName) +"</td><td>"
-            + (item.planeName) +"</td><td>"
-            + (item.fromTown) +"</td><td>"
-            + (item.toTown) +"</td><td>"
-            + (item.start) +"</td><td>"
-            + (item.duration) +"</td><td>"
-            + (item.priceBusiness) +"</td><td>"
-            + (item.priceEconomy) +"</td><td>"
-            + (item.schedule.fromDate) +"</td><td>"
-            + (item.schedule.toDate) +"</td><td>"
-            + (item.schedule.periods) +"</td><td>"
-            + (item.dates.toString()) +"</td><td>"
-            + (item.approved) +"</td></tr>";
+            + (item.flightName) + "</td><td>"
+            + (item.planeName) + "</td><td>"
+            + (item.fromTown) + "</td><td>"
+            + (item.toTown) + "</td><td>"
+            + (item.start) + "</td><td>"
+            + (item.duration) + "</td><td>"
+            + (item.priceBusiness) + "</td><td>"
+            + (item.priceEconomy) + "</td><td>"
+            + (item.schedule.fromDate) + "</td><td>"
+            + (item.schedule.toDate) + "</td><td>"
+            + (item.schedule.periods) + "</td><td>"
+            + (item.dates.toString()) + "</td><td>"
+            + (item.approved) + "</td></tr>";
 
         $("#flight_table").append(element);
     }
@@ -833,15 +879,15 @@
         $("#order_table").html("");
         var head = "<tr><th>"
             + ("order id") + "</th><th>"
-            + ("flight id") +"</th><th>"
-            + ("from town") +"</th><th>"
-            + ("to town") +"</th><th>"
+            + ("flight id") + "</th><th>"
+            + ("from town") + "</th><th>"
+            + ("to town") + "</th><th>"
             + ("flight name") + "</th><th>"
-            + ("plane name") +"</th><th>"
-            + ("date") +"</th><th>"
-            + ("start") +"</th><th>"
-            + ("duration") +"</th><th>"
-            + ("tickets") +"</th></tr>";
+            + ("plane name") + "</th><th>"
+            + ("date") + "</th><th>"
+            + ("start") + "</th><th>"
+            + ("duration") + "</th><th>"
+            + ("tickets") + "</th></tr>";
         $("#order_table").append(head);
         data.forEach(function (item) {
             var stringTickets = "";
@@ -851,15 +897,15 @@
             });
             var element = "<tr><td>"
                 + (item.orderId) + "</td><td>"
-                + (item.flightId) +"</td><td>"
-                + (item.fromTown) +"</td><td>"
-                + (item.toTown) +"</td><td>"
+                + (item.flightId) + "</td><td>"
+                + (item.fromTown) + "</td><td>"
+                + (item.toTown) + "</td><td>"
                 + (item.flightName) + "</td><td>"
-                + (item.planeName) +"</td><td>"
-                + (item.date) +"</td><td>"
-                + (item.start) +"</td><td>"
-                + (item.duration) +"</td><td>"
-                + (stringTickets) +"</td></tr>";
+                + (item.planeName) + "</td><td>"
+                + (item.date) + "</td><td>"
+                + (item.start) + "</td><td>"
+                + (item.duration) + "</td><td>"
+                + (stringTickets) + "</td></tr>";
 
             $("#order_table").append(element);
         });
@@ -899,9 +945,74 @@
             },
             success: function (data) {
                 update_response_body(data);
-                update_ui_flight(data);
-                update_flight_head();
-                update_flight_item(data);
+                update_table_orders(data);
+            },
+            error: function (jqxhr) {
+                console.log("Error", jqxhr);
+                update_response_body($.parseJSON(jqxhr.responseText));
+            }
+        });
+    }
+
+    /*------------------------places------------------------*/
+
+    function update_table_places(data) {
+        $("#places_table").html("");
+        var curRow = 1;
+        $("#places_table").append("<tr>");
+        data.forEach(function (item) {
+            var placeRow = parseInt(item);
+            if (placeRow == curRow) {
+                $("#places_table").append("<td>" + item + "</td>");
+            } else {
+                curRow = placeRow;
+                $("#places_table").append("</tr>");
+                $("#places_table").append("<tr>");
+                $("#places_table").append("<td>" + item + "</td>");
+            }
+        });
+        $("#places_table").append("</tr>");
+    }
+
+    function update_table_ticket(data) {
+        $("#places_table").html("");
+    }
+
+    function get_free_places(id) {
+        $.ajax({
+            url: "/api/places/" + id,
+            method: "GET",
+            dataType: "json",
+            crossDomain: true,
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function (data) {
+                console.log(data);
+                update_response_body(data);
+                update_table_places(data);
+            },
+            error: function (jqxhr) {
+                console.log("Error", jqxhr);
+                update_response_body($.parseJSON(jqxhr.responseText));
+            }
+        });
+    }
+
+    function registration_ticket(ticket) {
+        $.ajax({
+            url: "/api/places/",
+            data: JSON.stringify(ticket),
+            method: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            crossDomain: true,
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function (data) {
+                update_response_body(data);
+                update_table_ticket(data);
             },
             error: function (jqxhr) {
                 console.log("Error", jqxhr);
@@ -916,19 +1027,19 @@
         $("#plane_table").html("");
         var head = "<tr><th>"
             + ("name") + "</th><th>"
-            + ("business row") +"</th><th>"
-            + ("economy row") +"</th><th>"
-            + ("places in business row") +"</th><th>"
-            + ("places in economy row") +"</th></tr>";
+            + ("business row") + "</th><th>"
+            + ("economy row") + "</th><th>"
+            + ("places in business row") + "</th><th>"
+            + ("places in economy row") + "</th></tr>";
         $("#plane_table").append(head);
         data.forEach(function (item) {
             console.log(item);
             var element = "<tr><td>"
                 + (item.name) + "</td><td>"
-                + (item.businessRow) +"</td><td>"
-                + (item.economyRow) +"</td><td>"
-                + (item.placesInBusinessRow) +"</td><td>"
-                + (item.placesInEconomyRow) +"</td></tr>";
+                + (item.businessRow) + "</td><td>"
+                + (item.economyRow) + "</td><td>"
+                + (item.placesInBusinessRow) + "</td><td>"
+                + (item.placesInEconomyRow) + "</td></tr>";
 
             $("#plane_table").append(element);
         });
@@ -954,19 +1065,20 @@
             }
         });
     }
+
     /*------------------------countries------------------------*/
 
     function update_table_countries(data) {
         $("#countries_table").html("");
         var head = "<tr><th>"
             + ("iso3166") + "</th><th>"
-            + ("name") +"</th></tr>";
+            + ("name") + "</th></tr>";
         $("#countries_table").append(head);
         data.forEach(function (item) {
             console.log(item);
             var element = "<tr><td>"
                 + (item.iso3166) + "</td><td>"
-                + (item.name) +"</td></tr>";
+                + (item.name) + "</td></tr>";
 
             $("#countries_table").append(element);
         });

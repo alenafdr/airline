@@ -192,6 +192,7 @@
     <changeSet author="alena (generated)" id="1532927098297-26">
         <addPrimaryKey columnNames="session_id" constraintName="spring_session_pk" tableName="spring_session"/>
     </changeSet>
+
     <changeSet author="alena (generated)" id="1532927098297-27">
         <addUniqueConstraint columnNames="period_id, flight_id" constraintName="period_flight_period_id_flight_id_pk" tableName="period_flight"/>
     </changeSet>
@@ -313,5 +314,8 @@
     </changeSet>
     <changeSet author="alena (generated)" id="1532927098297-56">
         <addForeignKeyConstraint baseColumnNames="order_id" baseTableName="tickets" constraintName="tickets_orders_id_fk" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="orders"/>
+    </changeSet>
+    <changeSet author="alena (generated)" id="1532927098297-57">
+        <addUniqueConstraint columnNames="date, flight_id" constraintName="departures_date_flight_id_pk" tableName="departures"/>
     </changeSet>
 </databaseChangeLog>

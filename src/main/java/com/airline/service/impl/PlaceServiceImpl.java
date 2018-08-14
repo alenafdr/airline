@@ -44,7 +44,7 @@ public class PlaceServiceImpl implements PlaceService {
      */
 
     @Override
-    public List<String> getOccupyPlaces(Long orderId) {
+    public List<String> getFreePlaces(Long orderId) {
         Order order = orderDao.findOrderById(orderId)
                 .orElseThrow(() -> new OrderNotFoundException("Not found order with id " + orderId));
         List<String> busyPlaces = ticketDao.findOccupyPlaces(order.getDeparture().getId())
@@ -91,8 +91,13 @@ public class PlaceServiceImpl implements PlaceService {
         }
 
         if (isPlaceInRightClass(plane, ticket.getClassType(), place)) {
-            ticket.setPlace(place);
-            ticketDao.updatePlaceInTicket(ticket);
+            if (getFreePlaces(ticket.getOrder().getId()).contains(placeDTO.getPlace())) {
+                ticket.setPlace(place);
+                ticketDao.updatePlaceInTicket(ticket);
+            } else {
+                throw new WrongPlaceException("Place " + placeDTO.getPlace() + " is occupy");
+            }
+
         } else {
             throw new WrongPlaceException("Wrong place, you must register place in "
                     + ticket.getClassType().getName() + " class");
