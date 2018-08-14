@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -103,6 +104,7 @@ public class FlightController {
      * @return {@link ResponseEntity<List<FlightDTO>>}
      */
 
+    @Secured(value = "ROLE_ADMIN")
     @PostMapping(value = "",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -134,6 +136,7 @@ public class FlightController {
      * @return {@link ResponseEntity<List<FlightDTO>>}
      */
 
+    @Secured(value = "ROLE_ADMIN")
     @PutMapping(value = "{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -152,6 +155,7 @@ public class FlightController {
      * @return {@link ResponseEntity<String>} пустой JSON
      */
 
+    @Secured(value = "ROLE_ADMIN")
     @DeleteMapping(value = "{id}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<String> delete(@PathVariable("id") Long id) {
@@ -167,6 +171,7 @@ public class FlightController {
      * @return {@link ResponseEntity<List<FlightDTO>>}
      */
 
+    @Secured(value = "ROLE_ADMIN")
     @PutMapping(value = "/{id}/approve",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<FlightDTO> approve(@PathVariable("id") Long id) {

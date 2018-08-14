@@ -1,10 +1,13 @@
 package com.airline.model.dto;
 
+import com.airline.rest.json.CustomDateDeserializer;
+import com.airline.rest.json.CustomDateSerializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
@@ -29,7 +32,8 @@ public class OrderDTO {
     private String planeName;
 
     @NotNull
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonSerialize(using = CustomDateSerializer.class)
+    @JsonDeserialize(using = CustomDateDeserializer.class)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @ApiModelProperty(dataType = "java.lang.String", example = "YYYY-MM-DD")
     private Date date;
@@ -100,6 +104,7 @@ public class OrderDTO {
         this.planeName = planeName;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
     public Date getDate() {
         return date;
     }

@@ -1,0 +1,999 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>UI</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet"/>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/0.9.90/jsrender.min.js"></script>
+</head>
+<body>
+<table width="100%" cellpadding="30px">
+    <tr>
+        <td width="20%">
+            USER
+            <table>
+                <tr>
+                    <td>id:</td>
+                    <td><input id="user_id" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>first name:</td>
+                    <td><input id="user_first_name" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>last name:</td>
+                    <td><input id="user_last_name" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>patronymic:</td>
+                    <td><input id="user_patronymic" type="text"/></td>
+                </tr>
+
+                <tr>
+                    <td>login:</td>
+                    <td><input id="user_login" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>password:</td>
+                    <td><input id="user_password" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>position:</td>
+                    <td><input id="user_position" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>email:</td>
+                    <td><input id="user_email" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>phone:</td>
+                    <td><input id="user_phone" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>old password:</td>
+                    <td><input id="user_old_password" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>new password:</td>
+                    <td><input id="user_new_password" type="text"/></td>
+                </tr>
+            </table>
+            <input id="btn_user_reg_admin" type="button" value="Reg admin"/>
+            <input id="btn_user_update_admin" type="button" value="Update admin"/><br/>
+            <input id="btn_user_reg_client" type="button" value="Reg client"/>
+            <input id="btn_user_update_client" type="button" value="Update client"/><br/>
+            <input id="btn_user_read_account" type="button" value="Read account"/>
+            <input id="btn_user_get_list" type="button" value="List clients"/><br/>
+        </td>
+        <td width="50%">
+            <table id="user_table" border="1px">
+            </table>
+        </td>
+
+        <td rowspan="7" width="30%">
+            RESPONSE<br/>
+            <textarea style="width:100%;height:800px" id="response_text"></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td width="20%">
+            LOGIN
+            <table>
+                <tr>
+                    <td>login:</td>
+                    <td><input id="session_login" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>password:</td>
+                    <td><input id="session_password" type="text"/></td>
+                </tr>
+            </table>
+            <input id="btn_session_login" type="button" value="Login"/>
+            <input id="btn_session_logout" type="button" value="Logout"/><br/>
+        </td>
+        <td width="40%">
+
+        </td>
+    </tr>
+    <tr>
+        <td>
+            FLIGHT
+            <table>
+                <tr>
+                    <td>id:</td>
+                    <td><input id="flight_id" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>flight name:</td>
+                    <td><input id="flight_flightName" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>plane name:</td>
+                    <td><input id="flight_planeName" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>from town:</td>
+                    <td><input id="flight_fromTown" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>to town:</td>
+                    <td><input id="flight_toTown" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>start:</td>
+                    <td><input id="flight_start" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>duration:</td>
+                    <td><input id="flight_duration" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>price business:</td>
+                    <td><input id="flight_priceBusiness" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>price economy:</td>
+                    <td><input id="flight_priceEconomy" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>from date:</td>
+                    <td><input id="flight_fromDate" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>to date:</td>
+                    <td><input id="flight_toDate" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>periods:</td>
+                    <td><input id="flight_periods" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>dates:</td>
+                    <td><input id="flight_dates" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>approved:</td>
+                    <td><input id="flight_approved" type="text"/></td>
+                </tr>
+            </table>
+            <input id="btn_flight_create" type="button" value="Create"/>
+            <input id="btn_flight_read" type="button" value="Read"/><br/>
+            <input id="btn_flight_update" type="button" value="Update"/>
+            <input id="btn_flight_delete" type="button" value="Delete"/><br/>
+            <input id="btn_flight_list" type="button" value="List"/>
+            <input id="btn_flight_approve" type="button" value="Approve"/><br/>
+
+
+        </td>
+        <td>
+            <table id="flight_table" border="1px">
+
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            ORDER<br/>
+            <table>
+                <tr>
+                    <td>flight id:</td>
+                    <td><input id="order_flight_id" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>date:</td>
+                    <td><input id="order_date" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>first name:</td>
+                    <td><input id="order_first_name" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>last name:</td>
+                    <td><input id="order_last_name" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>nationality:</td>
+                    <td><input id="order_nationality" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>passport:</td>
+                    <td><input id="order_passport" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>class:</td>
+                    <td><input id="order_class" type="text"/></td>
+                </tr>
+            </table>
+            <input id="btn_order_create" type="button" value="Create"/>
+            <input id="btn_order_list" type="button" value="List"/><br/>
+        </td>
+        <td>
+            <table id="order_table" cellpadding="10px">
+
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            PLANES<br/>
+            <input id="btn_planes_list" type="button" value="List"/>
+        </td>
+        <td>
+            <table id="plane_table" border="1px">
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            COUNTRIES<br/>
+            <input id="btn_countries_list" type="button" value="List"/>
+        </td>
+        <td>
+            <table id="countries_table" border="1px">
+            </table>
+        </td>
+    </tr>
+</table>
+
+
+<input id="btn_get_order" type="button" value="Order"/>
+
+<script>
+    //var BASE_URL = "https://alenaairline.herokuapp.com/api/";
+    var BASE_URL = "http://localhost:8080/api/";
+    $(document).ready(function () {
+
+        /*---------------------user---------------------------*/
+
+        $("#btn_user_reg_admin").click(function () {
+            var admin_data = {
+                firstName: $("#user_first_name").val(),
+                lastName: $("#user_last_name").val(),
+                patronymic: $("#user_patronymic").val(),
+                position: $("#user_position").val(),
+                login: $("#user_login").val(),
+                password: $("#user_password").val(),
+            };
+            save_admin(admin_data);
+        });
+
+        $("#btn_user_update_admin").click(function () {
+            var admin_data = {
+                firstName: $("#user_first_name").val(),
+                lastName: $("#user_last_name").val(),
+                patronymic: $("#user_patronymic").val(),
+                position: $("#user_position").val(),
+                oldPassword: $("#user_old_password").val(),
+                newPassword: $("#user_new_password").val(),
+            };
+            update_admin(admin_data);
+        });
+        $("#btn_user_reg_client").click(function () {
+            var client_data = {
+                firstName: $("#user_first_name").val(),
+                lastName: $("#user_last_name").val(),
+                patronymic: $("#user_patronymic").val(),
+                email: $("#user_email").val(),
+                phone: $("#user_phone").val(),
+                login: $("#user_login").val(),
+                password: $("#user_password").val(),
+            };
+            save_client(client_data);
+        });
+        $("#btn_user_update_client").click(function () {
+            var client_data = {
+                firstName: $("#user_first_name").val(),
+                lastName: $("#user_last_name").val(),
+                patronymic: $("#user_patronymic").val(),
+                email: $("#user_email").val(),
+                phone: $("#user_phone").val(),
+                oldPassword: $("#user_old_password").val(),
+                newPassword: $("#user_new_password").val(),
+            };
+            update_client(client_data)
+        });
+        $("#btn_user_read_account").click(function () {
+            read_account();
+        });
+        $("#btn_user_get_list").click(function () {
+            get_list_clients();
+        });
+
+        /*---------------------session---------------------------*/
+        $("#btn_session_login").click(function () {
+            var user_data = {
+                login: $("#session_login").val(),
+                password: $("#session_password").val(),
+            };
+
+            login(user_data);
+        });
+
+        $("#btn_session_logout").click(function () {
+            logout();
+        });
+
+
+        /*------------------------flight------------------------*/
+
+        $("#btn_flight_create").click(function () {
+            var flight = {
+                flightName: $("#flight_flightName").val(),
+                planeName: $("#flight_planeName").val(),
+                fromTown: $("#flight_fromTown").val(),
+                toTown: $("#flight_toTown").val(),
+                start: $("#flight_start").val(),
+                duration: $("#flight_duration").val(),
+                priceBusiness: $("#flight_priceBusiness").val(),
+                priceEconomy: $("#flight_priceEconomy").val(),
+                approved: $("#flight_approved").val(),
+                schedule: {
+                    fromDate: $("#flight_fromDate").val(),
+                    toDate: $("#flight_toDate").val(),
+                    periods: $("#flight_periods").val().split(",").filter(function(v){return v!==''}),
+                },
+                dates: $("#flight_dates").val().split(",").filter(function(v){return v!==''}),
+            };
+            create_flight(flight);
+        });
+
+        $("#btn_flight_read").click(function () {
+            var id = parseInt($("#flight_id").val());
+            read_flight(id);
+        });
+
+        $("#btn_flight_update").click(function () {
+            var id = parseInt($("#flight_id").val());
+            var flight = {
+                flightName: $("#flight_flightName").val(),
+                planeName: $("#flight_planeName").val(),
+                fromTown: $("#flight_fromTown").val(),
+                toTown: $("#flight_toTown").val(),
+                start: $("#flight_start").val(),
+                duration: $("#flight_duration").val(),
+                priceBusiness: $("#flight_priceBusiness").val(),
+                priceEconomy: $("#flight_priceEconomy").val(),
+                approved: $("#flight_approved").val(),
+                schedule: {
+                    fromDate: $("#flight_fromDate").val(),
+                    toDate: $("#flight_toDate").val(),
+                    periods: $("#flight_periods").val().split(",").filter(function(v){return v!==''}),
+                },
+                dates: $("#flight_dates").val().split(",").filter(function(v){return v!==''}),
+            };
+            update_flight(id, flight);
+        });
+
+        $("#btn_flight_delete").click(function () {
+            var id = parseInt($("#flight_id").val());
+            delete_flight(id);
+        });
+
+        $("#btn_flight_list").click(function () {
+            list_flights();
+        });
+
+        $("#btn_flight_approve").click(function () {
+            var id = parseInt($("#flight_id").val());
+            approve_flight(id);
+        });
+
+        /*------------------------order------------------------*/
+
+        $("#btn_order_list").click(function () {
+            get_order();
+        });
+
+        $("#btn_order_create").click(function () {
+            var order = {
+                flightId: $("#order_flight_id").val(),
+                date: $("#order_date").val(),
+                passengers: [
+                    {
+                        firstName: $("#order_first_name").val(),
+                        lastName: $("#order_last_name").val(),
+                        nationality: $("#order_nationality").val(),
+                        passport: $("#order_passport").val(),
+                        class: $("#order_class").val(),
+                    }
+                ]
+            };
+            save_order(order);
+        });
+        /*------------------------planes------------------------*/
+        $("#btn_planes_list").click(function () {
+            list_planes();
+        });
+
+        /*------------------------countries------------------------*/
+
+        $("#btn_countries_list").click(function () {
+            list_countries();
+        });
+    });
+
+    /*-----------------------functions----------------------------------------------------------------------------*/
+
+    /*------------------------common------------------------*/
+
+    function update_response_body(data) {
+        var j = JSON.stringify(data, null, '  ');
+        $("#response_text").val(j);
+    }
+
+    /*---------------------user---------------------------*/
+
+    function update_ui_user(user) {
+        $("#user_id").val(user.id);
+        $("#user_first_name").val(user.firstName);
+        $("#user_login").val(user.lastName);
+        $("#user_patronymic").val(user.patronymic);
+        $("#user_position").val(user.position);
+        $("#user_phone").val(user.phone);
+        $("#user_email").val(user.email);
+    }
+
+    function update_table_user(data) {
+        $("#user_table").html("");
+        var head = "<tr><th>"
+            + ("id") + "</th><th>"
+            + ("firstName") +"</th><th>"
+            + ("lastName") +"</th><th>"
+            + ("patronymic") +"</th><th>"
+            + ("phone") +"</th><th>"
+            + ("email") +"</th></tr>";
+        $("#user_table").append(head);
+        data.forEach(function (item) {
+            console.log(item);
+            var element = "<tr><td>"
+                + (item.id) + "</td><td>"
+                + (item.firstName) +"</td><td>"
+                + (item.lastName) +"</td><td>"
+                + (item.patronymic) +"</td><td>"
+                + (item.phone) +"</td><td>"
+                + (item.email) +"</td></tr>";
+            $("#user_table").append(element);
+        });
+
+    }
+
+    function save_admin(admin_data) {
+        $.ajax({
+            url: "/api/admin",
+            data: JSON.stringify(admin_data),
+            method: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            crossDomain: true,
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function (data) {
+                update_response_body(data);
+                update_ui_user(data);
+            },
+            error: function (jqxhr) {
+                console.log("Error", jqxhr);
+                update_response_body($.parseJSON(jqxhr.responseText));
+            }
+        });
+    }
+
+    function update_admin(admin_data) {
+        $.ajax({
+            url: "/api/admin",
+            data: JSON.stringify(admin_data),
+            method: "PUT",
+            dataType: "json",
+            contentType: "application/json",
+            crossDomain: true,
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function (data) {
+                update_response_body(data);
+            },
+            error: function (jqxhr) {
+                console.log("Error", jqxhr);
+                update_response_body($.parseJSON(jqxhr.responseText));
+            }
+        });
+    }
+
+    function save_client(client_data) {
+        $.ajax({
+            url: "/api/client",
+            data: JSON.stringify(client_data),
+            method: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            crossDomain: true,
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function (data) {
+                update_response_body(data);
+                update_ui_user(data);
+            },
+            error: function (jqxhr) {
+                console.log("Error", jqxhr);
+                update_response_body($.parseJSON(jqxhr.responseText));
+            }
+        });
+    }
+
+    function update_client(client_data) {
+        $.ajax({
+            url: "/api/client",
+            data: JSON.stringify(client_data),
+            method: "PUT",
+            dataType: "json",
+            contentType: "application/json",
+            crossDomain: true,
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function (data) {
+                update_response_body(data);
+            },
+            error: function (jqxhr) {
+                console.log("Error", jqxhr);
+                update_response_body($.parseJSON(jqxhr.responseText));
+            }
+        });
+    }
+
+    function read_account() {
+        $.ajax({
+            url: "/api/account",
+            method: "GET",
+            dataType: "json",
+            crossDomain: true,
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function (data) {
+                update_response_body(data);
+                update_ui_user(data);
+            },
+            error: function (jqxhr) {
+                console.log("Error", jqxhr);
+                update_response_body($.parseJSON(jqxhr.responseText));
+            }
+        });
+    }
+
+    function get_list_clients() {
+        $.ajax({
+            url:"/api/clients",
+            method: "GET",
+            dataType: "json",
+            crossDomain: true,
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function (data) {
+                update_response_body(data);
+                update_table_user(data);
+            },
+            error: function (jqxhr) {
+                console.log("Error", jqxhr);
+                update_response_body($.parseJSON(jqxhr.responseText));
+            }
+        });
+    }
+
+    /*------------------------session------------------------*/
+
+    function login(data) {
+        $.ajax({
+            url:"/api/session/",
+            data: JSON.stringify(data),
+            method: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            crossDomain: true,
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function (data) {
+                update_response_body(data);
+            },
+            error: function (jqxhr) {
+                console.log("Error", jqxhr);
+                update_response_body($.parseJSON(jqxhr.responseText));
+            }
+        });
+    }
+
+    function logout() {
+        $.ajax({
+            url:"/api/session/",
+            method: "DELETE",
+            contentType: "application/json",
+            crossDomain: true,
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function (data) {
+                update_response_body(data);
+            },
+            error: function (jqxhr) {
+                console.log("Error", jqxhr);
+                update_response_body($.parseJSON(jqxhr.responseText));
+            }
+        })
+    }
+
+    /*------------------------flight------------------------*/
+
+    function update_ui_flight(flight) {
+        $("#flight_id").val(flight.id);
+        $("#flight_flightName").val(flight.flightName);
+        $("#flight_planeName").val(flight.planeName);
+        $("#flight_fromTown").val(flight.fromTown);
+        $("#flight_toTown").val(flight.toTown);
+        $("#flight_start").val(flight.start);
+        $("#flight_duration").val(flight.duration);
+        $("#flight_priceBusiness").val(flight.priceBusiness);
+        $("#flight_priceEconomy").val(flight.priceEconomy);
+        $("#flight_approved").val(flight.approved);
+        $("#flight_fromDate").val(flight.schedule.fromDate);
+        $("#flight_toDate").val(flight.schedule.toDate);
+        $("#flight_periods").val(flight.schedule.periods);
+        $("#flight_dates").val(flight.dates);
+    }
+
+    function update_table_flight(data) {
+        update_flight_head();
+        data.forEach(function (item) {
+            console.log(item);
+            update_flight_item(item);
+        });
+    }
+
+    function update_flight_head() {
+        $("#flight_table").html("");
+        var head = "<tr><th>"
+            + ("id") + "</th><th>"
+            + ("flight name") +"</th><th>"
+            + ("plane name") +"</th><th>"
+            + ("from town") +"</th><th>"
+            + ("to town") +"</th><th>"
+            + ("start") +"</th><th>"
+            + ("duration") +"</th><th>"
+            + ("price business") +"</th><th>"
+            + ("price economy") +"</th><th>"
+            + ("from date") +"</th><th>"
+            + ("to date") +"</th><th>"
+            + ("periods") +"</th><th>"
+            + ("dates") +"</th><th>"
+            + ("approved") +"</th></tr>";
+        $("#flight_table").append(head);
+    }
+
+    function update_flight_item(item) {
+        var element = "<tr><td>"
+            + (item.id) + "</td><td>"
+            + (item.flightName) +"</td><td>"
+            + (item.planeName) +"</td><td>"
+            + (item.fromTown) +"</td><td>"
+            + (item.toTown) +"</td><td>"
+            + (item.start) +"</td><td>"
+            + (item.duration) +"</td><td>"
+            + (item.priceBusiness) +"</td><td>"
+            + (item.priceEconomy) +"</td><td>"
+            + (item.schedule.fromDate) +"</td><td>"
+            + (item.schedule.toDate) +"</td><td>"
+            + (item.schedule.periods) +"</td><td>"
+            + (item.dates.toString()) +"</td><td>"
+            + (item.approved) +"</td></tr>";
+
+        $("#flight_table").append(element);
+    }
+
+    function create_flight(data) {
+        $.ajax({
+            url: "/api/flights/",
+            data: JSON.stringify(data),
+            method: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            crossDomain: true,
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function (data) {
+                update_response_body(data);
+                update_ui_flight(data);
+                update_flight_head();
+                update_flight_item(data);
+            },
+            error: function (jqxhr) {
+                console.log("Error", jqxhr);
+                update_response_body($.parseJSON(jqxhr.responseText));
+            }
+        });
+    }
+
+    function read_flight(id) {
+        $.ajax({
+            url: "/api/flights/" + id,
+            method: "GET",
+            dataType: "json",
+            crossDomain: true,
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function (data) {
+                console.log(data);
+                update_ui_flight(data);
+                update_response_body(data);
+                update_flight_head();
+                update_flight_item(data);
+            },
+            error: function (jqxhr) {
+                console.log("Error", jqxhr);
+                update_response_body($.parseJSON(jqxhr.responseText));
+            }
+        });
+    }
+
+    function update_flight(id, data) {
+        $.ajax({
+            url: "/api/flights/" + id,
+            data: JSON.stringify(data),
+            method: "PUT",
+            dataType: "json",
+            contentType: "application/json",
+            crossDomain: true,
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function (data) {
+                update_response_body(data);
+                update_ui_flight(data);
+                update_flight_head();
+                update_flight_item(data);
+            },
+            error: function (jqxhr) {
+                console.log("Error", jqxhr);
+                update_response_body($.parseJSON(jqxhr.responseText));
+            }
+        })
+    }
+
+    function delete_flight(id) {
+        $.ajax({
+            url: "/api/flights/" + id,
+            method: "DELETE",
+            dataType: "json",
+            crossDomain: true,
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function (data) {
+                update_response_body(data);
+            },
+            error: function (jqxhr) {
+                console.log("Error", jqxhr);
+                update_response_body($.parseJSON(jqxhr.responseText));
+            }
+        });
+    }
+
+    function list_flights() {
+        $.ajax({
+            url: "/api/flights/",
+            method: "GET",
+            dataType: "json",
+            crossDomain: true,
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function (data) {
+                update_response_body(data);
+                update_table_flight(data);
+            },
+            error: function (jqxhr) {
+                console.log("Error", jqxhr);
+                update_response_body($.parseJSON(jqxhr.responseText));
+            }
+        });
+    }
+
+    function approve_flight(id) {
+        $.ajax({
+            url: "/api/flights/" + id + "/approve",
+            method: "PUT",
+            dataType: "json",
+            crossDomain: true,
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function (data) {
+                update_response_body(data);
+                update_ui_flight(data);
+                update_flight_head();
+                update_flight_item(data);
+            },
+            error: function (jqxhr) {
+                console.log("Error", jqxhr);
+                update_response_body($.parseJSON(jqxhr.responseText));
+            }
+        });
+    }
+
+    /*------------------------order------------------------*/
+
+    function update_table_orders(data) {
+        $("#order_table").html("");
+        var head = "<tr><th>"
+            + ("order id") + "</th><th>"
+            + ("flight id") +"</th><th>"
+            + ("from town") +"</th><th>"
+            + ("to town") +"</th><th>"
+            + ("flight name") + "</th><th>"
+            + ("plane name") +"</th><th>"
+            + ("date") +"</th><th>"
+            + ("start") +"</th><th>"
+            + ("duration") +"</th><th>"
+            + ("tickets") +"</th></tr>";
+        $("#order_table").append(head);
+        data.forEach(function (item) {
+            var stringTickets = "";
+            console.log(item.passengers);
+            item.passengers.forEach(function (value) {
+                stringTickets = stringTickets.concat(value.ticket + ", ");
+            });
+            var element = "<tr><td>"
+                + (item.orderId) + "</td><td>"
+                + (item.flightId) +"</td><td>"
+                + (item.fromTown) +"</td><td>"
+                + (item.toTown) +"</td><td>"
+                + (item.flightName) + "</td><td>"
+                + (item.planeName) +"</td><td>"
+                + (item.date) +"</td><td>"
+                + (item.start) +"</td><td>"
+                + (item.duration) +"</td><td>"
+                + (stringTickets) +"</td></tr>";
+
+            $("#order_table").append(element);
+        });
+    }
+
+    function get_order() {
+        $.ajax({
+            url: "/api/orders/",
+            method: "GET",
+            dataType: "json",
+            crossDomain: true,
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function (data) {
+                console.log(data);
+                update_response_body(data);
+                update_table_orders(data);
+            },
+            error: function (jqxhr) {
+                console.log("Error", jqxhr);
+                update_response_body($.parseJSON(jqxhr.responseText));
+            }
+        });
+    }
+
+    function save_order(data) {
+        $.ajax({
+            url: "/api/orders/",
+            data: JSON.stringify(data),
+            method: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            crossDomain: true,
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function (data) {
+                update_response_body(data);
+                update_ui_flight(data);
+                update_flight_head();
+                update_flight_item(data);
+            },
+            error: function (jqxhr) {
+                console.log("Error", jqxhr);
+                update_response_body($.parseJSON(jqxhr.responseText));
+            }
+        });
+    }
+
+    /*------------------------planes------------------------*/
+
+    function update_table_plane(data) {
+        $("#plane_table").html("");
+        var head = "<tr><th>"
+            + ("name") + "</th><th>"
+            + ("business row") +"</th><th>"
+            + ("economy row") +"</th><th>"
+            + ("places in business row") +"</th><th>"
+            + ("places in economy row") +"</th></tr>";
+        $("#plane_table").append(head);
+        data.forEach(function (item) {
+            console.log(item);
+            var element = "<tr><td>"
+                + (item.name) + "</td><td>"
+                + (item.businessRow) +"</td><td>"
+                + (item.economyRow) +"</td><td>"
+                + (item.placesInBusinessRow) +"</td><td>"
+                + (item.placesInEconomyRow) +"</td></tr>";
+
+            $("#plane_table").append(element);
+        });
+    }
+
+    function list_planes() {
+        $.ajax({
+            url: "/api/planes/",
+            method: "GET",
+            dataType: "json",
+            crossDomain: true,
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function (data) {
+                console.log(data)
+                update_response_body(data);
+                update_table_plane(data);
+            },
+            error: function (jqxhr) {
+                console.log("Error", jqxhr);
+                update_response_body($.parseJSON(jqxhr.responseText));
+            }
+        });
+    }
+    /*------------------------countries------------------------*/
+
+    function update_table_countries(data) {
+        $("#countries_table").html("");
+        var head = "<tr><th>"
+            + ("iso3166") + "</th><th>"
+            + ("name") +"</th></tr>";
+        $("#countries_table").append(head);
+        data.forEach(function (item) {
+            console.log(item);
+            var element = "<tr><td>"
+                + (item.iso3166) + "</td><td>"
+                + (item.name) +"</td></tr>";
+
+            $("#countries_table").append(element);
+        });
+    }
+
+    function list_countries() {
+        $.ajax({
+            url: "/api/countries/",
+            method: "GET",
+            dataType: "json",
+            crossDomain: true,
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function (data) {
+                console.log(data);
+                update_response_body(data);
+                update_table_countries(data);
+            },
+            error: function (jqxhr) {
+                console.log("Error", jqxhr);
+                update_response_body($.parseJSON(jqxhr.responseText));
+            }
+        });
+    }
+
+</script>
+
+</body>
+</html>

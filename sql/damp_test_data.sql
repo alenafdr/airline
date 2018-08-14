@@ -73,7 +73,6 @@ INSERT INTO period_flight (period_id, flight_id) VALUES (12, 3);
 INSERT INTO period_flight (period_id, flight_id) VALUES (22, 3);
 INSERT INTO period_flight (period_id, flight_id) VALUES (40, 4);
 INSERT INTO period_flight (period_id, flight_id) VALUES (37, 4);
-INSERT INTO period_flight (period_id, flight_id) VALUES (40, 5);
 INSERT INTO period_flight (period_id, flight_id) VALUES (15, 5);
 
 INSERT INTO prices (flight_id, class_id, price) VALUES (1, 1, 10000);
@@ -140,10 +139,10 @@ INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport,
 INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (6, 1, 'Иван', 'Иванов', 'RU', '5555 55555', 1, null);
 INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (9, 3, 'Иван', 'Иванов', 'RU', '5555 55555', 2, null);
 INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (8, 2, 'Иван', 'Иванов', 'IN', '5555 55555', 2, null);
-INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (11, 4, 'Иван', 'Иванов', 'IN', '5555 55555', 2, 1A);
+INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (11, 4, 'Иван', 'Иванов', 'IN', '5555 55555', 2, '1A');
 INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (10, 3, 'Иван', 'Иванов', 'CH', '5555 55555', 2, null);
 INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (13, 4, 'Иван', 'Иванов', 'CH', '5555 55555', 2, null);
-INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (12, 4, 'Иван', 'Иванов', 'RU', '5555 55555', 2, 1B);
+INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (12, 4, 'Иван', 'Иванов', 'RU', '5555 55555', 2, '1B');
 INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (15, 5, 'Иван', 'Иванов', 'RU', '5555 55555', 1, null);
 INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (14, 5, 'Иван', 'Иванов', 'IN', '5555 55555', 1, null);
 INSERT INTO tickets (id, order_id, first_name, last_name, nationality, passport, class_id, place) VALUES (17, 6, 'Иван', 'Иванов', 'IN', '5555 55555', 2, null);

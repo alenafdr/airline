@@ -43,8 +43,8 @@ public class FlightDao {
     public boolean isPresent(String name) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "FlightMapper.selectCountByName";
-            boolean count = (boolean) session.selectOne(query, name);
-            return count;
+            boolean result = ((int) session.selectOne(query, name) == 0);
+            return result;
         } catch (PersistenceException pe) {
             LOGGER.error(pe.getMessage());
             if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
@@ -97,6 +97,21 @@ public class FlightDao {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             String query = "FlightMapper.selectFlightById";
             Flight entity = (Flight) session.selectOne(query, id);
+            return Optional.ofNullable(entity);
+        } catch (PersistenceException pe) {
+            LOGGER.error(pe.getMessage());
+            if (pe.getCause() instanceof CannotGetJdbcConnectionException) {
+                throw new ConnectDataBaseException("No connection to database");
+            } else {
+                throw new DataBaseException("Database error");
+            }
+        }
+    }
+
+    public Optional<Flight> findOne(String name) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            String query = "FlightMapper.selectFlightByName";
+            Flight entity = (Flight) session.selectOne(query, name);
             return Optional.ofNullable(entity);
         } catch (PersistenceException pe) {
             LOGGER.error(pe.getMessage());
