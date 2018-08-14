@@ -49,8 +49,7 @@ public class FlightDaoTest {
     @Test
     public void selectFlightByIdTest() {
         Flight flight = flightDao.findOne(1L).get();
-        LOGGER.info(flight.toString());
-        assertNotNull("flight is null", flight);
+        assertNotNull(flight);
     }
 
     @Test

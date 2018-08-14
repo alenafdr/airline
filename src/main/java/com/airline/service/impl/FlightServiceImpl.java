@@ -133,7 +133,6 @@ public class FlightServiceImpl implements FlightService {
             if (!(flight.getId() == flightDTO.getId())) {
                 throw new AlreadyExistsException("Flight with name " + flightDTO.getFlightName() + " already exists");
             }
-
         }
         flight = buildDependencies(flightDTO);
         flightDao.update(flight);
@@ -146,7 +145,7 @@ public class FlightServiceImpl implements FlightService {
      *
      * @param id
      * @throws {@link FlightNotFoundException} не найден рейс по указанному id
-     * @throws {@link FlightAlreadyApprovedException} при попытку удалить рейс, который утвержден
+     * @throws {@link FlightAlreadyApprovedException} при попытке удалить рейс, который утвержден
      */
 
     @Override
