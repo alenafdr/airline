@@ -36,7 +36,6 @@ public class FlightDTOMapper {
                 .stream()
                 .map(Departure::getDate)
                 .collect(Collectors.toList()));
-
         return flightDTO;
     }
 

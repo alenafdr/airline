@@ -129,6 +129,7 @@
             </if>
         </where>
 
+        order by f.id
     </select>
 
     <select id="selectCountByName" resultType="int" parameterType="java.lang.String">

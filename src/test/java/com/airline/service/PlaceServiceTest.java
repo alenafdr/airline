@@ -7,7 +7,6 @@ import com.airline.exceptions.WrongPlaceException;
 import com.airline.model.*;
 import com.airline.model.dto.PlaceDTO;
 import com.airline.service.impl.PlaceServiceImpl;
-import com.airline.service.impl.PlaneServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -52,7 +51,7 @@ public class PlaceServiceTest {
         when(orderDao.findOrderById(anyLong())).thenReturn(Optional.ofNullable(buildOrder()));
         when(ticketDao.findOccupyPlaces(anyLong())).thenReturn(buildBusyTickets());
 
-        assertFalse(placeService.getOccupyPlaces(1L).contains("1A"));
+        assertFalse(placeService.getFreePlaces(1L).contains("1A"));
     }
 
     @Test

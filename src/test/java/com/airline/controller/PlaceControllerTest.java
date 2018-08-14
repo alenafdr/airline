@@ -47,7 +47,7 @@ public class PlaceControllerTest {
 
     @Test
     public void getOccupyPlacesTest() throws Exception {
-        when(placeService.getOccupyPlaces(123L)).thenReturn(Arrays.asList("1A", "1B", "2C"));
+        when(placeService.getFreePlaces(123L)).thenReturn(Arrays.asList("1A", "1B", "2C"));
 
         RequestBuilder requestBuilder = get("/api/places/" + 123)
                 .accept(MediaType.APPLICATION_JSON_UTF8_VALUE);

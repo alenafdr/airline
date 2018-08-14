@@ -17,7 +17,6 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @RequestMapping(value = "api/planes")
-@Secured(value = "ROLE_ADMIN")
 public class PlaneController {
 
     private PlaneServiceImpl planeService;

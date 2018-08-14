@@ -9,10 +9,8 @@ public class PlaceDTO {
     @NotNull
     private Long ticket;
 
-    @NotNull
     private String lastName;
 
-    @NotNull
     private String firstName;
 
     @NotNull
