@@ -143,8 +143,7 @@ public class FlightController {
     public ResponseEntity<FlightDTO> update(@PathVariable("id") Long id,
                                             @RequestBody @Validated FlightDTO flightDTO) {
         flightDTO.setId(id);
-        flightService.update(flightDTO);
-        return new ResponseEntity<>(flightDTO, HttpStatus.OK);
+        return new ResponseEntity<>(flightService.update(flightDTO), HttpStatus.OK);
     }
 
     /**

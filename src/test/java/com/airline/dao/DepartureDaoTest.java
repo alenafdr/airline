@@ -17,6 +17,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
@@ -37,6 +38,6 @@ public class DepartureDaoTest {
         Departure departure = departureDao.findDepartureByFlightIdAndDate(new Departure(date, new Flight(1L))).get();
 
 
-        LOGGER.info(departure.toString());
+        assertNotNull(departure);
     }
 }
