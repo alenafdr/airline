@@ -39,6 +39,6 @@
     </update>
 
     <select id="list" resultMap="ClientResultMap">
-        select * from clients
+        select * from clients order by id
     </select>
 </mapper>

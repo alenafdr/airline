@@ -104,12 +104,12 @@ public class OrderServiceImpl implements OrderService {
             ClassType classType;
             Price price;
             String iso = ticketDTO.getNationality();
-            if (iso != null) {
+            if (iso != null && iso != "") {
                 country = countryDao.findCountryByIso(iso)
                         .orElseThrow(() -> new NationalityNotFoundException("Not found nationality with code " + iso));
             }
 
-            if (ticketDTO.getClassType() != null) {
+            if (ticketDTO.getClassType() != null && ticketDTO.getClassType() != "") {
                 classType = classTypeDao.findClassTypeByName(ticketDTO.getClassType())
                         .orElseThrow(() -> new ClassTypeNotFoundException("Not found class with name " + ticketDTO.getClassType()));
             } else {
@@ -140,12 +140,12 @@ public class OrderServiceImpl implements OrderService {
      *
      * @param parameters Полный список доступных параметров {@link ParametersEnum}
      * @return {@link List<OrderDTO} список объектов
-     * @throws {@link PlaneNotFoundException} если в параметрах поиска было указано неверное имя {@link Plane}
-     * @throws {@link UserNotFoundException} если в параметрах был указан неверный clientId (при запросе
-     *                от {@link UserClient}) id берется из сессии, при запросе от {@link UserAdmin} устанавливается в
-     *                параметрах запроса
+     * @throws {@link         PlaneNotFoundException} если в параметрах поиска было указано неверное имя {@link Plane}
+     * @throws {@link         UserNotFoundException} если в параметрах был указан неверный clientId (при запросе
+     *                        от {@link UserClient}) id берется из сессии, при запросе от {@link UserAdmin} устанавливается в
+     *                        параметрах запроса
      * @throws ParseException может выкинуть при форматировании строки в {@link java.util.Date}
-     *                Формат даты yyyy-MM-dd
+     *                        Формат даты yyyy-MM-dd
      */
 
     @Override

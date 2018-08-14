@@ -5,10 +5,7 @@ import com.airline.dao.FlightDao;
 import com.airline.dao.PeriodDao;
 import com.airline.dao.PlaneDao;
 import com.airline.dto.mapper.FlightDTOMapper;
-import com.airline.exceptions.AlreadyExistsException;
-import com.airline.exceptions.FlightNotFoundException;
-import com.airline.exceptions.PeriodNotFoundException;
-import com.airline.exceptions.PlaneNotFoundException;
+import com.airline.exceptions.*;
 import com.airline.model.*;
 import com.airline.model.dto.FlightDTO;
 import com.airline.service.FlightService;
@@ -16,6 +13,7 @@ import com.airline.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
@@ -106,8 +104,11 @@ public class FlightServiceImpl implements FlightService {
     }
 
     /**
-     * Метод принимает объект для сохранения в БД. Перед сохранением проверяет, не существует ли уже в БД рейс
-     * с таким именем. Далее использует метод {@link FlightServiceImpl#buildDependencies(FlightDTO)} для сборки
+     * Метод принимает объект для сохранения в БД. Перед сохранением:
+     * Проверяет, не утвержден ли рейс (обновить можно только не утвежденный рейс).
+     * Проверяет, не существует ли уже в БД рейс с таким именем. Если рейс с таким именем существует, проверяет,
+     * не тот ли это рейс, который пытаются сейчас обновить.
+     * Далее использует метод {@link FlightServiceImpl#buildDependencies(FlightDTO)} для сборки
      * полноценного объекта {@link Flight}, обновляет в БД, маппит собранный объект {@link Flight} в {@link FlightDTO}
      * и возвращает контроллеру
      *
@@ -115,27 +116,48 @@ public class FlightServiceImpl implements FlightService {
      * @return
      * @throws {@link AlreadyExistsException} при попытке сохранить в БД объект {@link Flight} с именем, которое
      *                уже есть в БД
+     * @throws {@link FlightAlreadyApprovedException} при попытке обновить рейс, который утвержден
      */
 
     @Override
+    @Secured(value = "ROLE_ADMIN")
     public FlightDTO update(FlightDTO flightDTO) {
-        if (!flightDao.isPresent(flightDTO.getFlightName())) {
-            throw new AlreadyExistsException("Flight with name " + flightDTO.getFlightName() + " already exists");
+        Flight flight = flightDao.findOne(flightDTO.getId())
+                .orElseThrow(() -> new FlightNotFoundException("Not found flight with id " + flightDTO.getId()));
+
+        if (flight.isApproved()) {
+            throw new FlightAlreadyApprovedException("Flight with id " + flight.getId() + " approved and can not updated");
         }
-        Flight flight = buildDependencies(flightDTO);
+
+        if (flightDao.isPresent(flightDTO.getFlightName())) {
+            if (!(flight.getId() == flightDTO.getId())) {
+                throw new AlreadyExistsException("Flight with name " + flightDTO.getFlightName() + " already exists");
+            }
+
+        }
+        flight = buildDependencies(flightDTO);
         flightDao.update(flight);
         return flightDTOMapper.convertToDTO(flight);
     }
 
     /**
-     * Метод принимает на вход id объекта, который нужно удалить и отправляет запрос в БД
+     * Метод принимает на вход id объекта, который нужно удалить. Проверяет, есть ли в БД такой объект и не утвержден
+     * ли он (удалить можно только не утвержденный рейс)
      *
      * @param id
+     * @throws {@link FlightNotFoundException} не найден рейс по указанному id
+     * @throws {@link FlightAlreadyApprovedException} при попытку удалить рейс, который утвержден
      */
 
     @Override
     public void delete(Long id) {
-        if (!getById(id).isApproved()) flightDao.delete(id);
+        Flight flight = flightDao.findOne(id)
+                .orElseThrow(() -> new FlightNotFoundException("Not found flight with id " + id));
+        if (!flight.isApproved()) {
+            flightDao.delete(id);
+        } else {
+            throw new FlightAlreadyApprovedException("Flight with id " + flight.getId() + " approved and can not deleted");
+        }
     }
 
     /**
@@ -144,7 +166,7 @@ public class FlightServiceImpl implements FlightService {
      *
      * @param id
      * @return {@link FlightDTO}
-     * @throws {@link FlightNotFoundException}
+     * @throws {@link FlightNotFoundException} не найден рейс по указанному id
      */
 
     @Override
@@ -159,7 +181,7 @@ public class FlightServiceImpl implements FlightService {
      *
      * @param id
      * @return {@link FlightDTO}
-     * @throws {@link FlightNotFoundException}
+     * @throws {@link FlightNotFoundException} не найден рейс по указанному id
      */
 
     @Override
@@ -167,7 +189,7 @@ public class FlightServiceImpl implements FlightService {
         Flight flight = flightDao.findOne(id)
                 .orElseThrow(() -> new FlightNotFoundException("Not found flight with id " + id));
         flight.setApproved(true);
-        flightDao.save(flight);
+        flightDao.update(flight);
         return flightDTOMapper.convertToDTO(flight);
     }
 
@@ -183,8 +205,8 @@ public class FlightServiceImpl implements FlightService {
      *
      * @param flightDTO
      * @return {@link Flight}
-     * @throws {@link PlaneNotFoundException}
-     * @throws {@link PeriodNotFoundException}
+     * @throws {@link PlaneNotFoundException} не найден самолет по указанному имени
+     * @throws {@link PeriodNotFoundException} не найден тип класса по указанному имени
      */
 
     private Flight buildDependencies(FlightDTO flightDTO) {

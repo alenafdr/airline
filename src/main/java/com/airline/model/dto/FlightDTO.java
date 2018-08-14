@@ -1,11 +1,12 @@
 package com.airline.model.dto;
 
 import com.airline.dto.validation.CrossFieldValidation;
+import com.airline.rest.json.CustomListDateDeserealize;
+import com.airline.rest.json.CustomListDateSerealize;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.swagger.annotations.ApiModelProperty;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.AssertFalse;
@@ -19,8 +20,6 @@ import java.util.List;
 
 @CrossFieldValidation
 public class FlightDTO {
-
-    Logger logger = LoggerFactory.getLogger(FlightDTO.class);
 
     @Null
     private Long id;
@@ -55,7 +54,9 @@ public class FlightDTO {
 
     private Schedule schedule;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonSerialize(using = CustomListDateSerealize.class)
+    @JsonDeserialize(using = CustomListDateDeserealize.class)
+    @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING, timezone = "GMT")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private List<Date> dates;
 

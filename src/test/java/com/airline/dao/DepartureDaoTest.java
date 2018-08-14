@@ -34,7 +34,9 @@ public class DepartureDaoTest {
     public void findDepartureByFlightIdAndDateTest() throws Exception {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date date = format.parse("2018-07-12");
+        Departure departure = departureDao.findDepartureByFlightIdAndDate(new Departure(date, new Flight(1L))).get();
 
-        assertTrue(departureDao.findDepartureByFlightIdAndDate(new Departure(date, new Flight(1L))).isPresent());
+
+        LOGGER.info(departure.toString());
     }
 }

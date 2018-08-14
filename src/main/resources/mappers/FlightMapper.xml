@@ -60,6 +60,29 @@
         where f.id = #{id};
     </select>
 
+    <select id="selectFlightByName" parameterType="String" resultMap="FlightResultMap">
+        select
+        f.id,
+        f.flight_name,
+        f.from_town,
+        f.to_town,
+        f.start_time,
+        f.duration,
+        f.from_date,
+        f.to_date,
+        f.approved,
+        f.flight_plane_id,
+        p.plane_id,
+        p.name,
+        p.bussiness_row,
+        p.economy_row,
+        p.places_in_business_row,
+        p.places_in_economy_row
+        from flights f
+        left join planes p on f.flight_plane_id = p.plane_id
+        where f.flight_name = #{name};
+    </select>
+
     <select id="selectListByParameters" resultMap="FlightResultMap">
         select
         f.id,

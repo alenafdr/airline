@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -24,7 +25,7 @@ import static org.springframework.http.HttpStatus.*;
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(RestExceptionHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RestExceptionHandler.class);
 
     @ExceptionHandler(PlaneNotFoundException.class)
     protected ResponseEntity<ApiError> handlePlaneNotFound(PlaneNotFoundException ex) {
@@ -85,7 +86,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         for (FieldError fe : ex.getBindingResult().getFieldErrors()) {
             apiError.addSubError(ErrorCode.ARGUMENT_NOT_VALID.name(), fe.getField(), fe.getDefaultMessage());
         }
-
+        for (ObjectError objectError : ex.getBindingResult().getAllErrors()) {
+            if ("CrossFieldValidation".equals(objectError.getCode())) {
+                apiError.addSubError(ErrorCode.ARGUMENT_NOT_VALID.name(), "dates, periods", objectError.getDefaultMessage());
+            }
+        }
         return new ResponseEntity<>(apiError, BAD_REQUEST);
     }
 
@@ -149,6 +154,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleSessionIsNotAuthorizedException(SessionIsNotAuthorizedException ex) {
         ApiError apiError = new ApiError();
         apiError.addSubError(ErrorCode.SESSION_IS_NOT_AUTHORIDED.name(), "", ex.getMessage());
+        return new ResponseEntity<>(apiError, BAD_REQUEST);
+    }
+
+    @ExceptionHandler(FlightAlreadyApprovedException.class)
+    protected ResponseEntity<Object> handleFlightAlreadyApprovedException(FlightAlreadyApprovedException ex) {
+        ApiError apiError = new ApiError();
+        apiError.addSubError(ErrorCode.FLIGHT_APPROVED.name(), "", ex.getMessage());
         return new ResponseEntity<>(apiError, BAD_REQUEST);
     }
 

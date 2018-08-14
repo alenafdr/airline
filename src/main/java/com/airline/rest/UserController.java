@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -158,6 +159,7 @@ public class UserController {
      * @return
      */
 
+    @Secured(value = "ROLE_ADMIN")
     @GetMapping(value = "/clients")
     public ResponseEntity<List<UserClientDTO>> listClients() {
         return new ResponseEntity<>(userService.getListClients(), HttpStatus.OK);
