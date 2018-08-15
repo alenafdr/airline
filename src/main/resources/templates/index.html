@@ -886,7 +886,7 @@
 
     /*------------------------order------------------------*/
 
-    function update_table_orders(data) {
+    function update_table_orders_head() {
         $("#order_table").html("");
         var head = "<tr><th>"
             + ("order id") + "</th><th>"
@@ -900,6 +900,10 @@
             + ("duration") + "</th><th>"
             + ("tickets") + "</th></tr>";
         $("#order_table").append(head);
+    }
+
+    function update_table_orders(data) {
+        update_table_orders_head();
         data.forEach(function (item) {
             update_table_order_item(item);
         });
@@ -960,6 +964,7 @@
             },
             success: function (data) {
                 update_response_body(data);
+                update_table_orders_head();
                 update_table_order_item(data);
             },
             error: function (jqxhr) {
