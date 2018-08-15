@@ -7,15 +7,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
+import javax.validation.constraints.Pattern;
 
 public class UserEntityDTO {
     @Null(groups = {New.class, Exist.class})
     protected Long id;
 
     @NotNull(groups = {New.class, Exist.class})
+    @Pattern(regexp = ".*\\S.*", message = "Must be not empty", groups = {New.class, Exist.class})
     protected String firstName;
 
     @NotNull(groups = {New.class, Exist.class})
+    @Pattern(regexp = ".*\\S.*", message = "Must be not empty", groups = {New.class, Exist.class})
     protected String lastName;
 
     protected String patronymic;
@@ -25,21 +28,25 @@ public class UserEntityDTO {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull(groups = New.class)
     @Null(groups = Exist.class)
+    @Pattern(regexp = ".*\\S.*", message = "Must be not empty", groups = {New.class, Exist.class})
     protected String login;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull(groups = New.class)
     @Null(groups = Exist.class)
+    @Pattern(regexp = ".*\\S.*", message = "Must be not empty", groups = New.class)
     protected String password;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Null(groups = New.class)
     @NotNull(groups = Exist.class)
+    @Pattern(regexp = ".*\\S.*", message = "Must be not empty", groups = Exist.class)
     protected String oldPassword;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Null(groups = New.class)
     @NotNull(groups = Exist.class)
+    @Pattern(regexp = ".*\\S.*", message = "Must be not empty", groups = Exist.class)
     protected String newPassword;
 
     public Long getId() {
