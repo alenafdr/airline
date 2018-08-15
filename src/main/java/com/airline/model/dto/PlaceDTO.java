@@ -1,6 +1,7 @@
 package com.airline.model.dto;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 public class PlaceDTO {
     @NotNull
@@ -14,6 +15,7 @@ public class PlaceDTO {
     private String firstName;
 
     @NotNull
+    @Pattern(regexp = ".*\\S.*", message = "Must be not empty")
     private String place;
 
     public PlaceDTO() {

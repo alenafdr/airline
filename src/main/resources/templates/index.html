@@ -403,7 +403,16 @@
         });
 
         $("#btn_flight_list").click(function () {
-            list_flights();
+            var param = {};
+            if ($("#flight_toTown").val().trim()){
+                param.toTown = $("#flight_toTown").val();
+            }
+
+            if ($("#flight_fromTown").val().trim()){
+                param.fromTown = $("#flight_fromTown").val();
+            }
+
+            list_flights(param);
         });
 
         $("#btn_flight_approve").click(function () {
@@ -832,9 +841,10 @@
         });
     }
 
-    function list_flights() {
+    function list_flights(param) {
         $.ajax({
             url: "/api/flights/",
+            data: param,
             method: "GET",
             dataType: "json",
             crossDomain: true,
@@ -891,11 +901,11 @@
             + ("tickets") + "</th></tr>";
         $("#order_table").append(head);
         data.forEach(function (item) {
-            update_table_orser_item(item);
+            update_table_order_item(item);
         });
     }
 
-    function update_table_orser_item(data) {
+    function update_table_order_item(item) {
         var stringTickets = "";
         console.log(item.passengers);
         item.passengers.forEach(function (value) {
@@ -950,7 +960,7 @@
             },
             success: function (data) {
                 update_response_body(data);
-                update_table_orser_item(data);
+                update_table_order_item(data);
             },
             error: function (jqxhr) {
                 console.log("Error", jqxhr);
