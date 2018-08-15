@@ -6,7 +6,6 @@ import com.airline.dto.mapper.UserAdminDTOMapper;
 import com.airline.dto.mapper.UserClientDTOMapper;
 import com.airline.exceptions.AlreadyExistsException;
 import com.airline.exceptions.ChangePasswordException;
-import com.airline.exceptions.LoginNotFoundException;
 import com.airline.exceptions.UserNotFoundException;
 import com.airline.model.UserAdmin;
 import com.airline.model.UserClient;
@@ -52,7 +51,7 @@ public class UserServiceImpl implements UserService {
      *
      * @param login для поиска в БД
      * @return {@link UserEntityDTO}
-     * @throws {@link LoginNotFoundException}
+     * @throws {@link UserNotFoundException}
      */
 
     @Override
@@ -64,7 +63,7 @@ public class UserServiceImpl implements UserService {
             entity = userClientDTOMapper.convertToDTO(userClient.get());
         } else {
             entity = userAdminDTOMapper.convertToDTO(adminDao.findByLogin(loginLC)
-                    .orElseThrow(() -> new LoginNotFoundException("Not found user with login " + login)));
+                    .orElseThrow(() -> new UserNotFoundException("Not found user with login " + login)));
         }
         return entity;
     }
@@ -93,7 +92,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * Метод служит для подготовки и отправки запроса в БД на обновление пользователя администратора.
-     * Проверяет, существует ли такой пользователь, верно ли указан старый пароль и возвращает {@link UserAdminDTO}
+     * Проверяет, существует ли такой пользователь, верно ли указан старый пароль, обновляет и возвращает {@link UserAdminDTO}
      *
      * @param userAdminDTO
      * @return {@link UserAdminDTO}

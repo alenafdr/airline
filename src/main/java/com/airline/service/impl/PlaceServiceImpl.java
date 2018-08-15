@@ -102,6 +102,8 @@ public class PlaceServiceImpl implements PlaceService {
             throw new WrongPlaceException("Wrong place, you must register place in "
                     + ticket.getClassType().getName() + " class");
         }
+        placeDTO.setFirstName(ticket.getFirstName());
+        placeDTO.setLastName(ticket.getLastName());
         return placeDTO;
     }
 

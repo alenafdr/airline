@@ -76,7 +76,7 @@ public class OrderServiceImpl implements OrderService {
      * @param orderDTO объект для сохранения в БД
      * @param login    логин отправителя, для связи заказа с определенным {@link UserClient}
      * @return {@link OrderDTO}
-     * @throws {@link LoginNotFoundException} если не был найден пользователь по login (маловероятно, потому что login
+     * @throws {@link UserNotFoundException} если не был найден пользователь по login (маловероятно, потому что login
      *                берется из Session и устанавливается туда при авторизации
      * @throws {@link DepartureNotFoundException} если не существует отправления c датой {@link OrderDTO#getDate()}
      *                для указанного рейса {@link OrderDTO#getFlightId()}
@@ -90,7 +90,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDTO saveOrder(OrderDTO orderDTO, String login) {
         String loginLC = login.toLowerCase();
         UserClient userClient = clientDao.findByLogin(loginLC)
-                .orElseThrow(() -> new LoginNotFoundException("Not found login " + login));
+                .orElseThrow(() -> new UserNotFoundException("Not found login " + login));
 
         Order order;
         Long flightId = orderDTO.getFlightId();

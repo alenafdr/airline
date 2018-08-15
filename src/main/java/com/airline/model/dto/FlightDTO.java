@@ -9,9 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.AssertFalse;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.util.ArrayList;
@@ -25,15 +23,19 @@ public class FlightDTO {
     private Long id;
 
     @NotNull
+    @Pattern(regexp = ".*\\S.*", message = "Must be not empty")
     private String flightName;
 
     @NotNull
+    @Pattern(regexp = ".*\\S.*", message = "Must be not empty")
     private String planeName;
 
     @NotNull
+    @Pattern(regexp = ".*\\S.*", message = "Must be not empty")
     private String fromTown;
 
     @NotNull
+    @Pattern(regexp = ".*\\S.*", message = "Must be not empty")
     private String toTown;
 
     @NotNull
@@ -47,11 +49,14 @@ public class FlightDTO {
     private Time duration;
 
     @NotNull
+    @DecimalMin("1.00")
     private BigDecimal priceBusiness;
 
     @NotNull
+    @DecimalMin("1.00")
     private BigDecimal priceEconomy;
 
+    @NotNull
     private Schedule schedule;
 
     @JsonSerialize(using = CustomListDateSerealize.class)

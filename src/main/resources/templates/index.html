@@ -363,6 +363,7 @@
                     return v !== ''
                 }),
             };
+            console.log(flight);
             create_flight(flight);
         });
 
@@ -890,25 +891,29 @@
             + ("tickets") + "</th></tr>";
         $("#order_table").append(head);
         data.forEach(function (item) {
-            var stringTickets = "";
-            console.log(item.passengers);
-            item.passengers.forEach(function (value) {
-                stringTickets = stringTickets.concat(value.ticket + ", ");
-            });
-            var element = "<tr><td>"
-                + (item.orderId) + "</td><td>"
-                + (item.flightId) + "</td><td>"
-                + (item.fromTown) + "</td><td>"
-                + (item.toTown) + "</td><td>"
-                + (item.flightName) + "</td><td>"
-                + (item.planeName) + "</td><td>"
-                + (item.date) + "</td><td>"
-                + (item.start) + "</td><td>"
-                + (item.duration) + "</td><td>"
-                + (stringTickets) + "</td></tr>";
-
-            $("#order_table").append(element);
+            update_table_orser_item(item);
         });
+    }
+
+    function update_table_orser_item(data) {
+        var stringTickets = "";
+        console.log(item.passengers);
+        item.passengers.forEach(function (value) {
+            stringTickets = stringTickets.concat(value.ticket + ", ");
+        });
+        var element = "<tr><td>"
+            + (item.orderId) + "</td><td>"
+            + (item.flightId) + "</td><td>"
+            + (item.fromTown) + "</td><td>"
+            + (item.toTown) + "</td><td>"
+            + (item.flightName) + "</td><td>"
+            + (item.planeName) + "</td><td>"
+            + (item.date) + "</td><td>"
+            + (item.start) + "</td><td>"
+            + (item.duration) + "</td><td>"
+            + (stringTickets) + "</td></tr>";
+
+        $("#order_table").append(element);
     }
 
     function get_order() {
@@ -945,7 +950,7 @@
             },
             success: function (data) {
                 update_response_body(data);
-                update_table_orders(data);
+                update_table_orser_item(data);
             },
             error: function (jqxhr) {
                 console.log("Error", jqxhr);
