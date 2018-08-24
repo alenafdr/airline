@@ -122,7 +122,7 @@ public class UserServiceImpl implements UserService {
      * пользователя с таким именем, сохраняет в БД,
      * устанавливает id и возвращает {@link UserClientDTO}
      *
-     * @param userAdminDTO
+     * @param userClientDTO
      * @return {@link UserClientDTO}
      * @throws {@link AlreadyExistsException}
      */
@@ -145,7 +145,7 @@ public class UserServiceImpl implements UserService {
      * Проверяет, существует ли такой пользователь, убирает из параметра phone все знаки "-",
      * верно ли указан старый пароль и возвращает {@link UserClientDTO}
      *
-     * @param userAdminDTO
+     * @param userClientDTO
      * @return {@link UserClientDTO}
      * @throws {@link UserNotFoundException}
      * @throws {@link ChangePasswordException}

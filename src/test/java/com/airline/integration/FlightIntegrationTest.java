@@ -1,6 +1,7 @@
 package com.airline.integration;
 
 import com.airline.AirlineApplication;
+import com.airline.model.Flight;
 import com.airline.model.dto.FlightDTO;
 import com.airline.model.dto.Schedule;
 import com.airline.model.dto.UserEntityDTO;
@@ -66,6 +67,7 @@ public class FlightIntegrationTest {
                 restTemplate.postForEntity(URL_FLIGHT,
                 testFlightDTO,
                 FlightDTO.class);
+        LOGGER.info(flightDTOResponsePost.getBody().toString());
         assertEquals(flightDTOResponsePost.getBody().getFlightName(),testFlightDTO.getFlightName());
 
         //запросить flight
@@ -77,13 +79,16 @@ public class FlightIntegrationTest {
         assertEquals(flightDTOResponsePost.getBody().toString(), flightDTOResponseGet.getBody().toString());
 
         //изменить flight
-        flightDTOResponseGet.getBody().setFromTown("test2");
-        flightDTOResponseGet.getBody().setToTown("test2");
+        FlightDTO flightDTO = flightDTOResponseGet.getBody();
+        flightDTO.setFromTown("test2");
+        flightDTO.setToTown("test2");
+
+        LOGGER.info(flightDTO.toString());
 
         ResponseEntity<FlightDTO> flightDTOResponsePut =
                 restTemplate.exchange(URL_FLIGHT + "{id}",
                         HttpMethod.PUT,
-                        new HttpEntity<FlightDTO>(flightDTOResponseGet.getBody()),
+                        new HttpEntity<FlightDTO>(flightDTO),
                         FlightDTO.class,
                         id);
         assertEquals(flightDTOResponsePut.getBody().getFromTown(), "test2");

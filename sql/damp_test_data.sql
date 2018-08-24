@@ -88,7 +88,7 @@ INSERT INTO prices (flight_id, class_id, price) VALUES (5, 2, 15000);
 
 INSERT INTO departures (id, date, flight_id) VALUES (1, '2018-07-12', 1);
 INSERT INTO departures (id, date, flight_id) VALUES (2, '2018-07-13', 1);
-INSERT INTO departures (id, date, flight_id) VALUES (3, '2018-07-13', 1);
+INSERT INTO departures (id, date, flight_id) VALUES (3, '2018-07-14', 1);
 INSERT INTO departures (id, date, flight_id) VALUES (4, '2018-07-09', 2);
 INSERT INTO departures (id, date, flight_id) VALUES (5, '2018-07-11', 2);
 INSERT INTO departures (id, date, flight_id) VALUES (6, '2018-07-13', 2);
@@ -99,8 +99,8 @@ INSERT INTO departures (id, date, flight_id) VALUES (10, '2018-07-13', 4);
 INSERT INTO departures (id, date, flight_id) VALUES (11, '2018-07-19', 4);
 INSERT INTO departures (id, date, flight_id) VALUES (12, '2018-07-17', 4);
 INSERT INTO departures (id, date, flight_id) VALUES (13, '2018-07-13', 5);
-INSERT INTO departures (id, date, flight_id) VALUES (14, '2018-07-13', 5);
-INSERT INTO departures (id, date, flight_id) VALUES (15, '2018-07-13', 5);
+INSERT INTO departures (id, date, flight_id) VALUES (14, '2018-07-14', 5);
+INSERT INTO departures (id, date, flight_id) VALUES (15, '2018-07-15', 5);
 
 INSERT INTO orders (id, departure_id, client_id) VALUES (1, 1, 1);
 INSERT INTO orders (id, departure_id, client_id) VALUES (2, 1, 5);
